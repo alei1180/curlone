@@ -99,7 +99,7 @@
 
 	КонсольнаяКоманда = "curl 'https://example.com' \
 	|	-d param1=value1 \
-	|	-d 'парам2=значение2' \
+	|	--data-ascii 'парам2=значение2' \
 	|	--data 'param3=value3' \
 	|	--data @path-to-file1 \
 	|	--data @path-to-file2 \
