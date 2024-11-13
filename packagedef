@@ -1,7 +1,7 @@
 Описание.Имя("curlto1c")
 		.Версия("1.0.0")
 		.Автор("Alexander Osadchy, Dmitry Ivanov")
-		.АдресАвтора("alei1180@gmail.com, ivanovdmitry91@gmail.com")
+		.АдресАвтора("https://github.com/alei1180, https://github.com/Stivo182")
 		.Описание("Преобразователь команды curl в код на языке 1С")
 		.ВерсияСреды("1.9.1")
 		.ВключитьФайл("src")
