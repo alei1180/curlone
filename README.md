@@ -1,3 +1,3 @@
-# сurl to 1С
+# сurlone
 Преобразователь команды curl в код на языке 1С.  
-http://curlto1c.ru/
+http://curlone.ru/
