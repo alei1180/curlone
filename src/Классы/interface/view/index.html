@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
+
+        body {
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-content: center;
+            font-family: "PT Mono", monospace;
+            font-weight: 400;
+            font-style: normal;
+            color: black;
+        }
+
+        div {
+            display: flex;
+            flex-flow: column;
+            width: calc(100% - 50px);
+            align-items: center;
+        }
+
+        a {
+            color: black;
+        }
+
+        p {
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .logo {
+            width: 200px;
+        }
+
+        textarea {
+            resize: none;
+            border-radius: 0;
+            border: 2px solid black;
+            overflow-y: scroll;
+            overflow-x: scroll;
+            margin-bottom: 5px;
+        }
+
+        textarea::placeholder {
+            color: #777;
+        }
+
+        input[type=submit] {
+            background-color: black;
+            color: white;
+            padding: 10px 10px;
+            border: none;
+        }
+
+        .container div {
+            width: 1000px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        div.logo {
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="../../../../img/curlone-logo.png" alt="curlone" height="200px" />
+        </div>
+    </div>
+    <div class="container">
+        <div>
+            <label for="inputcurl">Команда curl</label>
+            <textarea name="inputcurl" id="inputcurl" cols="120" rows="9" placeholder="curl example.com" required autofocus></textarea>
+            <input type="submit" value="Конвертирвоать">
+        </div>
+    </div>
+    <div class="container">
+        <div>
+            <label for="output">Код 1C</label>
+            <textarea name="output" id="output" cols="120" rows="9" wrap="off"></textarea>
+            <input type="submit" value="Скопировать">
+        </div>
+    </div>
+    <div class="container">
+        <p>
+            <a href="https://github.com/alei1180/curlone" target="_blank">curlone</a> powered by
+            <a href="https://github.com/EvilBeaver/OneScript" target="_blank">OneScript</a> and
+            <a href="https://github.com/autumn-library/winow" target="_blank">Winow</a>
+        </p>
+    </div>
+</body>
+</html>
