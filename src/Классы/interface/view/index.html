@@ -79,20 +79,22 @@
 <body>
     <div class="container">
         <div class="logo">
-            <img src="../../../../img/curlone-logo.png" alt="curlone" height="200px" />
+            <img src="images/curlone-logo.png" alt="curlone" height="200px" />
         </div>
     </div>
     <div class="container">
         <div>
             <label for="inputcurl">Команда curl</label>
             <textarea name="inputcurl" id="inputcurl" cols="120" rows="9" placeholder="curl example.com" required autofocus></textarea>
-            <input type="submit" value="Конвертирвоать">
+            <input type="submit" value="Конвертировать">
         </div>
     </div>
     <div class="container">
         <div>
             <label for="output">Код 1C</label>
-            <textarea name="output" id="output" cols="120" rows="9" wrap="off"></textarea>
+            <textarea name="output" id="output" cols="120" rows="9" wrap="off" placeholder='Соединение = Новый HTTPСоединение("example.com", 80);
+HTTPЗапрос = Новый HTTPЗапрос("/");
+HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);'></textarea>
             <input type="submit" value="Скопировать">
         </div>
     </div>
