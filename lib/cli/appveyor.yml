@@ -1,0 +1,63 @@
+version: 0.9.8-{build}
+pull_requests:
+  do_not_increment_build_number: true
+max_jobs: 1
+init:
+- ps: Set-WinSystemLocale ru-RU
+
+#environment:
+#  oscript: C:\Program Files (x86)\OneScript\bin\oscript.exe
+
+install:
+- cmd: >-
+    @echo on
+    # git submodule update --init --recursive
+    set
+
+    curl -o %temp%\oscript-setup.exe http://oscript.io/downloads/latest/exe
+
+    %temp%\oscript-setup.exe /silent /log="%temp%\oscript-setup.log" /saveinf="%temp%\oscript-setup-settings.txt"
+
+    set OSCRIPT=%ProgramFiles(x86)%\OneScript
+
+    dir "%OSCRIPT%\bin"
+    dir "%OSCRIPT%\lib"
+
+    rem SET PATH=%CD%\engine\bin;%PATH%
+
+    SET PATH=%OSCRIPT%\bin;%PATH%
+
+    where oscript
+    
+    oscript -version
+    
+    chcp 65001
+
+    opm install opm
+    
+    opm install 1testrunner 
+    
+    opm install 1bdd
+    
+    opm install coverage 
+
+    
+    opm install
+    
+    opm list
+# to disable automatic builds
+build: off
+test_script:
+- cmd: >-
+    
+    opm run coverage
+    
+    pushd %APPVEYOR_BUILD_FOLDER%
+
+after_test:
+- ps: # upload results to AppVeyor
+- ps: Write-Host "Загружаю результаты тестов на CI"
+- ps: $wc = New-Object 'System.Net.WebClient'
+- ps: $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\tests-reports\tests.xml))
+artifacts:
+- path: tests-reports\tests.xml
