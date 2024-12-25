@@ -14,6 +14,7 @@
 	Типы.Вставить("TTCloseSq", "CloseSq");
 	Типы.Вставить("TTChoice", "Choice");
 	Типы.Вставить("TTOptions", "Options");
+	Типы.Вставить("TTAny", "Any");
 	Типы.Вставить("TTRep", "Rep");
 	Типы.Вставить("TTShortOpt", "ShortOpt");
 	Типы.Вставить("TTLongOpt", "LongOpt");
