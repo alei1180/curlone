@@ -78,23 +78,28 @@
     <script>
         function convert(){
             let formData = new FormData(document.forms.curl);       
-            let command = formData.get("command")
-          
+            let command = formData.get("command");
+
             let req = new XMLHttpRequest();
             req.onload = convertOnload;
             req.responseType = "json";
             req.open("GET", "/convert?cmd=" + encodeURIComponent(command));
             req.send();
-          }
+        }
 
-          function convertOnload() {
+        function convertOnload() {
             let output = document.getElementById("output");
             if(this.status === 200){
                 output.value = this.response.result;
             } else {
                 output.value = "";
             }
-          }
+        }
+
+        function copyOutput(){
+            let result = document.getElementById("output").value;
+            navigator.clipboard.writeText(result);
+        }
     </script>
 </head>
 <body>
@@ -118,7 +123,7 @@
             <textarea name="output" id="output" cols="120" rows="9" wrap="off" spellcheck="false" placeholder='Соединение = Новый HTTPСоединение("example.com", 80);
 HTTPЗапрос = Новый HTTPЗапрос("/");
 HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);'></textarea>
-            <input type="button" value="Скопировать">
+            <input type="button" onclick="copyOutput()" value="Скопировать">
         </div>
     </div>
     <div class="container">
