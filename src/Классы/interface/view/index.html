@@ -89,7 +89,7 @@
 
           function convertOnload() {
             let output = document.getElementById("output");
-            if(xmlhttp.status === 200){
+            if(this.status === 200){
                 output.value = this.response.result;
             } else {
                 output.value = "";
