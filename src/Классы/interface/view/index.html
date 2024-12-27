@@ -52,6 +52,7 @@
             overflow-y: scroll;
             overflow-x: scroll;
             margin-bottom: 5px;
+            box-sizing: border-box;
         }
 
         textarea::placeholder {
@@ -84,6 +85,7 @@
             resize: vertical;
             overflow: auto;
             margin-bottom: 5px;
+            box-sizing: border-box;
         }
 
         pre.shiki {
@@ -97,6 +99,29 @@
             -moz-user-select: all; /* Firefox */
             -ms-user-select: all; /* Internet Explorer/Edge */
             user-select: all; /* Chrome and Opera */
+        }
+
+        #warnings, #errors {
+            font-size: 12px;
+            padding: 8px 12px;
+            margin: 10px 0px;
+            border-radius: 3px;
+            border: 1px solid;
+            line-height: 1.5;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #warnings {       
+            color: #1f2328 !important;
+            border-color: #fff8c5;
+            background-color: #fff8c5;
+        }
+
+        #errors {       
+            color: #1f2328 !important;
+            border-color: #ffebe9;
+            background-color: #ffebe9;
         }
     </style>
     <script type="module">
@@ -118,14 +143,21 @@
 
         function convertOnload() {
             let output = document.getElementById("output");
+            let errors = [];
+            outputText = "";
 
             if(this.status === 200){
                 outputText = this.response.result;
+                errors = this.response.errors;
             } else {
-                outputText = "";
+                errors.push({
+                    text: 'Неудалось выполнить запрос',
+                    critical: true
+                });
             }
             
             setOutput(outputText);
+            displayErros(errors);
         }
 
         function setOutput(code){
@@ -137,6 +169,28 @@
 
         function copyToClipboard(text){
             navigator.clipboard.writeText(text);
+        }
+
+        function displayErros(errors) {
+            let elementWarnings = document.getElementById("warnings");
+            let elementErrors = document.getElementById("errors");
+            
+            let textWarnings = "";
+            let textErrors = "";
+
+            errors.forEach((record) => {
+                if(record.critical){
+                    textErrors += record.text + '<br/>';
+                } else {
+                    textWarnings += record.text + '<br/>';
+                }
+            });
+
+            elementWarnings.innerHTML = textWarnings;
+            elementWarnings.style.display = textWarnings.length > 0 ? 'block' : 'none';
+            
+            elementErrors.innerHTML = textErrors;
+            elementErrors.style.display = textErrors.length > 0 ? 'block' : 'none';
         }
 
         document.getElementById("convert").addEventListener("click", function (e) {
@@ -173,6 +227,7 @@
                 <textarea name="command" id="command" cols="120" rows="9" spellcheck="false" placeholder="curl example.com" required autofocus></textarea>
                 <input type="button" id="convert" value="Конвертировать">
             </form>
+            <div id="errors" style="display: none;"></div>
         </div>
     </div>
     <div class="container">
@@ -180,6 +235,7 @@
             <div>Код 1C</div>
             <div id="output" class="output selectable"></div>
             <input type="button" id="copy" value="Скопировать">
+            <div id="warnings" style="display: none;"></div>
         </div>
     </div>
     <div class="container">
