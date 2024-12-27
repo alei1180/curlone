@@ -45,7 +45,8 @@
         }
 
         textarea {
-            resize: none;
+            width: 100%;
+            resize: vertical;
             border-radius: 0;
             border: 2px solid black;
             overflow-y: scroll;
@@ -57,7 +58,7 @@
             color: #777;
         }
 
-        input[type=submit] {
+        input[type=button] {
             background-color: black;
             color: white;
             padding: 10px 10px;
@@ -74,7 +75,90 @@
             justify-content: center;
             align-items: center;
         }
+
+        div.output {
+            width: 100%;
+            height: 200px;
+            border: 2px solid black;
+            padding: 3px;
+            resize: vertical;
+            overflow: auto;
+            margin-bottom: 5px;
+        }
+
+        pre.shiki {
+            margin: 0;
+        }
+
+        .selectable {
+            -webkit-touch-callout: all; /* iOS Safari */
+            -webkit-user-select: all; /* Safari */
+            -khtml-user-select: all; /* Konqueror HTML */
+            -moz-user-select: all; /* Firefox */
+            -ms-user-select: all; /* Internet Explorer/Edge */
+            user-select: all; /* Chrome and Opera */
+        }
     </style>
+    <script type="module">
+        import { createHighlighter } from 'https://esm.sh/shiki@1.24.4';
+
+        let outputText = 'Соединение = Новый HTTPСоединение("example.com", 80);\n'
+        + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n'
+        + 'HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);';
+        let theme = "github-light";
+        let language = 'bsl';
+
+        function convert(command){
+            let req = new XMLHttpRequest();
+            req.onload = convertOnload;
+            req.responseType = "json";
+            req.open("GET", "/convert?cmd=" + encodeURIComponent(command));
+            req.send();
+        }
+
+        function convertOnload() {
+            let output = document.getElementById("output");
+
+            if(this.status === 200){
+                outputText = this.response.result;
+            } else {
+                outputText = "";
+            }
+            
+            setOutput(outputText);
+        }
+
+        function setOutput(code){
+            document.getElementById("output").innerHTML = highlighter.codeToHtml(code, {
+                lang: 'bsl',
+                theme: theme
+            })
+        }
+
+        function copyToClipboard(text){
+            navigator.clipboard.writeText(text);
+        }
+
+        document.getElementById("convert").addEventListener("click", function (e) {
+            let formData = new FormData(document.forms.curl);       
+            let command = formData.get("command");
+            convert(command);
+        });
+
+        document.getElementById("copy").addEventListener("click", function (e) {
+            copyToClipboard(outputText);
+        });
+
+        const highlighter = await createHighlighter({
+            themes: [theme],
+            langs: [language],
+        })
+
+        await highlighter.loadTheme(theme);
+        await highlighter.loadLanguage(language);
+
+        setOutput(outputText);
+    </script>
 </head>
 <body>
     <div class="container">
@@ -84,18 +168,18 @@
     </div>
     <div class="container">
         <div>
-            <label for="inputcurl">Команда curl</label>
-            <textarea name="inputcurl" id="inputcurl" cols="120" rows="9" placeholder="curl example.com" required autofocus></textarea>
-            <input type="submit" value="Конвертировать">
+            <form name="curl">
+                <label for="command">Команда curl</label>
+                <textarea name="command" id="command" cols="120" rows="9" spellcheck="false" placeholder="curl example.com" required autofocus></textarea>
+                <input type="button" id="convert" value="Конвертировать">
+            </form>
         </div>
     </div>
     <div class="container">
         <div>
-            <label for="output">Код 1C</label>
-            <textarea name="output" id="output" cols="120" rows="9" wrap="off" placeholder='Соединение = Новый HTTPСоединение("example.com", 80);
-HTTPЗапрос = Новый HTTPЗапрос("/");
-HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);'></textarea>
-            <input type="submit" value="Скопировать">
+            <div>Код 1C</div>
+            <div id="output" class="output selectable"></div>
+            <input type="button" id="copy" value="Скопировать">
         </div>
     </div>
     <div class="container">
