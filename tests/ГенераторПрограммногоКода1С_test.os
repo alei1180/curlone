@@ -94,11 +94,13 @@
 	ПрограммныйКод = "Заголовки = Новый Соответствие();
 	|Заголовки.Вставить(""accept"", ""text/html"");
 	|
+	|// Запрос 1. example1.com/page1
 	|Соединение = Новый HTTPСоединение(""example1.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/page1"", Заголовки);
 	|
 	|HTTPОтвет = Соединение.ВызватьHTTPМетод(""GET"", HTTPЗапрос);
 	|
+	|// Запрос 2. example2.com/page2
 	|Соединение = Новый HTTPСоединение(""example2.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/page2"", Заголовки);
 	|
@@ -203,12 +205,14 @@
 	|ТелоЗапроса = ""param=value""
 	|	+ ""&"" + ТекстовыеДанныеИзФайла_1;
 	|
+	|// Запрос 1. http://example1.com
 	|Соединение = Новый HTTPСоединение(""example1.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/"", Заголовки);
 	|HTTPЗапрос.УстановитьТелоИзСтроки(ТелоЗапроса);
 	|
 	|HTTPОтвет = Соединение.ВызватьHTTPМетод(""POST"", HTTPЗапрос);
 	|
+	|// Запрос 2. http://example2.com
 	|Соединение = Новый HTTPСоединение(""example2.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/"", Заголовки);
 	|HTTPЗапрос.УстановитьТелоИзСтроки(ТелоЗапроса);
@@ -330,21 +334,25 @@
 	|	--url http://example3.com \
 	|	--url http://example4.com";
 
-	ПрограммныйКод = "Соединение = Новый HTTPСоединение(""example1.com"", 80);
+	ПрограммныйКод = "// Запрос 1. http://example1.com
+	|Соединение = Новый HTTPСоединение(""example1.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/"");
 	|
 	|HTTPОтвет = Соединение.ВызватьHTTPМетод(""GET"", HTTPЗапрос);
 	|
+	|// Запрос 2. http://example2.com
 	|Соединение = Новый HTTPСоединение(""example2.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/"");
 	|
 	|HTTPОтвет = Соединение.ВызватьHTTPМетод(""GET"", HTTPЗапрос);
 	|
+	|// Запрос 3. http://example3.com
 	|Соединение = Новый HTTPСоединение(""example3.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/"");
 	|
 	|HTTPОтвет = Соединение.ВызватьHTTPМетод(""GET"", HTTPЗапрос);
 	|
+	|// Запрос 4. http://example4.com
 	|Соединение = Новый HTTPСоединение(""example4.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/"");
 	|
@@ -527,11 +535,13 @@
 
 	ПрограммныйКод = "ЗащищенноеСоединение = Новый ЗащищенноеСоединениеOpenSSL();
 	|
+	|// Запрос 1. https://example1.com
 	|Соединение = Новый HTTPСоединение(""example1.com"", 443, , , , , ЗащищенноеСоединение);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/"");
 	|
 	|HTTPОтвет = Соединение.ВызватьHTTPМетод(""GET"", HTTPЗапрос);
 	|
+	|// Запрос 2. https://example2.com
 	|Соединение = Новый HTTPСоединение(""example2.com"", 443, , , , , ЗащищенноеСоединение);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/"");
 	|
@@ -550,11 +560,13 @@
 
 	ПрограммныйКод = "ЗащищенноеСоединение = Новый ЗащищенноеСоединениеOpenSSL();
 	|
+	|// Запрос 1. http://example1.com
 	|Соединение = Новый HTTPСоединение(""example1.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/"");
 	|
 	|HTTPОтвет = Соединение.ВызватьHTTPМетод(""GET"", HTTPЗапрос);
 	|
+	|// Запрос 2. https://example2.com
 	|Соединение = Новый HTTPСоединение(""example2.com"", 443, , , , , ЗащищенноеСоединение);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/"");
 	|
@@ -729,11 +741,13 @@
 	|	http://example.com/page1.html -o page1.html \
 	|	http://example.com/page2.html --output page2.html";
 
-	ПрограммныйКод = "Соединение = Новый HTTPСоединение(""example.com"", 80);
+	ПрограммныйКод = "// Запрос 1. http://example.com/page1.html
+	|Соединение = Новый HTTPСоединение(""example.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/page1.html"");
 	|
 	|HTTPОтвет = Соединение.ВызватьHTTPМетод(""GET"", HTTPЗапрос, ""page1.html"");
 	|
+	|// Запрос 2. http://example.com/page2.html
 	|Соединение = Новый HTTPСоединение(""example.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/page2.html"");
 	|
@@ -753,16 +767,19 @@
 	|	http://example.com/catalog/cars.html --remote-name \
 	|	http://example.com/index.html";
 
-	ПрограммныйКод = "Соединение = Новый HTTPСоединение(""example.com"", 80);
+	ПрограммныйКод = "// Запрос 1. http://example.com/about.html
+	|Соединение = Новый HTTPСоединение(""example.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/about.html"");
 	|
 	|HTTPОтвет = Соединение.ВызватьHTTPМетод(""GET"", HTTPЗапрос, ""about.html"");
 	|
+	|// Запрос 2. http://example.com/catalog/cars.html
 	|Соединение = Новый HTTPСоединение(""example.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/catalog/cars.html"");
 	|
 	|HTTPОтвет = Соединение.ВызватьHTTPМетод(""GET"", HTTPЗапрос, ""cars.html"");
 	|
+	|// Запрос 3. http://example.com/index.html
 	|Соединение = Новый HTTPСоединение(""example.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/index.html"");
 	|
@@ -782,16 +799,19 @@
 	|	http://example.com/catalog/cars.html \
 	|	http://example.com/index.html";
 
-	ПрограммныйКод = "Соединение = Новый HTTPСоединение(""example.com"", 80);
+	ПрограммныйКод = "// Запрос 1. http://example.com/about.html
+	|Соединение = Новый HTTPСоединение(""example.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/about.html"");
 	|
 	|HTTPОтвет = Соединение.ВызватьHTTPМетод(""GET"", HTTPЗапрос, ""file.html"");
 	|
+	|// Запрос 2. http://example.com/catalog/cars.html
 	|Соединение = Новый HTTPСоединение(""example.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/catalog/cars.html"");
 	|
 	|HTTPОтвет = Соединение.ВызватьHTTPМетод(""GET"", HTTPЗапрос, ""cars.html"");
 	|
+	|// Запрос 3. http://example.com/index.html
 	|Соединение = Новый HTTPСоединение(""example.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/index.html"");
 	|
@@ -886,11 +906,13 @@
 	ПрограммныйКод = "Прокси = Новый ИнтернетПрокси();
 	|Прокси.Установить(""http"", ""proxy.example"", 1088, , , Ложь);
 	|
+	|// Запрос 1. http://example1.com
 	|Соединение = Новый HTTPСоединение(""example1.com"", 80, , , Прокси);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/"");
 	|
 	|HTTPОтвет = Соединение.ВызватьHTTPМетод(""GET"", HTTPЗапрос);
 	|
+	|// Запрос 2. http://example2.com
 	|Соединение = Новый HTTPСоединение(""example2.com"", 80, , , Прокси);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/"");
 	|
