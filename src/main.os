@@ -1,5 +1,6 @@
 
 #Использовать "../lib/cli/src/core"
+#Использовать "internal"
 #Использовать autumn
 #Использовать autumn-cli
 #Использовать winow
