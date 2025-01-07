@@ -148,13 +148,14 @@
         }
     </style>
     <script type="module">
-        import { createHighlighter } from '/static/shiki.js';
+        import theme from '/static/shiki/themes/github-light.js'
+        import lang from '/static/shiki/langs/bsl.js'  
+        import { createHighlighterCore } from '/static/shiki/core.js';   
+        import { createOnigurumaEngine } from '/static/shiki/engine/oniguruma.js'
 
         let outputText = 'Соединение = Новый HTTPСоединение("example.com", 80);\n'
         + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n'
         + 'HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);';
-        let theme = "github-light";
-        let language = 'bsl';
 
         function convert(command){
             let req = new XMLHttpRequest();
@@ -186,7 +187,7 @@
         function setOutput(code){
             document.getElementById("output").innerHTML = highlighter.codeToHtml(code, {
                 lang: 'bsl',
-                theme: theme
+                theme: 'github-light'
             })
         }
 
@@ -226,13 +227,11 @@
             copyToClipboard(outputText);
         });
 
-        const highlighter = await createHighlighter({
+        const highlighter = await createHighlighterCore({
             themes: [theme],
-            langs: [language],
-        })
-
-        await highlighter.loadTheme(theme);
-        await highlighter.loadLanguage(language);
+            langs: [lang],
+            engine: createOnigurumaEngine(import('/static/shiki/wasm.js'))
+        });
 
         setOutput(outputText);
     </script>
