@@ -3,9 +3,12 @@
       "ИмяХоста": "localhost",
       "Порт": 3333,
       "РазмерБуфера": 0,
+      "КэшироватьВБраузереСтатичныеФайлы": true,
+      "СекундХраненияВКэшеБраузераСтатичныхФайлов": 31536000,
       "КаталогСПриложениями": "./src/interface",
       "КаталогиСФайлами": {
-         "/images": "./src/interface/view/images"
+         "/images": "./src/interface/view/images",
+         "/static": "./src/interface/view/static"
       }
   },
   "cli": {
