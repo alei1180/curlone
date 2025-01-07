@@ -5,7 +5,8 @@
       "РазмерБуфера": 0,
       "КаталогСПриложениями": "./src/interface",
       "КаталогиСФайлами": {
-         "/images": "./src/interface/view/images"
+         "/images": "./src/interface/view/images",
+         "/static": "./src/interface/view/static"
       }
   },
   "cli": {
