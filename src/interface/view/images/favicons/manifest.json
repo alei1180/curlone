@@ -1,5 +1,10 @@
 {
  "name": "curlone",
+ "short_name": "curlone",
+ "description": "Converter of curl command to 1C code",
+ "author": "Alexander Osadchy, Dmitry Ivanov, Gleb Bogachev",
+ "homepage_url": "https://github.com/alei1180/curlone",
+ "version": "1.0.0",
  "icons": [
   {
    "src": "/images/favicons/android-icon-36x36.png",
