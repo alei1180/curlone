@@ -34,15 +34,10 @@
             justify-content: center;
             font-family: "PT Mono", monospace;
             font-weight: 400;
+            font-size:1em;
             font-style: normal;
             color: black;
-        }
-
-        div {
-            display: flex;
-            flex-flow: column;
-            width: calc(100% - 50px);
-            align-items: center;
+            padding:10px;
         }
 
         a {
@@ -50,12 +45,15 @@
         }
 
         p {
-            font-size: 12px;
             margin: 0;
             padding: 0;
         }
+        label {
+            font-size:1em;
+        }
 
         .container {
+            width: calc(100% - 50px);
             display: flex;
             flex-flow: column;
             justify-content: center;
@@ -68,30 +66,55 @@
         }
 
         textarea {
-            width: 100%;
-            resize: vertical;
+            display: inline-block;
+            resize: none;
             border-radius: 0;
             border: 2px solid black;
             overflow-y: scroll;
             overflow-x: scroll;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             box-sizing: border-box;
+            margin: 0;
+            width: auto;
+            min-width: 100%;
+            max-width: 100%;
+            height: auto;
+            min-height: 15em;
+            scrollbar-width: thin;
+            scrollbar-color: #000 #fff;
         }
 
         textarea::placeholder {
             color: #777;
+            font-size:1em;
         }
-
+        form {
+            display: flex;
+            flex-flow: column;
+            align-items: flex-start;
+            width:40em;
+        }
         input[type=button] {
-            background-color: black;
+            cursor: pointer;
+            background: black;
+            font-family: "PT Mono", monospace;
+            font-weight: 400;
+            font-size:1em;
             color: white;
             padding: 10px 10px;
-            border: none;
+            border: 2px solid black;
+            margin-top:5px;
+        }
+
+        input[type=button].hoveredbutton {
+            background: #fff;
+            color: black;
+            text-decoration: none;
         }
 
         .container div {
-            width: 1000px;
             display: flex;
+            flex-flow: column;
             align-items: flex-start;
         }
 
@@ -101,14 +124,20 @@
         }
 
         div.output {
-            width: 100%;
+            width: 40em;
             height: 200px;
             border: 2px solid black;
             padding: 3px;
-            resize: vertical;
-            overflow: auto;
-            margin-bottom: 5px;
+            resize: none;
+            overflow-y: scroll;
+            overflow-x: scroll;
+            scrollbar-width: thin;
+            scrollbar-color: #000 #fff;
             box-sizing: border-box;
+        }
+        div.output:focus {
+            border: 3px solid black;
+            border-radius: 4px;
         }
 
         pre.shiki {
@@ -125,7 +154,7 @@
         }
 
         #warnings, #errors {
-            font-size: 12px;
+            font-size: 1em;
             padding: 8px 12px;
             margin: 10px 0px;
             border-radius: 3px;
@@ -146,12 +175,72 @@
             border-color: #ffebe9;
             background-color: #ffebe9;
         }
+
+@media only screen and (320px <= device-width <= 430px) and (-webkit-device-pixel-ratio : 2) {
+
+    body {
+        width:95%;
+        height: 100%;
+        overflow: vertical;
+        font-size:1.5em;
+    }
+
+    p {
+        margin-top:2em;
+        font-size:1.5em;
+    }
+    .container {
+        width:100%;
+
+    }
+
+    form {
+        width:37em;
+    }
+
+    div.output {
+        width:25em;
+        height:15em;
+        font-size:1.5em;
+    }
+
+    input[type=button] {
+        padding:30px 45px;
+        font-size:1.5em;
+
+    }
+
+    textarea {
+        font-size:1.2em;`
+    }
+
+    textarea::placeholder {
+        font-family: "PT Mono", monospace;
+        font-weight: 400;
+        color: #777;
+        font-size:1.2em;
+    }
+
+    label {
+        font-size:1.5em;
+    }
+
+    div.outputlabel {
+        font-size:1.5em;
+    }
+
+    #warnings, #errors {
+        font-size: 1.5em;
+        padding:30px 45px;
+    }
+
+}
     </style>
     <script type="module">
-        import theme from '/static/shiki/themes/github-light.js'
-        import lang from '/static/shiki/langs/bsl.js'  
-        import { createHighlighterCore } from '/static/shiki/core.js';   
-        import { createOnigurumaEngine } from '/static/shiki/engine/oniguruma.js'
+        import theme from '/static/shiki/themes/github-light.js';
+        import lang from '/static/shiki/langs/bsl.js';
+        import { createHighlighterCore } from '/static/shiki/core.js';
+        import { createOnigurumaEngine } from '/static/shiki/engine/oniguruma.js';
 
         let outputText = 'Соединение = Новый HTTPСоединение("example.com", 80);\n'
         + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n'
@@ -242,25 +331,25 @@
             <img src="images/curlone-logo.png" alt="curlone" height="200px" />
         </div>
     </div>
-    <div class="container">
+    <div class="container" style="margin-bottom:30px;">
         <div>
             <form name="curl">
                 <label for="command">Команда curl</label>
-                <textarea name="command" id="command" cols="120" rows="9" spellcheck="false" placeholder="curl example.com" required autofocus></textarea>
-                <input type="button" id="convert" value="Конвертировать">
+                <textarea name="command" id="command"  spellcheck="false" wrap="off" placeholder="curl example.com" required></textarea>
+                <input type="button" id="convert" value="Конвертировать" onmouseover="this.classList.add('hoveredbutton')" onmouseout="this.classList.remove('hoveredbutton')" ontouchstart="this.classList.add('hoveredbutton')" ontouchend="this.classList.remove('hoveredbutton')">
             </form>
             <div id="errors" style="display: none;"></div>
         </div>
     </div>
     <div class="container">
         <div>
-            <div>Код 1C</div>
-            <div id="output" class="output selectable"></div>
-            <input type="button" id="copy" value="Скопировать">
+            <div class="outputlabel">Код 1C</div>
+            <div tabindex="0" id="output" class="output selectable"></div>
+            <input type="button" id="copy" value="Скопировать" onmouseover="this.classList.add('hoveredbutton')" onmouseout="this.classList.remove('hoveredbutton')" ontouchstart="this.classList.add('hoveredbutton')" ontouchend="this.classList.remove('hoveredbutton')">
             <div id="warnings" style="display: none;"></div>
         </div>
     </div>
-    <div class="container">
+    <div class="container footer">
         <p>
             <a href="https://github.com/alei1180/curlone" target="_blank">curlone</a> powered by
             <a href="https://github.com/EvilBeaver/OneScript" target="_blank">OneScript</a> and
