@@ -8,7 +8,35 @@
 </p>
 
 ### Назначение
+
 `curlone` - конвертер команды `curl` в код на языке `1С`.
 
 ### Сайт
+
 [curlone.ru](http://curlone.ru/)
+
+### Установка
+
+* [Скачать](https://github.com/alei1180/curlone/releases/latest) `curlone.ospx`
+* Установить командой `opm install curlone.ospx`
+
+### Запуск web приложения
+
+```shell
+curlone web -op 3333
+```
+
+* `o` - открыть в браузере
+* `p` - порт, на котором будет запущено приложение
+
+### Особенности использования
+Команда `curl` указывается в нотации `bash`
+
+### Благодарности
+
+Сообществу за свободные инструмены:
+
+* [OneScript](https://github.com/EvilBeaver/OneScript)
+* [Autumn/ОСень](https://github.com/autumn-library/autumn)
+* [WINOW](https://github.com/autumn-library/winow)
+* [1connector](https://github.com/vbondarevsky/1connector)
