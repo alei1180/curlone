@@ -39,4 +39,7 @@ curlone web -op 3333
 * [OneScript](https://github.com/EvilBeaver/OneScript)
 * [Autumn/ОСень](https://github.com/autumn-library/autumn)
 * [WINOW](https://github.com/autumn-library/winow)
+* [autumn-cli](https://github.com/autumn-library/autumn-cli)
+* [cli](https://github.com/oscript-library/cli)
 * [1connector](https://github.com/vbondarevsky/1connector)
+* [tokenizer](https://github.com/Nivanchenko/tokenizer)
