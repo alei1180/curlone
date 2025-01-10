@@ -93,4 +93,4 @@ curlone convert <команда>
 * [1connector](https://github.com/vbondarevsky/1connector)
 * [tokenizer](https://github.com/Nivanchenko/tokenizer)
 * [coloratos](https://github.com/240596448/coloratos)
-* [Shiki 式](hhttps://github.com/shikijs/shiki)
+* [Shiki 式](https://github.com/shikijs/shiki)
