@@ -230,6 +230,7 @@
     }
 
     #warnings, #errors {
+        width:25em;
         font-size: 1.5em;
         padding:30px 45px;
     }
@@ -329,7 +330,6 @@
 
         function enableRequests(){
             setRequestsPermission(true);
-            convertInput.focus();
         }
 
         function setRequestsPermission(isEnable){
@@ -351,7 +351,7 @@
             copyToClipboard(outputText);
         });
 
-        convertInput.addEventListener("keyup", function (e){
+        document.addEventListener("keyup", function (e){
             if (e.keyCode == 13 && e.ctrlKey){
                 convertButton.click();
             }  
