@@ -17,8 +17,9 @@
 
 ## Установка
 
-* [Скачать](https://github.com/alei1180/curlone/releases/latest) `curlone.ospx`
-* Установить командой `opm install curlone.ospx`
+```shell
+opm install curlone
+```
 
 ## Использование
 
