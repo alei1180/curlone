@@ -343,7 +343,7 @@
         convertButon.addEventListener("click", function (e) {
             let formData = new FormData(document.forms.curl);       
             let command = formData.get("command");
-            convert(command, this);
+            convert(command);
         });
 
         document.getElementById("copy").addEventListener("click", function (e) {
