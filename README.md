@@ -27,18 +27,18 @@
 Запуск приложения:
 
 ```shell
-curlone web -op 3333
+curlone web -o -p 3333
 ```
 
-* `o` - открыть в браузере
-* `p` - порт, на котором будет запущено приложение
+* `-o` или `--open` - открыть в браузере
+* `-p` или `--port` - порт, на котором будет запущено приложение
 
 Пример конвертации:
 
 >Команда curl
 >
 >```shell
->curl http://example.com/api --request POST -d "key=value" -H "X-Header: value"
+>curl https://httpbin.org/post --request POST -d "key=value" -H "X-Header: value"
 >```
 >
 >Код 1C
@@ -48,12 +48,18 @@ curlone web -op 3333
 >Заголовки.Вставить("X-Header", "value");
 >Заголовки.Вставить("Content-Type", "application/x-www-form-urlencoded");
 >
->Соединение = Новый HTTPСоединение("example.com", 80);
->HTTPЗапрос = Новый HTTPЗапрос("/api", Заголовки);
+>ЗащищенноеСоединение = Новый ЗащищенноеСоединениеOpenSSL();
+>
+>Соединение = Новый HTTPСоединение("httpbin.org", 443, , , , , ЗащищенноеСоединение);
+>HTTPЗапрос = Новый HTTPЗапрос("/post", Заголовки);
 >HTTPЗапрос.УстановитьТелоИзСтроки("key=value");
 >
 >HTTPОтвет = Соединение.ВызватьHTTPМетод("POST", HTTPЗапрос);
 >```
+
+Горячие клавиши:
+
+* `ctrl + enter` - вызов команды `Конвертировать`
 
 ### cli приложение
 
@@ -68,14 +74,28 @@ curlone convert <команда>
 >Оригинальная команда curl
 >
 >```shell
->curl http://example.com/api --request POST -d "key=value" -H "X-Header: value"
+>curl https://httpbin.org/post --request POST -d "key=value" -H "X-Header: value"
 >```
 >
 >Команда curlone
 >
 >```shell
->curlone convert http://example.com/api --request POST -d "key=value" -H "X-Header: value"
+>curlone convert https://httpbin.org/post --request POST -d "key=value" -H "X-Header: value"
 >```
+
+### библиотека
+
+Пример использования:
+
+```bsl
+#Использовать curlone
+
+КонсольнаяКоманда = "curl https://httpbin.org/post --request POST -d ""key=value"" -H ""X-Header: value""";
+
+КонвертерКомандыCURL = Новый КонвертерКомандыCURL();
+Результат = КонвертерКомандыCURL.Конвертировать(КонсольнаяКоманда);
+```
+
 
 ## Особенности использования
 
