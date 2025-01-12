@@ -245,7 +245,7 @@
         let outputText = 'Соединение = Новый HTTPСоединение("example.com", 80);\n'
         + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n\n'
         + 'HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);';
-        let convertButon = document.getElementById("convert");
+        let convertButton = document.getElementById("convert");
         let convertInput = document.getElementById("command");
 
         function convert(command){
@@ -332,15 +332,15 @@
         }
 
         function setRequestsPermission(isEnable){
-            convertButon.disable = !isEnable;
+            convertButton.disable = !isEnable;
             convertInput.disabled = !isEnable;
         }
 
         function isAllowedRequests(){
-            return !convertButon.disable;
+            return !convertButton.disable;
         }
 
-        convertButon.addEventListener("click", function (e) {
+        convertButton.addEventListener("click", function (e) {
             let formData = new FormData(document.forms.curl);       
             let command = formData.get("command");
             convert(command);
