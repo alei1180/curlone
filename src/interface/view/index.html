@@ -329,6 +329,7 @@
 
         function enableRequests(){
             setRequestsPermission(true);
+            convertInput.focus();
         }
 
         function setRequestsPermission(isEnable){
@@ -348,6 +349,12 @@
 
         document.getElementById("copy").addEventListener("click", function (e) {
             copyToClipboard(outputText);
+        });
+
+        convertInput.addEventListener("keyup", function (e){
+            if (e.keyCode == 13 && e.ctrlKey){
+                convertButton.click();
+            }  
         });
 
         const highlighter = await createHighlighterCore({
