@@ -350,6 +350,12 @@
             copyToClipboard(outputText);
         });
 
+        convertInput.addEventListener("keyup", function (e){
+            if (e.keyCode == 13 && e.ctrlKey){
+                convertButton.click();
+            }  
+        });
+
         const highlighter = await createHighlighterCore({
             themes: [theme],
             langs: [lang],
