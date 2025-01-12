@@ -245,32 +245,44 @@
         let outputText = 'Соединение = Новый HTTPСоединение("example.com", 80);\n'
         + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n'
         + 'HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);';
+        let convertButon = document.getElementById("convert");
+        let convertInput = document.getElementById("command");
 
         function convert(command){
+            if(!isAllowedRequests()) return;
+
             let req = new XMLHttpRequest();
-            req.onload = convertOnload;
+            req.onload = function(){
+                let output = document.getElementById("output");
+                let errors = [];
+                outputText = "";
+
+                if(this.status === 200){
+                    outputText = this.response.result;
+                    errors = this.response.errors;
+                } else {
+                    errors.push({
+                        text: 'Не удалось выполнить запрос',
+                        critical: true
+                    });
+                }
+                
+                setOutput(outputText);
+                displayErros(errors);
+                enableRequests();
+            };
+            req.onerror = function() {
+                displayErros([{
+                    text: 'Не удалось выполнить запрос',
+                    critical: true
+                }]);
+                enableRequests();
+            };
             req.responseType = "json";
             req.open("GET", "/convert?cmd=" + encodeURIComponent(command));
             req.send();
-        }
-
-        function convertOnload() {
-            let output = document.getElementById("output");
-            let errors = [];
-            outputText = "";
-
-            if(this.status === 200){
-                outputText = this.response.result;
-                errors = this.response.errors;
-            } else {
-                errors.push({
-                    text: 'Не удалось выполнить запрос',
-                    critical: true
-                });
-            }
             
-            setOutput(outputText);
-            displayErros(errors);
+            disableRequests();
         }
 
         function setOutput(code){
@@ -306,10 +318,27 @@
             elementErrors.style.display = textErrors.length > 0 ? 'block' : 'none';
         }
 
-        document.getElementById("convert").addEventListener("click", function (e) {
+        function disableRequests(){
+            setRequestsPermission(false);
+        }
+
+        function enableRequests(){
+            setRequestsPermission(true);
+        }
+
+        function setRequestsPermission(isEnable){
+            convertButon.disable = !isEnable;
+            convertInput.disabled = !isEnable;
+        }
+
+        function isAllowedRequests(){
+            return !convertButon.disable;
+        }
+
+        convertButon.addEventListener("click", function (e) {
             let formData = new FormData(document.forms.curl);       
             let command = formData.get("command");
-            convert(command);
+            convert(command, this);
         });
 
         document.getElementById("copy").addEventListener("click", function (e) {
@@ -323,6 +352,7 @@
         });
 
         setOutput(outputText);
+        enableRequests();
     </script>
 </head>
 <body>
