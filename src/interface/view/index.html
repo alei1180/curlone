@@ -243,34 +243,47 @@
         import { createOnigurumaEngine } from '/static/shiki/engine/oniguruma.js';
 
         let outputText = 'Соединение = Новый HTTPСоединение("example.com", 80);\n'
-        + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n'
+        + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n\n'
         + 'HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);';
+        let convertButton = document.getElementById("convert");
+        let convertInput = document.getElementById("command");
 
         function convert(command){
+            if(!isAllowedRequests()) return;
+            hideErrors();
+
             let req = new XMLHttpRequest();
-            req.onload = convertOnload;
+            req.onload = function(){
+                let output = document.getElementById("output");
+                let errors = [];
+                outputText = "";
+
+                if(this.status === 200){
+                    outputText = this.response.result;
+                    errors = this.response.errors;
+                } else {
+                    errors.push({
+                        text: 'Не удалось выполнить запрос',
+                        critical: true
+                    });
+                }
+                
+                setOutput(outputText);
+                displayErros(errors);
+                enableRequests();
+            };
+            req.onerror = function() {
+                displayErros([{
+                    text: 'Не удалось выполнить запрос',
+                    critical: true
+                }]);
+                enableRequests();
+            };
             req.responseType = "json";
             req.open("GET", "/convert?cmd=" + encodeURIComponent(command));
             req.send();
-        }
-
-        function convertOnload() {
-            let output = document.getElementById("output");
-            let errors = [];
-            outputText = "";
-
-            if(this.status === 200){
-                outputText = this.response.result;
-                errors = this.response.errors;
-            } else {
-                errors.push({
-                    text: 'Не удалось выполнить запрос',
-                    critical: true
-                });
-            }
             
-            setOutput(outputText);
-            displayErros(errors);
+            disableRequests();
         }
 
         function setOutput(code){
@@ -282,6 +295,10 @@
 
         function copyToClipboard(text){
             navigator.clipboard.writeText(text);
+        }
+
+        function hideErrors(){
+            displayErros([]); 
         }
 
         function displayErros(errors) {
@@ -306,7 +323,24 @@
             elementErrors.style.display = textErrors.length > 0 ? 'block' : 'none';
         }
 
-        document.getElementById("convert").addEventListener("click", function (e) {
+        function disableRequests(){
+            setRequestsPermission(false);
+        }
+
+        function enableRequests(){
+            setRequestsPermission(true);
+        }
+
+        function setRequestsPermission(isEnable){
+            convertButton.disable = !isEnable;
+            convertInput.disabled = !isEnable;
+        }
+
+        function isAllowedRequests(){
+            return !convertButton.disable;
+        }
+
+        convertButton.addEventListener("click", function (e) {
             let formData = new FormData(document.forms.curl);       
             let command = formData.get("command");
             convert(command);
@@ -323,6 +357,7 @@
         });
 
         setOutput(outputText);
+        enableRequests();
     </script>
 </head>
 <body>
