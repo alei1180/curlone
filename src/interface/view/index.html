@@ -243,7 +243,7 @@
         import { createOnigurumaEngine } from '/static/shiki/engine/oniguruma.js';
 
         let outputText = 'Соединение = Новый HTTPСоединение("example.com", 80);\n'
-        + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n'
+        + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n\n'
         + 'HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);';
         let convertButon = document.getElementById("convert");
         let convertInput = document.getElementById("command");
