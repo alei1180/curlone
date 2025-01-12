@@ -250,6 +250,7 @@
 
         function convert(command){
             if(!isAllowedRequests()) return;
+            hideErrors();
 
             let req = new XMLHttpRequest();
             req.onload = function(){
@@ -294,6 +295,10 @@
 
         function copyToClipboard(text){
             navigator.clipboard.writeText(text);
+        }
+
+        function hideErrors(){
+            displayErros([]); 
         }
 
         function displayErros(errors) {
