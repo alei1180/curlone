@@ -110,7 +110,7 @@ curlone convert <команда>
 * [WINOW](https://github.com/autumn-library/winow)
 * [autumn-cli](https://github.com/autumn-library/autumn-cli)
 * [cli](https://github.com/oscript-library/cli)
-* [1connector](https://github.com/vbondarevsky/1connector)
+* [Connector](https://github.com/vbondarevsky/Connector)
 * [1commands](https://github.com/artbear/1commands)
 * [tokenizer](https://github.com/Nivanchenko/tokenizer)
 * [logos](https://github.com/oscript-library/logos)
