@@ -3,7 +3,7 @@
 		.Автор("Alexander Osadchy, Dmitry Ivanov, Gleb Bogachev")
 		.АдресАвтора("https://github.com/alei1180, https://github.com/Stivo182, https://github.com/pinkycat")
 		.Описание("Конвертер команды curl в код на языке 1С")
-		.ВерсияСреды("1.9.1")
+		.ВерсияСреды("1.9.2")
 		.ВключитьФайл("src")
 		.ВключитьФайл("img")
 		.ВключитьФайл("lib")
