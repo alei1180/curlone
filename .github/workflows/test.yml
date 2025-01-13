@@ -1,0 +1,10 @@
+name: Тестирование
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    uses: autumn-library/workflows/.github/workflows/test.yml@main
