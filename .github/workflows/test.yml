@@ -7,5 +7,4 @@ on:
 
 jobs:
   test:
-    if: github.repository_owner == 'alei1180'
     uses: autumn-library/workflows/.github/workflows/test.yml@main
