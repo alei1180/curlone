@@ -6,6 +6,7 @@ on:
 
 jobs:
   sonar:
+    if: github.repository_owner == 'alei1180'
     uses: autumn-library/workflows/.github/workflows/sonar.yml@v1
     with:
       github_repository: alei1180/curlone
