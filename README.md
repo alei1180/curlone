@@ -4,7 +4,8 @@
 <a href="https://github.com/alei1180/curlone/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/alei1180/curlone?style=badge"></a>
 <a href="https://github.com/alei1180/curlone/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues-raw/alei1180/curlone?style=badge"></a>
 <a href="https://github.com/alei1180/curlone/releases/latest"><img alt="Last release" src="https://img.shields.io/github/v/release/alei1180/curlone?include_prereleases&label=last%20release&style=badge"></a>
-<a href="https://github.com/alei1180/curlone/releases"><img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/alei1180/curlone/total?style=flat-square"></a>
+<a href="https://sonar.openbsl.ru/dashboard?id=curlone"><img alt="SonarQube: quality gate" src="https://sonar.openbsl.ru/api/project_badges/measure?project=curlone&metric=alert_status&token=sqb_174d3352e142da6217583afe4bfbd7af29ee137d"></a>
+<a href="https://sonar.openbsl.ru/dashboard?id=curlone"><img alt="SonarQube: coverage" src="https://sonar.openbsl.ru/api/project_badges/measure?project=curlone&metric=coverage&token=sqb_174d3352e142da6217583afe4bfbd7af29ee137d"></a>
 </p>
 
 ## Назначение
