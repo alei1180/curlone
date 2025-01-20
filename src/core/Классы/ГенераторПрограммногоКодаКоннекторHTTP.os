@@ -108,7 +108,10 @@
 	|location
 	|no-location
 	|retry
-	|retry-max-time";
+	|retry-max-time
+	|F
+	|form
+	|form-string";
 
 	Возврат СтрРазделить(ПоддерживаемыеОпции, Символы.ПС, Ложь);
 
