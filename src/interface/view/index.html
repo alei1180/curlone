@@ -316,13 +316,23 @@ input[type='radio']:checked {
         import { createHighlighterCore } from '/static/shiki/core.js';
         import { createOnigurumaEngine } from '/static/shiki/engine/oniguruma.js';
 
-        let outputText = 'Соединение = Новый HTTPСоединение("example.com", 80);\n'
-            + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n\n'
-            + 'HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);';
+        let defaultOutputs = { 
+            '1c':
+                'Соединение = Новый HTTPСоединение("example.com", 80);\n'
+                + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n\n'
+                + 'HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);',
+            'connector':
+                'Результат = КоннекторHTTP.Get("http://example.com")'
+        };
+
+        let outputText = "";
         let convertButton = document.getElementById("convert");
         let convertInput = document.getElementById("command");
 
-        function convert(command, lang) {
+        function convert() {
+            let command = getCommand();
+            let lang = getLang();
+
             if (!isAllowedRequests()) return;
             hideErrors();
 
@@ -421,7 +431,7 @@ input[type='radio']:checked {
         }
 
         function getLang() {
-            let radios = document.getElementsByName('syntax');
+            let radios = document.getElementsByName('lang');
 
             for (let i = 0; i < radios.length; i++) {
                 if (radios[i].checked) {
@@ -433,19 +443,33 @@ input[type='radio']:checked {
         }
 
         convertButton.addEventListener("click", function (e) {
-            let command = getCommand();
-            let lang = getLang();
-            convert(command, lang);
+            convert();
         });
 
         document.getElementById("copy").addEventListener("click", function (e) {
             copyToClipboard(outputText);
         });
 
+        convertInput.addEventListener("input", function (e) {
+            if(!getCommand()) {
+                setOutput(defaultOutputs[getLang()]);
+            }
+        })
+
         document.addEventListener("keyup", function (e) {
             if (e.keyCode == 13 && e.ctrlKey) {
                 convertButton.click();
             }
+        });
+
+        document.getElementsByName("lang").forEach(function(e) {
+            e.addEventListener("change", function(e) {
+                if(getCommand()) {
+                    convert();
+                } else {
+                    setOutput(defaultOutputs[getLang()]);
+                }
+            });
         });
 
         const highlighter = await createHighlighterCore({
@@ -454,7 +478,7 @@ input[type='radio']:checked {
             engine: createOnigurumaEngine(import('/static/shiki/wasm.js'))
         });
 
-        setOutput(outputText);
+        setOutput(defaultOutputs[getLang()]);
         enableRequests();
     </script>
 </head>
@@ -479,12 +503,12 @@ input[type='radio']:checked {
                         ontouchend="this.classList.remove('hoveredbutton')">
                     <div class="checkboxgroup" style="">
                         <div class="singlecheckbox">
-                            <input type="radio" id="onec" name="syntax" value="1c"
+                            <input type="radio" id="onec" name="lang" value="1c"
                                 checked="checked" />
                             <label for="onec">1С</label>
                         </div>
                         <div class="singlecheckbox last">
-                            <input type="radio" id="connector" name="syntax" value="connector" />
+                            <input type="radio" id="connector" name="lang" value="connector" />
                             <label for="connector">Connector</label>
                         </div>
                     </div>
