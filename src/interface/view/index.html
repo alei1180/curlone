@@ -316,9 +316,16 @@ input[type='radio']:checked {
         import { createHighlighterCore } from '/static/shiki/core.js';
         import { createOnigurumaEngine } from '/static/shiki/engine/oniguruma.js';
 
-        let outputText = 'Соединение = Новый HTTPСоединение("example.com", 80);\n'
-            + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n\n'
-            + 'HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);';
+        let defaultOutputs = { 
+            '1c':
+                'Соединение = Новый HTTPСоединение("example.com", 80);\n'
+                + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n\n'
+                + 'HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);',
+            'connector':
+                'Результат = КоннекторHTTP.Get("http://example.com")'
+        };
+
+        let outputText = "";
         let convertButton = document.getElementById("convert");
         let convertInput = document.getElementById("command");
 
@@ -443,6 +450,12 @@ input[type='radio']:checked {
             copyToClipboard(outputText);
         });
 
+        convertInput.addEventListener("input", function (e) {
+            if(!getCommand()) {
+                setOutput(defaultOutputs[getLang()]);
+            }
+        })
+
         document.addEventListener("keyup", function (e) {
             if (e.keyCode == 13 && e.ctrlKey) {
                 convertButton.click();
@@ -451,7 +464,11 @@ input[type='radio']:checked {
 
         document.getElementsByName("lang").forEach(function(e) {
             e.addEventListener("change", function(e) {
-                if(getCommand()) convert();
+                if(getCommand()) {
+                    convert();
+                } else {
+                    setOutput(defaultOutputs[getLang()]);
+                }
             });
         });
 
@@ -461,7 +478,7 @@ input[type='radio']:checked {
             engine: createOnigurumaEngine(import('/static/shiki/wasm.js'))
         });
 
-        setOutput(outputText);
+        setOutput(defaultOutputs[getLang()]);
         enableRequests();
     </script>
 </head>
