@@ -24,7 +24,7 @@ opm install curlone
 
 ## Использование
 
-### web приложение
+## web приложение
 
 Запуск приложения:
 
@@ -58,12 +58,27 @@ curlone web -o -p 3333
 >
 >HTTPОтвет = Соединение.ВызватьHTTPМетод("POST", HTTPЗапрос);
 >```
+>
+>Код Connector
+>
+>```bsl
+>Заголовки = Новый Соответствие();
+>Заголовки.Вставить("X-Header", "value");
+>
+>Данные = Новый Соответствие();
+>Данные.Вставить("key", "value");
+>
+>ДополнительныеПараметры = Новый Структура();
+>ДополнительныеПараметры.Вставить("Заголовки", Заголовки);
+>
+>Результат = КоннекторHTTP.Post("https://httpbin.org/post", Данные, ДополнительныеПараметры);
+>```
 
 Горячие клавиши:
 
 * `ctrl + enter` - вызов команды `Конвертировать`
 
-### cli приложение
+## cli приложение
 
 Синтаксис команды:
 
@@ -81,22 +96,47 @@ curlone convert <команда>
 >
 >Команда curlone
 >
+>Код 1C
+>
 >```shell
->curlone convert https://httpbin.org/post --request POST -d "key=value" -H "X-Header: value"
+>curlone convert 1c https://httpbin.org/post --request POST -d "key=value" -H "X-Header: value"
+>```
+>
+>Код Connector
+>
+>```shell
+>curlone convert connector https://httpbin.org/post --request POST -d "key=value" -H "X-Header: value"
 >```
 
-### библиотека
+## библиотека
 
 Пример использования:
 
-```bsl
-#Использовать curlone
-
-КонсольнаяКоманда = "curl https://httpbin.org/post --request POST -d ""key=value"" -H ""X-Header: value""";
-
-КонвертерКомандыCURL = Новый КонвертерКомандыCURL();
-Результат = КонвертерКомандыCURL.Конвертировать(КонсольнаяКоманда);
-```
+>Код 1C
+>
+>```bsl
+>#Использовать curlone
+>
+>КонсольнаяКоманда = "curl https://httpbin.org/post --request POST -d ""key=value"" -H ""X-Header: value""";
+>
+>Генератор = Новый ГенераторПрограммногоКода1С();
+>
+>КонвертерКомандыCURL = Новый КонвертерКомандыCURL();
+>Результат = КонвертерКомандыCURL.Конвертировать(КонсольнаяКоманда, Генератор);
+>```
+>
+>Код Connector
+>
+>```bsl
+>#Использовать curlone
+>
+>КонсольнаяКоманда = "curl https://httpbin.org/post --request POST -d ""key=value"" -H ""X-Header: value""";
+>
+>Генератор = Новый ГенераторПрограммногоКодаКоннекторHTTP();
+>
+>КонвертерКомандыCURL = Новый КонвертерКомандыCURL();
+>Результат = КонвертерКомандыCURL.Конвертировать(КонсольнаяКоманда, Генератор);
+>```
 
 ## Особенности использования
 

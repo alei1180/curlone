@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
     <meta charset="utf-8">
 
-     <!-- favicon -->
+    <!-- favicon -->
     <link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-icon-72x72.png">
@@ -14,7 +15,7 @@
     <link rel="apple-touch-icon" sizes="144x144" href="images/favicons/apple-icon-144x144.png">
     <link rel="apple-touch-icon" sizes="152x152" href="images/favicons/apple-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="images/favicons/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="images/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/favicons/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="images/favicons/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
@@ -27,6 +28,8 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
 
+       
+
         body {
             display: flex;
             flex-flow: column;
@@ -34,10 +37,10 @@
             justify-content: center;
             font-family: "PT Mono", monospace;
             font-weight: 400;
-            font-size:1em;
+            font-size: 1em;
             font-style: normal;
             color: black;
-            padding:10px;
+            padding: 10px;
         }
 
         a {
@@ -48,8 +51,9 @@
             margin: 0;
             padding: 0;
         }
+
         label {
-            font-size:1em;
+            font-size: 1em;
         }
 
         .container {
@@ -86,30 +90,43 @@
 
         textarea::placeholder {
             color: #777;
-            font-size:1em;
+            font-size: 1em;
         }
+
         form {
             display: flex;
             flex-flow: column;
             align-items: flex-start;
-            width:40em;
+            width: 40em;
         }
+
         input[type=button] {
             cursor: pointer;
             background: black;
             font-family: "PT Mono", monospace;
             font-weight: 400;
-            font-size:1em;
+            font-size: 1em;
             color: white;
             padding: 10px 10px;
             border: 2px solid black;
-            margin-top:5px;
+            margin-top: 5px;
         }
 
         input[type=button].hoveredbutton {
             background: #fff;
             color: black;
             text-decoration: none;
+        }
+
+        input[type="radio"] {
+            accent-color: #000;
+            height: 1.5em;
+            width: 1.5em;
+            margin-right:8px;
+        }
+
+input[type='radio']:checked {
+  background: #000000;
         }
 
         .container div {
@@ -135,6 +152,7 @@
             scrollbar-color: #000 #fff;
             box-sizing: border-box;
         }
+
         div.output:focus {
             border: 3px solid black;
             border-radius: 4px;
@@ -145,15 +163,22 @@
         }
 
         .selectable {
-            -webkit-touch-callout: all; /* iOS Safari */
-            -webkit-user-select: all; /* Safari */
-            -khtml-user-select: all; /* Konqueror HTML */
-            -moz-user-select: all; /* Firefox */
-            -ms-user-select: all; /* Internet Explorer/Edge */
-            user-select: all; /* Chrome and Opera */
+            -webkit-touch-callout: all;
+            /* iOS Safari */
+            -webkit-user-select: all;
+            /* Safari */
+            -khtml-user-select: all;
+            /* Konqueror HTML */
+            -moz-user-select: all;
+            /* Firefox */
+            -ms-user-select: all;
+            /* Internet Explorer/Edge */
+            user-select: all;
+            /* Chrome and Opera */
         }
 
-        #warnings, #errors {
+        #warnings,
+        #errors {
             font-size: 1em;
             padding: 8px 12px;
             margin: 10px 0px;
@@ -164,78 +189,126 @@
             box-sizing: border-box;
         }
 
-        #warnings {       
+        #warnings {
             color: #1f2328 !important;
             border-color: #fff8c5;
             background-color: #fff8c5;
         }
 
-        #errors {       
+        #errors {
             color: #1f2328 !important;
             border-color: #ffebe9;
             background-color: #ffebe9;
         }
+        div.checkboxgroup {
+            display: flex;
+            flex-flow: row;  
+        }
 
-@media only screen and (320px <= device-width <= 430px) and (-webkit-device-pixel-ratio : 2) {
+        .checkboxgroup div.singlecheckbox {
+            display: flex;
+            flex-flow: row;
+            align-items: center;
+            margin-right: 2em;
+        }
 
-    body {
-        width:95%;
-        height: 100%;
-        overflow: vertical;
-        font-size:1.5em;
-    }
 
-    p {
-        margin-top:2em;
-        font-size:1.5em;
-    }
-    .container {
-        width:100%;
+        .checkboxgroup div.singlecheckbox.last {
+            margin-right: 0;
+        }
 
-    }
+        div.convertsyntax {
+            display: flex;
+            flex-flow: row;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
 
-    form {
-        width:37em;
-    }
+        }
 
-    div.output {
-        width:25em;
-        height:15em;
-        font-size:1.5em;
-    }
+        
 
-    input[type=button] {
-        padding:30px 45px;
-        font-size:1.5em;
+        @media only screen and (320px <=device-width <=430px) and (-webkit-device-pixel-ratio : 2) {
 
-    }
+            body {
+                width: 95%;
+                height: 100%;
+                overflow: vertical;
+                font-size: 1.5em;
+            }
 
-    textarea {
-        font-size:1.2em;
-    }
+            p {
+                margin-top: 2em;
+                font-size: 1.5em;
+            }
 
-    textarea::placeholder {
-        font-family: "PT Mono", monospace;
-        font-weight: 400;
-        color: #777;
-        font-size:1.2em;
-    }
+            .container {
+                width: 100%;
 
-    label {
-        font-size:1.5em;
-    }
+            }
 
-    div.outputlabel {
-        font-size:1.5em;
-    }
+            form {
+                width: 37em;
+            }
 
-    #warnings, #errors {
-        width:25em;
-        font-size: 1.5em;
-        padding:30px 45px;
-    }
+            div.output {
+                width: 25em;
+                height: 15em;
+                font-size: 1.5em;
+            }
 
-}
+            input[type=button] {
+                padding: 30px 45px;
+                font-size: 1.5em;
+
+            }
+
+            textarea {
+                font-size: 1.2em;
+            }
+
+            textarea::placeholder {
+                font-family: "PT Mono", monospace;
+                font-weight: 400;
+                color: #777;
+                font-size: 1.2em;
+            }
+
+            label {
+                font-size: 1.5em;
+            }
+
+            div.outputlabel {
+                font-size: 1.5em;
+            }
+
+            #warnings,
+            #errors {
+                width: 25em;
+                font-size: 1.5em;
+                padding: 30px 45px;
+            }
+
+            div.convertsyntax {
+                flex-flow: row;
+                align-items: flex-start;
+                justify-content: flex-start;
+                width: 100%;
+        }
+        div.checkboxgroup {
+            width: 100%;
+            flex-flow: row nowrap;
+            justify-content:flex-end;
+            margin: 1em 0;
+        }
+        input[type="radio"] {
+            font-size: 1.3em;
+        }
+
+
+        
+
+        }
     </style>
     <script type="module">
         import theme from '/static/shiki/themes/github-light.js';
@@ -243,23 +316,33 @@
         import { createHighlighterCore } from '/static/shiki/core.js';
         import { createOnigurumaEngine } from '/static/shiki/engine/oniguruma.js';
 
-        let outputText = 'Соединение = Новый HTTPСоединение("example.com", 80);\n'
-        + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n\n'
-        + 'HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);';
+        let defaultOutputs = { 
+            '1c':
+                'Соединение = Новый HTTPСоединение("example.com", 80);\n'
+                + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n\n'
+                + 'HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);',
+            'connector':
+                'Результат = КоннекторHTTP.Get("http://example.com");'
+        };
+
+        let outputText = "";
         let convertButton = document.getElementById("convert");
         let convertInput = document.getElementById("command");
 
-        function convert(command){
-            if(!isAllowedRequests()) return;
+        function convert() {
+            let command = getCommand();
+            let lang = getLang();
+
+            if (!isAllowedRequests()) return;
             hideErrors();
 
             let req = new XMLHttpRequest();
-            req.onload = function(){
+            req.onload = function () {
                 let output = document.getElementById("output");
                 let errors = [];
                 outputText = "";
 
-                if(this.status === 200){
+                if (this.status === 200) {
                     outputText = this.response.result;
                     errors = this.response.errors;
                 } else {
@@ -268,12 +351,12 @@
                         critical: true
                     });
                 }
-                
+
                 setOutput(outputText);
                 displayErros(errors);
                 enableRequests();
             };
-            req.onerror = function() {
+            req.onerror = function () {
                 displayErros([{
                     text: 'Не удалось выполнить запрос',
                     critical: true
@@ -281,36 +364,36 @@
                 enableRequests();
             };
             req.responseType = "json";
-            req.open("GET", "/convert?cmd=" + encodeURIComponent(command));
+            req.open("GET", "/convert?lang=" + lang + "&cmd=" + encodeURIComponent(command));
             req.send();
-            
+
             disableRequests();
         }
 
-        function setOutput(code){
+        function setOutput(code) {
             document.getElementById("output").innerHTML = highlighter.codeToHtml(code, {
                 lang: 'bsl',
                 theme: 'github-light'
             })
         }
 
-        function copyToClipboard(text){
+        function copyToClipboard(text) {
             navigator.clipboard.writeText(text);
         }
 
-        function hideErrors(){
-            displayErros([]); 
+        function hideErrors() {
+            displayErros([]);
         }
 
         function displayErros(errors) {
             let elementWarnings = document.getElementById("warnings");
             let elementErrors = document.getElementById("errors");
-            
+
             let textWarnings = "";
             let textErrors = "";
 
             errors.forEach((record) => {
-                if(record.critical){
+                if (record.critical) {
                     textErrors += record.text + '<br/>';
                 } else {
                     textWarnings += record.text + '<br/>';
@@ -319,42 +402,74 @@
 
             elementWarnings.innerHTML = textWarnings;
             elementWarnings.style.display = textWarnings.length > 0 ? 'block' : 'none';
-            
+
             elementErrors.innerHTML = textErrors;
             elementErrors.style.display = textErrors.length > 0 ? 'block' : 'none';
         }
 
-        function disableRequests(){
+        function disableRequests() {
             setRequestsPermission(false);
         }
 
-        function enableRequests(){
+        function enableRequests() {
             setRequestsPermission(true);
         }
 
-        function setRequestsPermission(isEnable){
+        function setRequestsPermission(isEnable) {
             convertButton.disable = !isEnable;
             convertInput.disabled = !isEnable;
         }
 
-        function isAllowedRequests(){
+        function isAllowedRequests() {
             return !convertButton.disable;
         }
 
-        convertButton.addEventListener("click", function (e) {
-            let formData = new FormData(document.forms.curl);       
+        function getCommand() {
+            let formData = new FormData(document.forms.curl);
             let command = formData.get("command");
-            convert(command);
+            return command;
+        }
+
+        function getLang() {
+            let radios = document.getElementsByName('lang');
+
+            for (let i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    return radios[i].value;
+                }
+            }
+
+            return '1c';
+        }
+
+        convertButton.addEventListener("click", function (e) {
+            convert();
         });
 
         document.getElementById("copy").addEventListener("click", function (e) {
             copyToClipboard(outputText);
         });
 
-        document.addEventListener("keyup", function (e){
-            if (e.keyCode == 13 && e.ctrlKey){
+        convertInput.addEventListener("input", function (e) {
+            if(!getCommand()) {
+                setOutput(defaultOutputs[getLang()]);
+            }
+        })
+
+        document.addEventListener("keyup", function (e) {
+            if (e.keyCode == 13 && e.ctrlKey) {
                 convertButton.click();
-            }  
+            }
+        });
+
+        document.getElementsByName("lang").forEach(function(e) {
+            e.addEventListener("change", function(e) {
+                if(getCommand()) {
+                    convert();
+                } else {
+                    setOutput(defaultOutputs[getLang()]);
+                }
+            });
         });
 
         const highlighter = await createHighlighterCore({
@@ -363,10 +478,11 @@
             engine: createOnigurumaEngine(import('/static/shiki/wasm.js'))
         });
 
-        setOutput(outputText);
+        setOutput(defaultOutputs[getLang()]);
         enableRequests();
     </script>
 </head>
+
 <body>
     <div class="container">
         <div class="logo">
@@ -377,8 +493,27 @@
         <div>
             <form name="curl">
                 <label for="command">Команда curl<sup><sup><sup>(bash)</sup></sup></sup></label>
-                <textarea name="command" id="command"  spellcheck="false" wrap="off" placeholder="curl example.com" required></textarea>
-                <input type="button" id="convert" value="Конвертировать" onmouseover="this.classList.add('hoveredbutton')" onmouseout="this.classList.remove('hoveredbutton')" ontouchstart="this.classList.add('hoveredbutton')" ontouchend="this.classList.remove('hoveredbutton')">
+                <textarea name="command" id="command" spellcheck="false" wrap="off" placeholder="curl example.com"
+                    required></textarea>
+                <div class="convertsyntax">
+                    <input type="button" id="convert" value="Конвертировать"
+                        onmouseover="this.classList.add('hoveredbutton')"
+                        onmouseout="this.classList.remove('hoveredbutton')"
+                        ontouchstart="this.classList.add('hoveredbutton')"
+                        ontouchend="this.classList.remove('hoveredbutton')">
+                    <div class="checkboxgroup" style="">
+                        <div class="singlecheckbox">
+                            <input type="radio" id="onec" name="lang" value="1c"
+                                checked="checked" />
+                            <label for="onec">1С</label>
+                        </div>
+                        <div class="singlecheckbox last">
+                            <input type="radio" id="connector" name="lang" value="connector" />
+                            <label for="connector">Connector</label>
+                        </div>
+                    </div>
+                </div>
+
             </form>
             <div id="errors" style="display: none;"></div>
         </div>
@@ -387,7 +522,10 @@
         <div>
             <div class="outputlabel">Код 1C</div>
             <div tabindex="0" id="output" class="output selectable"></div>
-            <input type="button" id="copy" value="Скопировать" onmouseover="this.classList.add('hoveredbutton')" onmouseout="this.classList.remove('hoveredbutton')" ontouchstart="this.classList.add('hoveredbutton')" ontouchend="this.classList.remove('hoveredbutton')">
+            <input type="button" id="copy" value="Скопировать" onmouseover="this.classList.add('hoveredbutton')"
+                onmouseout="this.classList.remove('hoveredbutton')" ontouchstart="this.classList.add('hoveredbutton')"
+                ontouchend="this.classList.remove('hoveredbutton')">
+
             <div id="warnings" style="display: none;"></div>
         </div>
     </div>
@@ -399,4 +537,5 @@
         </p>
     </div>
 </body>
+
 </html>
