@@ -322,7 +322,7 @@ input[type='radio']:checked {
         let convertButton = document.getElementById("convert");
         let convertInput = document.getElementById("command");
 
-        function convert(command) {
+        function convert(command, lang) {
             if (!isAllowedRequests()) return;
             hideErrors();
 
@@ -354,7 +354,7 @@ input[type='radio']:checked {
                 enableRequests();
             };
             req.responseType = "json";
-            req.open("GET", "/convert?cmd=" + encodeURIComponent(command));
+            req.open("GET", "/convert?lang=" + lang + "&cmd=" + encodeURIComponent(command));
             req.send();
 
             disableRequests();
@@ -414,10 +414,28 @@ input[type='radio']:checked {
             return !convertButton.disable;
         }
 
-        convertButton.addEventListener("click", function (e) {
+        function getCommand() {
             let formData = new FormData(document.forms.curl);
             let command = formData.get("command");
-            convert(command);
+            return command;
+        }
+
+        function getLang() {
+            let radios = document.getElementsByName('syntax');
+
+            for (let i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    return radios[i].value;
+                }
+            }
+
+            return '1c';
+        }
+
+        convertButton.addEventListener("click", function (e) {
+            let command = getCommand();
+            let lang = getLang();
+            convert(command, lang);
         });
 
         document.getElementById("copy").addEventListener("click", function (e) {
@@ -461,7 +479,7 @@ input[type='radio']:checked {
                         ontouchend="this.classList.remove('hoveredbutton')">
                     <div class="checkboxgroup" style="">
                         <div class="singlecheckbox">
-                            <input type="radio" id="onec" name="syntax" value="onec"
+                            <input type="radio" id="onec" name="syntax" value="1c"
                                 checked="checked" />
                             <label for="onec">1С</label>
                         </div>
