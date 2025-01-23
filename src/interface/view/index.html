@@ -377,6 +377,11 @@ input[type='radio']:checked {
             })
         }
 
+        function setDefaultOutput() {
+            hideErrors();
+            setOutput(defaultOutputs[getLang()]);         
+        }
+
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text);
         }
@@ -452,7 +457,7 @@ input[type='radio']:checked {
 
         convertInput.addEventListener("input", function (e) {
             if(!getCommand()) {
-                setOutput(defaultOutputs[getLang()]);
+                setDefaultOutput();
             }
         })
 
@@ -467,7 +472,7 @@ input[type='radio']:checked {
                 if(getCommand()) {
                     convert();
                 } else {
-                    setOutput(defaultOutputs[getLang()]);
+                    setDefaultOutput();
                 }
             });
         });
@@ -478,7 +483,7 @@ input[type='radio']:checked {
             engine: createOnigurumaEngine(import('/static/shiki/wasm.js'))
         });
 
-        setOutput(defaultOutputs[getLang()]);
+        setDefaultOutput();
         enableRequests();
     </script>
 </head>
