@@ -162,21 +162,6 @@ input[type='radio']:checked {
             margin: 0;
         }
 
-        .selectable {
-            -webkit-touch-callout: all;
-            /* iOS Safari */
-            -webkit-user-select: all;
-            /* Safari */
-            -khtml-user-select: all;
-            /* Konqueror HTML */
-            -moz-user-select: all;
-            /* Firefox */
-            -ms-user-select: all;
-            /* Internet Explorer/Edge */
-            user-select: all;
-            /* Chrome and Opera */
-        }
-
         #warnings,
         #errors {
             font-size: 1em;
@@ -526,7 +511,7 @@ input[type='radio']:checked {
     <div class="container">
         <div>
             <div class="outputlabel">Код 1C</div>
-            <div tabindex="0" id="output" class="output selectable"></div>
+            <div tabindex="0" id="output" class="output"></div>
             <input type="button" id="copy" value="Скопировать" onmouseover="this.classList.add('hoveredbutton')"
                 onmouseout="this.classList.remove('hoveredbutton')" ontouchstart="this.classList.add('hoveredbutton')"
                 ontouchend="this.classList.remove('hoveredbutton')">
