@@ -1,0 +1,97 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "curlone",
+    "description": "Конвертер команды curl в код на языке 1С",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/api/v1"
+    }
+  ],
+  "paths": {
+    "/convert": {
+      "get": {
+        "tags": [
+          "API"
+        ],
+        "summary": "Конвертирует команду curl в код на 1С",
+        "parameters": [
+          {
+            "name": "cmd",
+            "in": "query",
+            "description": "Команда curl",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "description": "Язык",
+            "required": false,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "default": "1c",
+              "enum": [
+                "1c",
+                "connector"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Result": {
+        "description": "Результат конвертации",
+        "type": "object",
+        "properties": {
+          "result": {
+            "description": "Код на 1С",
+            "type": "string"
+          },
+          "errors": {
+            "description": "Ошибки и предупреждения",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Error": {
+        "description": "Описание ошибки",
+        "type": "object",
+        "properties": {
+          "text": {
+            "description": "Текст ошибки",
+            "type": "string"
+          },
+          "critical": {
+            "description": "Ошибка критичная",
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}
