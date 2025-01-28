@@ -349,7 +349,7 @@ input[type='radio']:checked {
                 enableRequests();
             };
             req.responseType = "json";
-            req.open("GET", "/convert?lang=" + lang + "&cmd=" + encodeURIComponent(command));
+            req.open("GET", "/api/v1/convert?lang=" + lang + "&cmd=" + encodeURIComponent(command));
             req.send();
 
             disableRequests();
