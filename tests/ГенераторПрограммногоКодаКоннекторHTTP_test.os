@@ -1056,7 +1056,8 @@
 	|curl http://example13.com/ -F ""json=@data.json;headers=\""X-header: value\""""
 	|curl http://example14.com/ -F ""json=@data.json;headers=\""X-header-1: some value 1\"";headers=\""X-header-2: some value 2\""""
 	|curl http://example15.com/ --form-string name=data
-	|curl http://example16.com/ --form-string name=@data;type=some";
+	|curl http://example16.com/ --form-string name=@data;type=some
+	|curl http://example17.com/ -F name=John= -F brief=doctor=111;type=text/foo";
 
 	ПрограммныйКод = "//////////////////////////////////////////////
 	|// Команда #1.
@@ -1275,7 +1276,16 @@
 	|Данные = Новый Соответствие();
 	|Данные.Вставить(""name"", ""@data;type=some"");
 	|
-	|Результат = КоннекторHTTP.Post(""http://example16.com"", Данные);";
+	|Результат = КоннекторHTTP.Post(""http://example16.com"", Данные);
+	|
+	|//////////////////////////////////////////////
+	|// Команда #17.
+	|
+	|Данные = Новый Соответствие();
+	|Данные.Вставить(""name"", ""John="");
+	|Данные.Вставить(""brief"", ""doctor=111"");
+	|
+	|Результат = КоннекторHTTP.Post(""http://example17.com"", Данные);";
 
 	ПроверитьКонвертациюБезОшибок(КонсольнаяКоманда, ПрограммныйКод);
 	
