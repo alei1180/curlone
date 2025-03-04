@@ -130,8 +130,8 @@
             margin-right:8px;
         }
 
-input[type='radio']:checked {
-  background: #000000;
+        input[type='radio']:checked {
+            background: #000000;
         }
 
         .container div {
@@ -216,7 +216,38 @@ input[type='radio']:checked {
 
         }
 
+        div.outputHeader {
+            flex-flow: row;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        div.langSwitches {
+            flex-flow: row nowrap;
+            margin-bottom: -1px;
+        }
         
+        button {
+            display: inline;
+            font-family: 'PT Mono', monospace;
+            font-weight: 400;
+            font-size: 1em;
+            border:1px solid black;
+            background-color: #fff;
+        }
+        .btnBlack {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .langRu {
+            margin-right:-1px;
+            border-radius: 3px 0 0 0;
+        }
+
+        .langEn {
+            border-radius: 0 3px 0 0;
+        }
 
         @media only screen and (320px <=device-width <=430px) and (-webkit-device-pixel-ratio : 2) {
 
@@ -294,11 +325,15 @@ input[type='radio']:checked {
         input[type="radio"] {
             font-size: 1.3em;
         }
-
+        button {
+            font-size: 1.5em;
+            padding: 5px 20px;
+        }
 
         
 
         }
+
     </style>
     <script type="module">
         import theme from '/static/shiki/themes/github-light.js';
@@ -318,6 +353,7 @@ input[type='radio']:checked {
         let outputText = "";
         let convertButton = document.getElementById("convert");
         let convertInput = document.getElementById("command");
+
 
         function convert() {
             let command = getCommand();
@@ -477,25 +513,22 @@ input[type='radio']:checked {
         enableRequests();
     </script>
 </head>
-
 <body>
     <div class="container">
         <div class="logo">
             <img src="images/curlone-logo.png" alt="curlone" height="200px" />
         </div>
     </div>
-    <div class="container" style="margin-bottom:30px;">
+    <div class="container" style="margin-bottom:30px;">ё
         <div>
             <form name="curl">
                 <label for="command">Команда curl<sup><sup><sup>(bash)</sup></sup></sup></label>
                 <textarea name="command" id="command" spellcheck="false" wrap="off" placeholder="curl example.com"
                     required></textarea>
                 <div class="convertsyntax">
-                    <input type="button" id="convert" value="Конвертировать"
-                        onmouseover="this.classList.add('hoveredbutton')"
-                        onmouseout="this.classList.remove('hoveredbutton')"
-                        ontouchstart="this.classList.add('hoveredbutton')"
-                        ontouchend="this.classList.remove('hoveredbutton')">
+                    <input type="button" id="convert" value="Конвертировать" onmouseover="this.classList.add('hoveredbutton')" 
+                            onmouseout="this.classList.remove('hoveredbutton')" ontouchstart="this.classList.add('hoveredbutton')"
+                            ontouchend="this.classList.remove('hoveredbutton')">
                     <div class="checkboxgroup" style="">
                         <div class="singlecheckbox">
                             <input type="radio" id="onec" name="lang" value="1c"
@@ -515,7 +548,13 @@ input[type='radio']:checked {
     </div>
     <div class="container">
         <div>
-            <div class="outputlabel">Код 1C</div>
+            <div class="outputHeader">
+                <div class="outputlabel">Код 1C</div>
+                <div class="langSwitches">
+                    <button name="RuLang" type="button" class="langRu" id="btnLangRu" onclick="changeBtnBgColor(this)">ru</button>
+                    <button name="EnLang" type="button" class="langEn" id="btnLangEn" onclick="changeBtnBgColor(this)">en</button>
+                </div>
+            </div>
             <div tabindex="0" id="output" class="output"></div>
             <input type="button" id="copy" value="Скопировать" onmouseover="this.classList.add('hoveredbutton')"
                 onmouseout="this.classList.remove('hoveredbutton')" ontouchstart="this.classList.add('hoveredbutton')"
@@ -531,6 +570,27 @@ input[type='radio']:checked {
             <a href="https://github.com/autumn-library/winow" target="_blank">Winow</a>
         </p>
     </div>
+
+<script>
+
+    let elBtnLangRu = document.getElementById("btnLangRu");
+    let elBtnLangEn = document.getElementById("btnLangEn");
+
+    function changeBtnBgColor(e) {
+        if (e == elBtnLangRu) {
+            e.classList.add("btnBlack");
+            elBtnLangEn.classList.remove("btnBlack");
+        } else if (e == elBtnLangEn) {
+            e.classList.add("btnBlack");
+            elBtnLangRu.classList.remove("btnBlack");
+        }
+        
+    }
+
+    changeBtnBgColor(elBtnLangRu);
+
+</script>
+    
 </body>
 
 </html>
