@@ -359,7 +359,7 @@
             let command = getCommand();
             let lang = getLang();
 
-            if (!isAllowedRequests()) return;
+            if (!isRequestAllowed()) return;
             hideErrors();
 
             let req = new XMLHttpRequest();
@@ -451,7 +451,7 @@
             convertInput.disabled = !isEnable;
         }
 
-        function isAllowedRequests() {
+        function isRequestAllowed() {
             return !convertButton.disable;
         }
 
