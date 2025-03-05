@@ -168,6 +168,7 @@ curlone convert <команда>
 * [asserts](https://github.com/oscript-library/asserts)
 * [coverage](https://github.com/oscript-library/coverage)
 * [coloratos](https://github.com/240596448/coloratos)
+* [i18n](https://github.com/Stivo182/oscript-i18n)
 * [Shiki 式](https://github.com/shikijs/shiki)
 
 <a href="https://infostart.ru/public/2319069/" target="_blank"><img alt="Статья на Инфостарт" src="https://infostart.ru/bitrix/templates/sandbox_empty/assets/tpl/abo/img/logo.svg"></a>

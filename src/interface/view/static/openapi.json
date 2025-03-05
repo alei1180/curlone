@@ -3,7 +3,7 @@
   "info": {
     "title": "curlone",
     "description": "Конвертер команды curl в код на языке 1С",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "servers": [
     {
@@ -31,7 +31,7 @@
           {
             "name": "lang",
             "in": "query",
-            "description": "Язык",
+            "description": "Язык / библиотека",
             "required": false,
             "explode": true,
             "schema": {
@@ -40,6 +40,21 @@
               "enum": [
                 "1c",
                 "connector"
+              ]
+            }
+          },
+          {
+            "name": "locale",
+            "in": "query",
+            "description": "Язык перевода",
+            "required": false,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "default": "ru",
+              "enum": [
+                "ru",
+                "en"
               ]
             }
           }

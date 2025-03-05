@@ -130,8 +130,8 @@
             margin-right:8px;
         }
 
-input[type='radio']:checked {
-  background: #000000;
+        input[type='radio']:checked {
+            background: #000000;
         }
 
         .container div {
@@ -216,7 +216,38 @@ input[type='radio']:checked {
 
         }
 
+        div.outputHeader {
+            flex-flow: row;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        div.langSwitches {
+            flex-flow: row nowrap;
+            margin-bottom: -1px;
+        }
         
+        button {
+            display: inline;
+            font-family: 'PT Mono', monospace;
+            font-weight: 400;
+            font-size: 1em;
+            border:1px solid black;
+            background-color: #fff;
+        }
+        .btnBlack {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .langRu {
+            margin-right:-1px;
+            border-radius: 3px 0 0 0;
+        }
+
+        .langEn {
+            border-radius: 0 3px 0 0;
+        }
 
         @media only screen and (320px <=device-width <=430px) and (-webkit-device-pixel-ratio : 2) {
 
@@ -294,11 +325,15 @@ input[type='radio']:checked {
         input[type="radio"] {
             font-size: 1.3em;
         }
-
+        button {
+            font-size: 1.5em;
+            padding: 5px 20px;
+        }
 
         
 
         }
+
     </style>
     <script type="module">
         import theme from '/static/shiki/themes/github-light.js';
@@ -307,23 +342,35 @@ input[type='radio']:checked {
         import { createOnigurumaEngine } from '/static/shiki/engine/oniguruma.js';
 
         let defaultOutputs = { 
-            '1c':
-                'Соединение = Новый HTTPСоединение("example.com", 80);\n'
-                + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n\n'
-                + 'HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);',
-            'connector':
-                'Результат = КоннекторHTTP.Get("http://example.com");'
+            '1c': {
+                'ru': 
+                    'Соединение = Новый HTTPСоединение("example.com", 80);\n'
+                    + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n\n'
+                    + 'HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);',
+                'en': 
+                    'Connection = New HTTPConnection("example.com", 80);\n'
+                    + 'HTTPRequest = New HTTPRequest("/");\n\n'
+                    + 'HTTPResponse = Connection.CallHTTPMethod("GET", HTTPRequest);'
+            },
+            'connector': {
+                'ru': 'Результат = КоннекторHTTP.Get("http://example.com");',
+                'en': 'Result = HTTPConnector.Get("http://example.com");'
+            }
         };
 
         let outputText = "";
         let convertButton = document.getElementById("convert");
         let convertInput = document.getElementById("command");
 
+
         function convert() {
             let command = getCommand();
             let lang = getLang();
+            let locale = getLocale();
 
-            if (!isAllowedRequests()) return;
+            if (!isRequestAllowed()) 
+                return;
+
             hideErrors();
 
             let req = new XMLHttpRequest();
@@ -344,20 +391,25 @@ input[type='radio']:checked {
 
                 setOutput(outputText);
                 displayErros(errors);
-                enableRequests();
+                allowRequests();
             };
+
             req.onerror = function () {
                 displayErros([{
                     text: 'Не удалось выполнить запрос',
                     critical: true
                 }]);
-                enableRequests();
+
+                allowRequests();
             };
+
             req.responseType = "json";
-            req.open("GET", "/api/v1/convert?lang=" + lang + "&cmd=" + encodeURIComponent(command));
+            req.open("GET", "/api/v1/convert?lang=" + lang 
+                + "&locale=" + encodeURIComponent(locale)
+                + "&cmd=" + encodeURIComponent(command));
             req.send();
 
-            disableRequests();
+            denyRequests();
         }
 
         function setOutput(code) {
@@ -369,7 +421,7 @@ input[type='radio']:checked {
 
         function setDefaultOutput() {
             hideErrors();
-            setOutput(defaultOutputs[getLang()]);         
+            setOutput(defaultOutputs[getLang()][getLocale()]);         
         }
 
         function copyToClipboard(text) {
@@ -402,20 +454,20 @@ input[type='radio']:checked {
             elementErrors.style.display = textErrors.length > 0 ? 'block' : 'none';
         }
 
-        function disableRequests() {
+        function denyRequests() {
             setRequestsPermission(false);
         }
 
-        function enableRequests() {
+        function allowRequests() {
             setRequestsPermission(true);
         }
 
-        function setRequestsPermission(isEnable) {
-            convertButton.disable = !isEnable;
-            convertInput.disabled = !isEnable;
+        function setRequestsPermission(isAllowed) {
+            convertButton.disable = !isAllowed;
+            convertInput.disabled = !isAllowed;
         }
 
-        function isAllowedRequests() {
+        function isRequestAllowed() {
             return !convertButton.disable;
         }
 
@@ -435,6 +487,32 @@ input[type='radio']:checked {
             }
 
             return '1c';
+        }
+
+        function setLocale(locale) {
+            let className = 'btnBlack';
+
+            document.getElementsByName("locale").forEach(function(e) {
+                if (e.classList.contains(className)){
+                    e.classList.remove(className);
+                }
+
+                if (e.innerText == locale) {
+                    e.classList.add(className);
+                }
+            });          
+        }
+
+        function getLocale() {
+            let locale = 'ru';
+
+            document.getElementsByName("locale").forEach(function(e) {
+                if (e.classList.contains('btnBlack')){
+                    locale = e.innerText;
+                }                
+            });
+
+            return locale;
         }
 
         convertButton.addEventListener("click", function (e) {
@@ -467,17 +545,29 @@ input[type='radio']:checked {
             });
         });
 
+        document.getElementsByName("locale").forEach(function(e) {
+            e.addEventListener("click", function(e) {
+                setLocale(e.target.innerText);
+
+                if(getCommand()) {
+                    convert();
+                } else {
+                    setDefaultOutput();
+                }
+            });
+        }); 
+
         const highlighter = await createHighlighterCore({
             themes: [theme],
             langs: [lang],
             engine: createOnigurumaEngine(import('/static/shiki/wasm.js'))
         });
 
+        setLocale('ru');
         setDefaultOutput();
-        enableRequests();
+        allowRequests();
     </script>
 </head>
-
 <body>
     <div class="container">
         <div class="logo">
@@ -491,11 +581,9 @@ input[type='radio']:checked {
                 <textarea name="command" id="command" spellcheck="false" wrap="off" placeholder="curl example.com"
                     required></textarea>
                 <div class="convertsyntax">
-                    <input type="button" id="convert" value="Конвертировать"
-                        onmouseover="this.classList.add('hoveredbutton')"
-                        onmouseout="this.classList.remove('hoveredbutton')"
-                        ontouchstart="this.classList.add('hoveredbutton')"
-                        ontouchend="this.classList.remove('hoveredbutton')">
+                    <input type="button" id="convert" value="Конвертировать" onmouseover="this.classList.add('hoveredbutton')" 
+                            onmouseout="this.classList.remove('hoveredbutton')" ontouchstart="this.classList.add('hoveredbutton')"
+                            ontouchend="this.classList.remove('hoveredbutton')">
                     <div class="checkboxgroup" style="">
                         <div class="singlecheckbox">
                             <input type="radio" id="onec" name="lang" value="1c"
@@ -515,7 +603,13 @@ input[type='radio']:checked {
     </div>
     <div class="container">
         <div>
-            <div class="outputlabel">Код 1C</div>
+            <div class="outputHeader">
+                <div class="outputlabel">Код 1C</div>
+                <div class="langSwitches">
+                    <button name="locale" type="button" class="langRu">ru</button>
+                    <button name="locale" type="button" class="langEn">en</button>
+                </div>
+            </div>
             <div tabindex="0" id="output" class="output"></div>
             <input type="button" id="copy" value="Скопировать" onmouseover="this.classList.add('hoveredbutton')"
                 onmouseout="this.classList.remove('hoveredbutton')" ontouchstart="this.classList.add('hoveredbutton')"
@@ -531,6 +625,7 @@ input[type='radio']:checked {
             <a href="https://github.com/autumn-library/winow" target="_blank">Winow</a>
         </p>
     </div>
+    
 </body>
 
 </html>
