@@ -179,18 +179,28 @@
 &Тест
 Процедура ТестДолжен_ПроверитьПередачуТекстовыхДанныхИФайлов() Экспорт
 
-	КонсольнаяКоманда = "curl http://example.com \
+	КонсольнаяКоманда = "
+	|curl http://example1.com \
 	|	-d param1=value1 \
 	|	--data-ascii 'param2=value2' \
 	|	--data 'param3=value3' \
 	|	--data 'param5=value5&param6=value6' \
+	|	--data ""line1
+	|line2"" \
 	|	--data @path-to-file1 \
 	|	--data @path-to-file2 \
 	|	--data-raw '@at@at@' \
 	|	--data-binary @path-to-file3 \
-	|	--data-binary 'param4=value4'";
+	|	--data-binary 'param4=value4'
+	|
+	|curl http://example2.com --data ""{
+	|	\""key\"": \""value\""
+	|}""";
 
-	ПрограммныйКод = "ЧтениеТекста = Новый ЧтениеТекста(""path-to-file1"");
+	ПрограммныйКод = "//////////////////////////////////////////////
+	|// Команда #1.
+	|
+	|ЧтениеТекста = Новый ЧтениеТекста(""path-to-file1"");
 	|ТекстовыеДанныеФайла_1 = ЧтениеТекста.Прочитать();
 	|ТекстовыеДанныеФайла_1 = СтрЗаменить(ТекстовыеДанныеФайла_1, Символы.ПС, """");
 	|ТекстовыеДанныеФайла_1 = СтрЗаменить(ТекстовыеДанныеФайла_1, Символы.ВК, """");
@@ -203,12 +213,22 @@
 	|ЧтениеТекста = Новый ЧтениеТекста(""path-to-file3"");
 	|ТекстовыеДанныеФайла_3 = ЧтениеТекста.Прочитать();
 	|
-	|Данные = ""param1=value1&param2=value2&param3=value3&param5=value5&param6=value6&@at@at@&param4=value4""
+	|Данные = ""param1=value1&param2=value2&param3=value3&param5=value5&param6=value6&line1
+	||line2&@at@at@&param4=value4""
 	|	+ ""&"" + ТекстовыеДанныеФайла_1
 	|	+ ""&"" + ТекстовыеДанныеФайла_2
 	|	+ ""&"" + ТекстовыеДанныеФайла_3;
 	|
-	|Результат = КоннекторHTTP.Post(""http://example.com"", Данные);";
+	|Результат = КоннекторHTTP.Post(""http://example1.com"", Данные);
+	|
+	|//////////////////////////////////////////////
+	|// Команда #2.
+	|
+	|Данные = ""{
+	||	""""key"""": """"value""""
+	||}"";
+	|
+	|Результат = КоннекторHTTP.Post(""http://example2.com"", Данные);";
 
 	ПроверитьКонвертациюБезОшибок(КонсольнаяКоманда, ПрограммныйКод);
 	
@@ -1074,7 +1094,14 @@
 	|curl http://example15.com/ --form-string name=data
 	|curl http://example16.com/ --form-string name=@data;type=some
 	|curl http://example17.com/ -F name=John= -F brief=doctor=111;type=text/foo
-	|curl http://example18.com/ -F profile=@portrait.jpg;type=text/html,@file1.pdf,@file2.pdf;type=text/xml";
+	|curl http://example18.com/ -F profile=@portrait.jpg;type=text/html,@file1.pdf,@file2.pdf;type=text/xml
+	|
+	|curl http://example19.com/ \
+	|-F multiline1=""line1
+	|\""line2\""
+	|'line3'"" \
+	|-F 'multiline2=line1
+	|line2'";
 
 	ПрограммныйКод = "//////////////////////////////////////////////
 	|// Команда #1.
@@ -1331,7 +1358,19 @@
 	|ДополнительныеПараметры = Новый Структура();
 	|ДополнительныеПараметры.Вставить(""Файлы"", Файлы);
 	|
-	|Результат = КоннекторHTTP.Post(""http://example18.com"", , ДополнительныеПараметры);";
+	|Результат = КоннекторHTTP.Post(""http://example18.com"", , ДополнительныеПараметры);
+	|
+	|//////////////////////////////////////////////
+	|// Команда #19.
+	|
+	|Данные = Новый Соответствие();
+	|Данные.Вставить(""multiline1"", ""line1
+	||""""line2""""
+	||'line3'"");
+	|Данные.Вставить(""multiline2"", ""line1
+	||line2"");
+	|
+	|Результат = КоннекторHTTP.Post(""http://example19.com"", Данные);";
 
 	ПроверитьКонвертациюБезОшибок(КонсольнаяКоманда, ПрограммныйКод);
 	
