@@ -3,7 +3,7 @@
   "info": {
     "title": "curlone",
     "description": "Конвертер команды curl в код на языке 1С",
-    "version": "1.1.0"
+    "version": "1.2.0"
   },
   "servers": [
     {
