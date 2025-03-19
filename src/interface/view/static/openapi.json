@@ -57,6 +57,16 @@
                 "en"
               ]
             }
+          },
+          {
+            "name": "json",
+            "in": "query",
+            "description": "Десериализовать ответ из JSON (для connector)",
+            "required": false,
+            "explode": true,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
