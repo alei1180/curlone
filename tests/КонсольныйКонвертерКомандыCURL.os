@@ -1,3 +1,5 @@
+// BSLLS:LatinAndCyrillicSymbolInWord-off
+
 #Использовать asserts
 #Использовать coloratos
 #Использовать "../src/cli"

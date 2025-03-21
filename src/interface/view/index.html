@@ -402,10 +402,10 @@
 
     </style>
     <script type="module">
-        import theme from '/static/shiki/themes/github-light.js';
-        import lang from '/static/shiki/langs/bsl.js';
-        import { createHighlighterCore } from '/static/shiki/core.js';
-        import { createOnigurumaEngine } from '/static/shiki/engine/oniguruma.js';
+        import theme from './static/shiki/themes/github-light.js';
+        import lang from './static/shiki/langs/bsl.js';
+        import { createHighlighterCore } from './static/shiki/core.js';
+        import { createOnigurumaEngine } from './static/shiki/engine/oniguruma.js';
 
         let defaultOutputs = { 
             '1c': {
@@ -442,7 +442,6 @@
 
             let req = new XMLHttpRequest();
             req.onload = function () {
-                let output = document.getElementById("output");
                 let errors = [];
                 outputText = "";
 
@@ -548,9 +547,9 @@
         function getLang() {
             let radios = document.getElementsByName('lang');
 
-            for (let i = 0; i < radios.length; i++) {
-                if (radios[i].checked) {
-                    return radios[i].value;
+            for (let radio of radios) {
+                if (radio.checked) {
+                    return radio.value;
                 }
             }
 
@@ -640,7 +639,7 @@
         const highlighter = await createHighlighterCore({
             themes: [theme],
             langs: [lang],
-            engine: createOnigurumaEngine(import('/static/shiki/wasm.js'))
+            engine: createOnigurumaEngine(import('./static/shiki/wasm.js'))
         });
 
         setLocale('ru');
