@@ -1,0 +1,9 @@
+{
+    "diagnostics": {
+        "parameters": {
+            "IncorrectLineBreak": {
+                "listOfIncorrectFirstSymbol": ";|,\\s*\\S+"
+            }
+        }
+    }
+}
