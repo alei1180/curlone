@@ -33,8 +33,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
 
-       
-
         body {
             display: flex;
             flex-flow: column;
@@ -127,10 +125,20 @@
             accent-color: #000;
             height: 1.5em;
             width: 1.5em;
-            margin-right:8px;
+            margin-right: 8px;
         }
 
         input[type='radio']:checked {
+            background: #000000;
+        }
+
+        input[type="checkbox"] {
+            accent-color: #000;
+            height: 1.2em;
+            width: 1.2em;
+        }
+
+        input[type='checkbox']:checked {
             background: #000000;
         }
 
@@ -190,6 +198,7 @@
             border-color: #ffebe9;
             background-color: #ffebe9;
         }
+        
         div.checkboxgroup {
             display: flex;
             flex-flow: row;  
@@ -202,7 +211,6 @@
             margin-right: 2em;
         }
 
-
         .checkboxgroup div.singlecheckbox.last {
             margin-right: 0;
         }
@@ -213,13 +221,33 @@
             align-items: center;
             justify-content: space-between;
             width: 100%;
-
         }
 
         div.outputHeader {
             flex-flow: row;
-            justify-content: space-between;
             width: 100%;
+            align-items: end;
+        }
+
+        div.outputlabel {
+            margin-right: auto !important;
+        }
+
+        div.json-option-group {
+            flex-flow: row nowrap;
+            margin-right: 15px;
+        }
+
+        .json-option-group input[type="checkbox"] {
+            margin: 0 3px 0px 0px;
+        }
+        
+        .json-option-group .tooltip {
+            margin-left: 2px;
+        }
+         
+        .json-option-group .tooltip span:first-child {
+            font-size: 0.6em;
         }
 
         div.langSwitches {
@@ -236,6 +264,7 @@
             background-color: #fff;
             color: #000;
         }
+
         .btnBlack {
             background-color: #000;
             color: #fff;
@@ -248,6 +277,31 @@
 
         .langEn {
             border-radius: 0 3px 0 0;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            font-size: 0.9em;
+            color: #fff;
+            text-align: center;
+            background-color: black;
+            border-radius: 6px;
+            padding: 5px;
+            margin-left: -60px;
+            bottom: 100%;
+            right: 105%;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
         }
 
         @media only screen and (320px <=device-width <=430px) and (-webkit-device-pixel-ratio : 2) {
@@ -266,7 +320,6 @@
 
             .container {
                 width: 100%;
-
             }
 
             form {
@@ -282,7 +335,6 @@
             input[type=button] {
                 padding: 30px 45px;
                 font-size: 1.5em;
-
             }
 
             textarea {
@@ -316,22 +368,35 @@
                 align-items: flex-start;
                 justify-content: flex-start;
                 width: 100%;
-        }
-        div.checkboxgroup {
-            width: 100%;
-            flex-flow: row nowrap;
-            justify-content:flex-end;
-            margin: 1em 0;
-        }
-        input[type="radio"] {
-            font-size: 1.3em;
-        }
-        button {
-            font-size: 1.5em;
-            padding: 5px 20px;
-        }
+            }
 
-        
+            div.checkboxgroup {
+                width: 100%;
+                flex-flow: row nowrap;
+                justify-content:flex-end;
+                margin: 1em 0;
+            }
+
+            input[type="radio"] {
+                font-size: 1.3em;
+            }
+
+            input[type="checkbox"] {
+                font-size: 1.2em;
+            }
+
+            button {
+                font-size: 1.5em;
+                padding: 5px 20px;
+            }
+
+            .tooltip .tooltiptext {
+                font-size: 1.2em;
+            }
+
+            .json-option-group .tooltip span:first-child {
+                font-size: 0.8em;
+            }
 
         }
 
@@ -362,6 +427,7 @@
         let outputText = "";
         let convertButton = document.getElementById("convert");
         let convertInput = document.getElementById("command");
+        let jsonCheckbox = document.getElementById("json-option");
 
 
         function convert() {
@@ -407,7 +473,8 @@
             req.responseType = "json";
             req.open("GET", "/api/v1/convert?lang=" + lang 
                 + "&locale=" + encodeURIComponent(locale)
-                + "&cmd=" + encodeURIComponent(command));
+                + "&cmd=" + encodeURIComponent(command)
+                + "&response-type=" + getExpectedResponseType());
             req.send();
 
             denyRequests();
@@ -516,6 +583,10 @@
             return locale;
         }
 
+        function getExpectedResponseType() {
+            return jsonCheckbox.checked ? 'json' : '';
+        }
+
         convertButton.addEventListener("click", function (e) {
             convert();
         });
@@ -558,6 +629,14 @@
             });
         }); 
 
+        jsonCheckbox.addEventListener("change", function (e) {
+            if(getCommand()) {
+                convert();
+            } else {
+                setDefaultOutput();
+            }
+        })
+
         const highlighter = await createHighlighterCore({
             themes: [theme],
             langs: [lang],
@@ -585,7 +664,7 @@
                     <input type="button" id="convert" value="Конвертировать" onmouseover="this.classList.add('hoveredbutton')" 
                             onmouseout="this.classList.remove('hoveredbutton')" ontouchstart="this.classList.add('hoveredbutton')"
                             ontouchend="this.classList.remove('hoveredbutton')">
-                    <div class="checkboxgroup" style="">
+                    <div class="checkboxgroup">
                         <div class="singlecheckbox">
                             <input type="radio" id="onec" name="lang" value="1c"
                                 checked="checked" />
@@ -606,6 +685,11 @@
         <div>
             <div class="outputHeader">
                 <div class="outputlabel">Код 1C</div>
+                <div class="json-option-group">
+                    <input type="checkbox" id="json-option" />
+                    <label for="json-option">JSON</label>
+                    <div class="tooltip"><span>(?)</span> <span class="tooltiptext">Дессериализовать ответ HTTP запроса из JSON</span></div>
+                </div>
                 <div class="langSwitches">
                     <button name="locale" type="button" class="langRu">ru</button>
                     <button name="locale" type="button" class="langEn">en</button>
