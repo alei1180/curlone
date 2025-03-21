@@ -59,13 +59,16 @@
             }
           },
           {
-            "name": "json",
+            "name": "response-type",
             "in": "query",
-            "description": "Десериализовать ответ из JSON (для connector)",
+            "description": "Ожидаемый тип ответа на запрос команды curl",
             "required": false,
             "explode": true,
             "schema": {
-              "type": "boolean"
+              "type": "string",
+              "enum": [
+                "json"
+              ]
             }
           }
         ],
