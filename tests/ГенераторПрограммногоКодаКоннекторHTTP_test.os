@@ -1,3 +1,5 @@
+// BSLLS:LatinAndCyrillicSymbolInWord-off
+
 #Использовать asserts
 #Использовать "../src/core"
 
@@ -996,7 +998,7 @@
 КонецПроцедуры
 
 &Тест
-Процедура ТестДолжен_ПроверитьОтсутстивиеЗамещенияUserAgent() Экспорт
+Процедура ТестДолжен_ПроверитьОтсутствиеЗамещенияUserAgent() Экспорт
 
 	КонсольнаяКоманда = "curl http://example.com/ -H 'User-Agent: Agent 007' -A 'Agent 001'";
 
