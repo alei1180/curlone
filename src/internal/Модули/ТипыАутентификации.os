@@ -1,3 +1,5 @@
+// BSLLS:ExportVariables-off
+
 Перем Basic Экспорт;
 Перем Digest Экспорт;
 Перем NTLM Экспорт;

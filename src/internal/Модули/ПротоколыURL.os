@@ -1,3 +1,5 @@
+// BSLLS:ExportVariables-off
+
 Перем HTTP Экспорт;
 Перем HTTPS Экспорт;
 Перем FTP Экспорт;
