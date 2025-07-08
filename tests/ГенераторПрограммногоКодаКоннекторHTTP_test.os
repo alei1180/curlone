@@ -1156,9 +1156,9 @@
 	|curl http://example13.com/ -F ""json=@data.json;headers=\""X-header: value\""""
 	|curl http://example14.com/ -F ""json=@data.json;headers=\""X-header-1: some value 1\"";headers=\""X-header-2: some value 2\""""
 	|curl http://example15.com/ --form-string name=data
-	|curl http://example16.com/ --form-string name=@data;type=some
-	|curl http://example17.com/ -F name=John= -F brief=doctor=111;type=text/foo
-	|curl http://example18.com/ -F profile=@portrait.jpg;type=text/html,@file1.pdf,@file2.pdf;type=text/xml
+	|curl http://example16.com/ --form-string 'name=@data;type=some'
+	|curl http://example17.com/ -F name=John= -F 'brief=doctor=111;type=text/foo'
+	|curl http://example18.com/ -F 'profile=@portrait.jpg;type=text/html,@file1.pdf,@file2.pdf;type=text/xml'
 	|
 	|curl http://example19.com/ \
 	|-F multiline1=""line1
@@ -1481,6 +1481,72 @@
 	
 КонецПроцедуры
 
+&Тест
+Процедура ТестДолжен_ПроверитьПеременные() Экспорт
+
+	ТестовыеДанные = Новый Соответствие();
+
+	ТестовыеДанные.Вставить(
+		"curl http://example.com -u usr:$PASSWORD",
+		"PASSWORD = """";
+		|
+		|Аутентификация = Новый Структура(""Пользователь, Пароль"", ""usr"", PASSWORD);
+		|
+		|ДополнительныеПараметры = Новый Структура();
+		|ДополнительныеПараметры.Вставить(""Аутентификация"", Аутентификация);
+		|
+		|Результат = КоннекторHTTP.Get(""http://example.com"", , ДополнительныеПараметры);"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl http://example.com -H ""PRIVATE-TOKEN: $TOKEN""",
+		"TOKEN = """";
+		|
+		|Заголовки = Новый Соответствие();
+		|Заголовки.Вставить(""PRIVATE-TOKEN"", TOKEN);
+		|
+		|ДополнительныеПараметры = Новый Структура();
+		|ДополнительныеПараметры.Вставить(""Заголовки"", Заголовки);
+		|
+		|Результат = КоннекторHTTP.Get(""http://example.com"", , ДополнительныеПараметры);"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl http://example.com?search=$QUERY1$QUERY2",
+		"QUERY1 = """";
+		|QUERY2 = """";
+		|
+		|Результат = КоннекторHTTP.Get(""http://example.com?search="" + QUERY1 + QUERY2);"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl http://example.com -d name=$NAME -d surname=$SURNAME",
+		"NAME = """";
+		|SURNAME = """";
+		|
+		|Данные = Новый Соответствие();
+		|Данные.Вставить(""name"", NAME);
+		|Данные.Вставить(""surname"", SURNAME);
+		|
+		|Результат = КоннекторHTTP.Post(""http://example.com"", Данные);"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl http://$HOST/$PATH?$QUERY#$FRAGMENT",
+		"HOST = """";
+		|PATH = """";
+		|QUERY = """";
+		|FRAGMENT = """";
+		|
+		|Результат = КоннекторHTTP.Get(""http://"" + HOST + ""/"" + PATH + ""?"" + QUERY + ""#"" + FRAGMENT);"
+	);
+
+	Для Каждого Строка Из ТестовыеДанные Цикл
+		ПроверитьКонвертациюБезОшибок(Строка.Ключ, Строка.Значение);
+	КонецЦикла;
+
+КонецПроцедуры
+
 Процедура ПроверитьКонвертациюБезОшибок(КонсольнаяКоманда, ПрограммныйКод, Генератор = Неопределено)
 
 	Если Генератор = Неопределено Тогда
@@ -1490,10 +1556,11 @@
 	// Результат конвертации
 	Ошибки = Неопределено;
 
+	КонвертерКомандыCURL.УстановитьЯзыкПеревода("ru");
 	Результат = КонвертерКомандыCURL.Конвертировать(КонсольнаяКоманда, Генератор, Ошибки);
 
-	Ожидаем.Что(Результат).Равно(ПрограммныйКод);
-	Ожидаем.Что(Ошибки).Не_().Заполнено();
+	Ожидаем.Что(Результат, КонсольнаяКоманда).Равно(ПрограммныйКод);
+	Ожидаем.Что(Ошибки, КонсольнаяКоманда).Не_().Заполнено();
 
 	// Перевод
 	КонвертерКомандыCURL.УстановитьЯзыкПеревода("en");
