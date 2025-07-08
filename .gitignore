@@ -1,6 +1,11 @@
-**/.DS_Store
-.vscode/*
-coverage/*
-out/*
-oscript_modules/*
+# OneScript
+out/
+oscript_modules/
+coverage/
 *.ospx
+
+# VS Code
+.vscode/
+
+# Mac
+**/.DS_Store
