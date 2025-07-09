@@ -1,3 +1,4 @@
+// BSLLS:MissingVariablesDescription-off
 // BSLLS:ExportVariables-off
 
 Перем Basic Экспорт;
