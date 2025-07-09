@@ -3,6 +3,9 @@
         "parameters": {
             "IncorrectLineBreak": {
                 "listOfIncorrectFirstSymbol": ";|,\\s*\\S+"
+            },
+            "Typo": {
+                "userWordsToIgnore": "Распарсить,Парсинга,парсинге,Запускатель,Токенайзер,Слешами"
             }
         }
     }
