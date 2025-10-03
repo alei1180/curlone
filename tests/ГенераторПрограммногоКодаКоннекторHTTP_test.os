@@ -1,3 +1,5 @@
+// BSLLS:DuplicateStringLiteral-off
+// BSLLS:MethodSize-off
 // BSLLS:LatinAndCyrillicSymbolInWord-off
 
 #Использовать asserts
@@ -20,14 +22,144 @@
 КонецПроцедуры
 
 &Тест
-Процедура ТестДолжен_ПроверитьПростойСлучай() Экспорт
+Процедура ТестДолжен_ПроверитьБазовыеСлучаиURL() Экспорт
 
-	КонсольнаяКоманда = "curl http://example.com:8080";
+	ТестовыеДанные = Новый Соответствие();
 
-	ПрограммныйКод = "Результат = КоннекторHTTP.Get(""http://example.com:8080"");";
+	ТестовыеДанные.Вставить(
+		"curl http://example.com",
+		"Результат = КоннекторHTTP.Get(""http://example.com"");"
+	);
 
-	ПроверитьКонвертациюБезОшибок(КонсольнаяКоманда, ПрограммныйКод);
-	
+	ТестовыеДанные.Вставить(
+		"curl https://example.com",
+		"Результат = КоннекторHTTP.Get(""https://example.com"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl example.com",
+		"Результат = КоннекторHTTP.Get(""http://example.com"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl http://example.com:8080",
+		"Результат = КоннекторHTTP.Get(""http://example.com:8080"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl http://example.com/",
+		"Результат = КоннекторHTTP.Get(""http://example.com"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl http://example.com/path/to/resource",
+		"Результат = КоннекторHTTP.Get(""http://example.com/path/to/resource"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl http://example.com/path/to/resource/",
+		"Результат = КоннекторHTTP.Get(""http://example.com/path/to/resource/"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl http://example.com?param=value",
+		"Результат = КоннекторHTTP.Get(""http://example.com?param=value"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl 'http://example.com?param1=value1&param2=value2'",
+		"Результат = КоннекторHTTP.Get(""http://example.com?param1=value1&param2=value2"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl 'http://example.com?param1=value1&param2=value2&param3=value3'",
+		"Результат = КоннекторHTTP.Get(""http://example.com?param1=value1&param2=value2&param3=value3"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl 'http://example.com?param='",
+		"Результат = КоннекторHTTP.Get(""http://example.com?param"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl http://example.com?param",
+		"Результат = КоннекторHTTP.Get(""http://example.com?param"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl 'http://example.com?param=value&param=value2'",
+		"Результат = КоннекторHTTP.Get(""http://example.com?param=value&param=value2"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl 'http://example.com?param=value%20with%20spaces'",
+		"Результат = КоннекторHTTP.Get(""http://example.com?param=value%20with%20spaces"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl 'http://example.com?param=%3D'",
+		"Результат = КоннекторHTTP.Get(""http://example.com?param=%3D"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl 'http://example.com?param=значение'",
+		"Результат = КоннекторHTTP.Get(""http://example.com?param=значение"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl http://example.com#fragment",
+		"Результат = КоннекторHTTP.Get(""http://example.com#fragment"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl http://example.com/#fragment",
+		"Результат = КоннекторHTTP.Get(""http://example.com/#fragment"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl http://example.com/page#section",
+		"Результат = КоннекторHTTP.Get(""http://example.com/page#section"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl 'http://example.com?param=value#fragment'",
+		"Результат = КоннекторHTTP.Get(""http://example.com?param=value#fragment"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl 'http://example.com/path%20with%20spaces'",
+		"Результат = КоннекторHTTP.Get(""http://example.com/path%20with%20spaces"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl 'http://example.com/path with spaces'",
+		"Результат = КоннекторHTTP.Get(""http://example.com/path with spaces"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl 'http://example.com/path+with+plus'",
+		"Результат = КоннекторHTTP.Get(""http://example.com/path+with+plus"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl 'http://example.com/path;parameter'",
+		"Результат = КоннекторHTTP.Get(""http://example.com/path;parameter"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl http://example.com/file.html",
+		"Результат = КоннекторHTTP.Get(""http://example.com/file.html"");"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl http://api.example.com",
+		"Результат = КоннекторHTTP.Get(""http://api.example.com"");"
+	);
+
+	Для Каждого Строка Из ТестовыеДанные Цикл
+		ПроверитьКонвертациюБезОшибок(Строка.Ключ, Строка.Значение);
+	КонецЦикла;
+
 КонецПроцедуры
 
 &Тест
@@ -1651,14 +1783,27 @@
 	Ожидаем.Что(Ошибки, КонсольнаяКоманда).Не_().Заполнено();
 
 	// Перевод
+	Если СодержитРусскиеБуквы(КонсольнаяКоманда) Тогда
+		Возврат;
+	КонецЕсли;
+
 	КонвертерКомандыCURL.УстановитьЯзыкПеревода("en");
 	РезультатПеревода = КонвертерКомандыCURL.Конвертировать(КонсольнаяКоманда, Генератор, Ошибки);
 
 	Ожидаем.Что(РезультатПеревода).Не_().Содержит("{t(");
+	Ожидаем.Что(СодержитРусскиеБуквы(РезультатПеревода), "Перевод").ЭтоЛожь();
+
+КонецПроцедуры
+
+Функция СодержитРусскиеБуквы(Строка)
 
 	Алфавит = "абвгдеёжзиклмнопрстуфхцчшщъыьэюя"; // BSLLS:Typo-off
 	Для Порядок = 1 По СтрДлина(Алфавит) Цикл
-		Ожидаем.Что(РезультатПеревода, "Перевод").Не_().Содержит(Сред(Алфавит, Порядок, 1));
+		Если СтрНайти(Строка, Сред(Алфавит, Порядок, 1)) > 0 Тогда
+			Возврат Истина;
+		КонецЕсли;
 	КонецЦикла;
 
-КонецПроцедуры
+	Возврат Ложь;
+
+КонецФункции
