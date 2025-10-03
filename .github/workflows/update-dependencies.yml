@@ -1,0 +1,16 @@
+name: Обновление зависимостей
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+jobs:
+  update-dependencies:
+    if: github.repository_owner == 'alei1180'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Обновление зависимостей
+        uses: Stivo182/depos-action@v1
+        with:
+          message-prefix: build(deps)
