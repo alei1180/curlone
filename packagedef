@@ -2,6 +2,7 @@
 		.Версия("1.6.1")
 		.Автор("Alexander Osadchy, Dmitry Ivanov, Gleb Bogachev")
 		.АдресАвтора("https://github.com/alei1180, https://github.com/Stivo182, https://github.com/pinkycat")
+		.АдресРепозитория("https://github.com/alei1180/curlone")
 		.Описание("Конвертер команды curl в код на языке 1С")
 		.ВерсияСреды("1.9.2")
 		.ВключитьФайл("src")
