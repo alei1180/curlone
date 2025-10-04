@@ -1,5 +1,5 @@
 ﻿Описание.Имя("curlone")
-		.Версия("1.6.1")
+		.Версия("1.7.0")
 		.Автор("Alexander Osadchy, Dmitry Ivanov, Gleb Bogachev")
 		.АдресАвтора("https://github.com/alei1180, https://github.com/Stivo182, https://github.com/pinkycat")
 		.АдресРепозитория("https://github.com/alei1180/curlone")
