@@ -4,6 +4,14 @@
 
 Формат основан на [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), и этот проект придерживается [Семантического Версионирования](https://semver.org/lang/ru/).
 
+## [1.7.1] - 2025-10-06
+
+### Исправлено
+
+- Потерянная зависимость `json` (заменена на `jason`) (#235)
+- Не корректное определение локали при вызове через `/api/convert` (#238)
+- Формирование кода для Connector с множественными опциями `-F name=<file<N>` (#241)
+
 ## [1.7.0] - 2025-10-05
 
 ### Добавлено
@@ -102,6 +110,7 @@
 
 - Первая версия
 
+[1.7.1]: https://github.com/alei1180/curlone/compare/ver1.7.0...ver1.7.1
 [1.7.0]: https://github.com/alei1180/curlone/compare/ver1.6.1...ver1.7.0
 [1.6.1]: https://github.com/alei1180/curlone/compare/ver1.6.0...ver1.6.1
 [1.6.0]: https://github.com/alei1180/curlone/compare/ver1.5.0...ver1.6.0
