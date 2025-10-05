@@ -1,3 +1,4 @@
+// BSLLS:NestedFunctionInParameters-off
 // BSLLS:DuplicateStringLiteral-off
 
 #Использовать 1connector
