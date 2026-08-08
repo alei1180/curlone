@@ -470,11 +470,14 @@
             };
 
             req.responseType = "json";
-            req.open("GET", "/api/v1/convert?lang=" + lang 
-                + "&locale=" + encodeURIComponent(locale)
-                + "&cmd=" + encodeURIComponent(command)
-                + "&response-type=" + getExpectedResponseType());
-            req.send();
+            req.open("POST", "/api/v1/convert");
+            req.setRequestHeader("Content-Type", "application/json");
+            req.send(JSON.stringify({
+                cmd: command,
+                lang: lang,
+                locale: locale,
+                responseType: getExpectedResponseType()
+            }));
 
             denyRequests();
         }
