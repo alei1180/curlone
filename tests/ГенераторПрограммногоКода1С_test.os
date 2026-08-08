@@ -114,7 +114,7 @@
 	ТестовыеДанные.Вставить(
 		"curl 'http://example.com?param='",
 		"Соединение = Новый HTTPСоединение(""example.com"", 80);
-		|HTTPЗапрос = Новый HTTPЗапрос(""?param"");
+		|HTTPЗапрос = Новый HTTPЗапрос(""?param="");
 		|
 		|HTTPОтвет = Соединение.ВызватьHTTPМетод(""GET"", HTTPЗапрос);"
 	);
@@ -131,6 +131,22 @@
 		"curl 'http://example.com?param=value&param=value2'",
 		"Соединение = Новый HTTPСоединение(""example.com"", 80);
 		|HTTPЗапрос = Новый HTTPЗапрос(""?param=value&param=value2"");
+		|
+		|HTTPОтвет = Соединение.ВызватьHTTPМетод(""GET"", HTTPЗапрос);"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl 'http://example.com?foo=1&foo'",
+		"Соединение = Новый HTTPСоединение(""example.com"", 80);
+		|HTTPЗапрос = Новый HTTPЗапрос(""?foo=1&foo"");
+		|
+		|HTTPОтвет = Соединение.ВызватьHTTPМетод(""GET"", HTTPЗапрос);"
+	);
+
+	ТестовыеДанные.Вставить(
+		"curl 'http://example.com?foo&foo=1'",
+		"Соединение = Новый HTTPСоединение(""example.com"", 80);
+		|HTTPЗапрос = Новый HTTPЗапрос(""?foo&foo=1"");
 		|
 		|HTTPОтвет = Соединение.ВызватьHTTPМетод(""GET"", HTTPЗапрос);"
 	);
