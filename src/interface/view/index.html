@@ -469,15 +469,17 @@
                 allowRequests();
             };
 
-            req.responseType = "json";
-            req.open("POST", "/api/v1/convert");
-            req.setRequestHeader("Content-Type", "application/json");
-            req.send(JSON.stringify({
+            let parameters = new URLSearchParams({
                 cmd: command,
                 lang: lang,
                 locale: locale,
-                responseType: getExpectedResponseType()
-            }));
+                "response-type": getExpectedResponseType()
+            });
+
+            req.responseType = "json";
+            req.open("POST", "/api/v1/convert");
+            req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            req.send(parameters.toString());
 
             denyRequests();
         }
