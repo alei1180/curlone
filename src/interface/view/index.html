@@ -503,22 +503,19 @@
             let elementWarnings = document.getElementById("warnings");
             let elementErrors = document.getElementById("errors");
 
-            let textWarnings = "";
-            let textErrors = "";
+            elementWarnings.replaceChildren();
+            elementErrors.replaceChildren();
 
             errors.forEach((record) => {
-                if (record.critical) {
-                    textErrors += record.text + '<br/>';
-                } else {
-                    textWarnings += record.text + '<br/>';
-                }
+                let element = record.critical ? elementErrors : elementWarnings;
+                element.append(
+                    document.createTextNode(record.text),
+                    document.createElement('br')
+                );
             });
 
-            elementWarnings.innerHTML = textWarnings;
-            elementWarnings.style.display = textWarnings.length > 0 ? 'block' : 'none';
-
-            elementErrors.innerHTML = textErrors;
-            elementErrors.style.display = textErrors.length > 0 ? 'block' : 'none';
+            elementWarnings.style.display = elementWarnings.childNodes.length > 0 ? 'block' : 'none';
+            elementErrors.style.display = elementErrors.childNodes.length > 0 ? 'block' : 'none';
         }
 
         function denyRequests() {
