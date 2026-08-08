@@ -469,12 +469,17 @@
                 allowRequests();
             };
 
+            let parameters = new URLSearchParams({
+                cmd: command,
+                lang: lang,
+                locale: locale,
+                "response-type": getExpectedResponseType()
+            });
+
             req.responseType = "json";
-            req.open("GET", "/api/v1/convert?lang=" + lang 
-                + "&locale=" + encodeURIComponent(locale)
-                + "&cmd=" + encodeURIComponent(command)
-                + "&response-type=" + getExpectedResponseType());
-            req.send();
+            req.open("POST", "/api/v1/convert");
+            req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            req.send(parameters.toString());
 
             denyRequests();
         }

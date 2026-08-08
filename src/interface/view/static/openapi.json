@@ -25,7 +25,7 @@
             "required": true,
             "explode": true,
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/ConversionRequest/properties/cmd"
             }
           },
           {
@@ -35,12 +35,7 @@
             "required": false,
             "explode": true,
             "schema": {
-              "type": "string",
-              "default": "1c",
-              "enum": [
-                "1c",
-                "connector"
-              ]
+              "$ref": "#/components/schemas/ConversionRequest/properties/lang"
             }
           },
           {
@@ -50,12 +45,7 @@
             "required": false,
             "explode": true,
             "schema": {
-              "type": "string",
-              "default": "ru",
-              "enum": [
-                "ru",
-                "en"
-              ]
+              "$ref": "#/components/schemas/ConversionRequest/properties/locale"
             }
           },
           {
@@ -65,13 +55,38 @@
             "required": false,
             "explode": true,
             "schema": {
-              "type": "string",
-              "enum": [
-                "json"
-              ]
+              "$ref": "#/components/schemas/ConversionRequest/properties/response-type"
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "API"
+        ],
+        "summary": "Конвертирует команду curl из параметров POST-запроса в код на 1С",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/ConversionRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -89,6 +104,44 @@
   },
   "components": {
     "schemas": {
+      "ConversionRequest": {
+        "description": "Параметры конвертации команды curl",
+        "type": "object",
+        "required": [
+          "cmd"
+        ],
+        "properties": {
+          "cmd": {
+            "description": "Команда curl",
+            "type": "string"
+          },
+          "lang": {
+            "description": "Язык / библиотека",
+            "type": "string",
+            "default": "1c",
+            "enum": [
+              "1c",
+              "connector"
+            ]
+          },
+          "locale": {
+            "description": "Язык перевода",
+            "type": "string",
+            "default": "ru",
+            "enum": [
+              "ru",
+              "en"
+            ]
+          },
+          "response-type": {
+            "description": "Ожидаемый тип ответа на запрос команды curl",
+            "type": "string",
+            "enum": [
+              "json"
+            ]
+          }
+        }
+      },
       "Result": {
         "description": "Результат конвертации",
         "type": "object",
