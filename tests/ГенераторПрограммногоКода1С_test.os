@@ -2235,7 +2235,7 @@
 	);
 
 	ТестовыеДанные.Вставить(
-		"curl http://example7.com/ -F 'web=@index.html;type=text/html'",
+		"curl http://example7.com/ -F 'web=@index.html'",
 		"РазделительMultipart = СтрЗаменить(Новый УникальныйИдентификатор, ""-"", """");
 		|
 		|Заголовки = Новый Соответствие();

@@ -1818,7 +1818,7 @@
 	);
 
 	ТестовыеДанные.Вставить(
-		"curl http://example.com/ -F ""web=@index.html;type=text/html""",
+		"curl http://example.com/ -F ""web=@index.html""",
 		"Файлы = Новый Массив();
 		|Файл = Новый Структура();
 		|Файл.Вставить(""Имя"", ""web"");
