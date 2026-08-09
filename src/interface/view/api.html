@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>API</title>
+<html lang="ru">
 
-    <!-- favicon -->
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>curlone — API</title>
+
     <link rel="apple-touch-icon" sizes="57x57" href="/images/favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/images/favicons/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="/images/favicons/apple-icon-72x72.png">
@@ -20,40 +22,18 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
     <link rel="manifest" href="/images/favicons/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="msapplication-TileImage" content="/images/favicons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-    <!-- /favicon -->
-	
-    <link rel="stylesheet" type="text/css" href="/static/swagger/swagger-ui.css" />
-    <link rel="stylesheet" type="text/css" href="/static/swagger/index.css" />
-  </head>
 
-  <body>
+    <link rel="stylesheet" href="/static/swagger/swagger-ui.css">
+    <link rel="stylesheet" href="/static/swagger/index.css">
+</head>
+
+<body>
     <div id="swagger-ui"></div>
-    <script src="/static/swagger/swagger-ui-bundle.js" charset="UTF-8"></script>
-    <script src="/static/swagger/swagger-ui-standalone-preset.js" charset="UTF-8"></script>
-    <script>
-		window.onload = function() {
-		  window.ui = SwaggerUIBundle({
-			url: "/static/openapi.json",
-			dom_id: '#swagger-ui',
-			deepLinking: true,
-			docExpansion: 'full',
-			presets: [
-			  SwaggerUIBundle.presets.apis,
-			  SwaggerUIStandalonePreset
-			],
-			presets_config: {
-			   SwaggerUIStandalonePreset: {
-				   TopbarPlugin: false
-			   }
-			},
-			plugins: [
-			  SwaggerUIBundle.plugins.DownloadUrl
-			],
-			layout: "StandaloneLayout"
-		  });
-		};
-	</script>
-  </body>
+    <script src="/static/swagger/swagger-ui-bundle.js"></script>
+    <script src="/static/swagger/swagger-ui-standalone-preset.js"></script>
+    <script src="/static/swagger/index.js"></script>
+</body>
+
 </html>
