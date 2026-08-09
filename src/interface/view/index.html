@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 
 <head>
-
     <meta charset="utf-8">
-    <meta name="keywords" content="curlone, curl, 1С, конвертрер, convert, onescript, winow">
-    <meta name="description" content="Конвертер команды curl в код на языке 1С."/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="curlone, curl, 1С, конвертер, convert, onescript, winow">
+    <meta name="description" content="Конвертер команды curl в код на языке 1С.">
     <meta name="author" content="Alexander Osadchy, Dmitry Ivanov, Gleb Bogachev">
 
-    <title>curlone - конвертер команды curl в код на языке 1С.</title>
+    <title>curlone — конвертер команды curl в код на языке 1С</title>
 
-    <!-- favicon -->
     <link rel="apple-touch-icon" sizes="57x57" href="images/favicons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="images/favicons/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="images/favicons/apple-icon-72x72.png">
@@ -26,692 +25,98 @@
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
     <link rel="manifest" href="images/favicons/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="msapplication-TileImage" content="images/favicons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
-    <!-- /favicon -->
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
-
-        body {
-            display: flex;
-            flex-flow: column;
-            align-items: center;
-            justify-content: center;
-            font-family: "PT Mono", monospace;
-            font-weight: 400;
-            font-size: 1em;
-            font-style: normal;
-            color: black;
-            padding: 10px;
-        }
-
-        a {
-            color: black;
-        }
-
-        p {
-            margin: 0;
-            padding: 0;
-        }
-
-        label {
-            font-size: 1em;
-        }
-
-        .container {
-            width: calc(100% - 50px);
-            display: flex;
-            flex-flow: column;
-            justify-content: center;
-            margin-bottom: 10px;
-            align-items: center;
-        }
-
-        .logo {
-            width: 200px;
-        }
-
-        textarea {
-            display: inline-block;
-            resize: none;
-            border-radius: 0;
-            border: 2px solid black;
-            overflow-y: scroll;
-            overflow-x: scroll;
-            margin-bottom: 10px;
-            box-sizing: border-box;
-            margin: 0;
-            width: auto;
-            min-width: 100%;
-            max-width: 100%;
-            height: auto;
-            min-height: 15em;
-            scrollbar-width: thin;
-            scrollbar-color: #000 #fff;
-        }
-
-        textarea::placeholder {
-            color: #777;
-            font-size: 1em;
-        }
-
-        form {
-            display: flex;
-            flex-flow: column;
-            align-items: flex-start;
-            width: 40em;
-        }
-
-        input[type=button] {
-            cursor: pointer;
-            background: black;
-            font-family: "PT Mono", monospace;
-            font-weight: 400;
-            font-size: 1em;
-            color: white;
-            padding: 10px 10px;
-            border: 2px solid black;
-            margin-top: 5px;
-        }
-
-        input[type=button].hoveredbutton {
-            background: #fff;
-            color: black;
-            text-decoration: none;
-        }
-
-        input[type="radio"] {
-            accent-color: #000;
-            height: 1.5em;
-            width: 1.5em;
-            margin-right: 8px;
-        }
-
-        input[type='radio']:checked {
-            background: #000000;
-        }
-
-        input[type="checkbox"] {
-            accent-color: #000;
-            height: 1.2em;
-            width: 1.2em;
-        }
-
-        input[type='checkbox']:checked {
-            background: #000000;
-        }
-
-        .container div {
-            display: flex;
-            flex-flow: column;
-            align-items: flex-start;
-        }
-
-        div.logo {
-            justify-content: center;
-            align-items: center;
-        }
-
-        div.output {
-            width: 40em;
-            height: 200px;
-            border: 2px solid black;
-            padding: 3px;
-            resize: both;
-            overflow-y: scroll;
-            overflow-x: scroll;
-            scrollbar-width: thin;
-            scrollbar-color: #000 #fff;
-            box-sizing: border-box;
-        }
-
-        div.output:focus {
-            border: 3px solid black;
-            border-radius: 4px;
-        }
-
-        pre.shiki {
-            margin: 0;
-        }
-
-        #warnings,
-        #errors {
-            font-size: 1em;
-            padding: 8px 12px;
-            margin: 10px 0px;
-            border-radius: 3px;
-            border: 1px solid;
-            line-height: 1.5;
-            width: 40em;
-            box-sizing: border-box;
-        }
-
-        #warnings {
-            color: #1f2328 !important;
-            border-color: #fff8c5;
-            background-color: #fff8c5;
-        }
-
-        #errors {
-            color: #1f2328 !important;
-            border-color: #ffebe9;
-            background-color: #ffebe9;
-        }
-        
-        div.checkboxgroup {
-            display: flex;
-            flex-flow: row;  
-        }
-
-        .checkboxgroup div.singlecheckbox {
-            display: flex;
-            flex-flow: row;
-            align-items: center;
-            margin-right: 2em;
-        }
-
-        .checkboxgroup div.singlecheckbox.last {
-            margin-right: 0;
-        }
-
-        div.convertsyntax {
-            display: flex;
-            flex-flow: row;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-        }
-
-        div.outputHeader {
-            flex-flow: row;
-            width: 100%;
-            align-items: end;
-        }
-
-        div.outputlabel {
-            margin-right: auto !important;
-        }
-
-        div.json-option-group {
-            flex-flow: row nowrap;
-            margin-right: 15px;
-        }
-
-        .json-option-group input[type="checkbox"] {
-            margin: 0 3px 0px 0px;
-        }
-        
-        .json-option-group .tooltip {
-            margin-left: 2px;
-        }
-         
-        .json-option-group .tooltip span:first-child {
-            font-size: 0.6em;
-        }
-
-        div.langSwitches {
-            flex-flow: row nowrap;
-            margin-bottom: -1px;
-        }
-        
-        button {
-            display: inline;
-            font-family: 'PT Mono', monospace;
-            font-weight: 400;
-            font-size: 1em;
-            border:1px solid black;
-            background-color: #fff;
-            color: #000;
-        }
-
-        .btnBlack {
-            background-color: #000;
-            color: #fff;
-        }
-
-        .langRu {
-            margin-right:-1px;
-            border-radius: 3px 0 0 0;
-        }
-
-        .langEn {
-            border-radius: 0 3px 0 0;
-        }
-
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            border-bottom: 1px dotted black;
-        }
-
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            font-size: 0.9em;
-            color: #fff;
-            text-align: center;
-            background-color: black;
-            border-radius: 6px;
-            padding: 5px;
-            margin-left: -60px;
-            bottom: 100%;
-            right: 105%;
-            position: absolute;
-            z-index: 1;
-        }
-
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-        }
-
-        @media only screen and (device-width <= 430px) {
-
-            body {
-                width: 95%;
-                height: 100%;
-                overflow: vertical;
-                font-size: 1.5em;
-            }
-
-            p {
-                margin-top: 2em;
-                font-size: 1.5em;
-            }
-
-            .container {
-                width: 100%;
-            }
-
-            form {
-                width: 37em;
-            }
-
-            div.output {
-                width: 25em;
-                height: 15em;
-                font-size: 1.5em;
-            }
-
-            input[type=button] {
-                padding: 30px 45px;
-                font-size: 1.5em;
-            }
-
-            textarea {
-                font-size: 1.2em;
-            }
-
-            textarea::placeholder {
-                font-family: "PT Mono", monospace;
-                font-weight: 400;
-                color: #777;
-                font-size: 1.2em;
-            }
-
-            label {
-                font-size: 1.5em;
-            }
-
-            div.outputlabel {
-                font-size: 1.5em;
-            }
-
-            #warnings,
-            #errors {
-                width: 25em;
-                font-size: 1.5em;
-                padding: 30px 45px;
-            }
-
-            div.convertsyntax {
-                flex-flow: row;
-                align-items: flex-start;
-                justify-content: flex-start;
-                width: 100%;
-            }
-
-            div.checkboxgroup {
-                width: 100%;
-                flex-flow: row nowrap;
-                justify-content:flex-end;
-                margin: 1em 0;
-            }
-
-            input[type="radio"] {
-                font-size: 1.3em;
-            }
-
-            input[type="checkbox"] {
-                font-size: 1.2em;
-            }
-
-            button {
-                font-size: 1.5em;
-                padding: 5px 20px;
-            }
-
-            .tooltip .tooltiptext {
-                font-size: 1.2em;
-            }
-
-            .json-option-group .tooltip span:first-child {
-                font-size: 0.8em;
-            }
-
-        }
-
-    </style>
-    <script type="module">
-        import theme from './static/shiki/themes/github-light.js';
-        import lang from './static/shiki/langs/bsl.js';
-        import { createHighlighterCore } from './static/shiki/core.js';
-        import { createOnigurumaEngine } from './static/shiki/engine/oniguruma.js';
-
-        let defaultOutputs = { 
-            '1c': {
-                'ru': 
-                    'Соединение = Новый HTTPСоединение("example.com", 80);\n'
-                    + 'HTTPЗапрос = Новый HTTPЗапрос("/");\n\n'
-                    + 'HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);',
-                'en': 
-                    'Connection = New HTTPConnection("example.com", 80);\n'
-                    + 'HTTPRequest = New HTTPRequest("/");\n\n'
-                    + 'HTTPResponse = Connection.CallHTTPMethod("GET", HTTPRequest);'
-            },
-            'connector': {
-                'ru': 'Результат = КоннекторHTTP.Get("http://example.com");',
-                'en': 'Result = HTTPConnector.Get("http://example.com");'
-            }
-        };
-
-        let outputText = "";
-        let convertButton = document.getElementById("convert");
-        let convertInput = document.getElementById("command");
-        let jsonCheckbox = document.getElementById("json-option");
-
-
-        function convert() {
-            let command = getCommand();
-            let lang = getLang();
-            let locale = getLocale();
-
-            if (!isRequestAllowed()) 
-                return;
-
-            hideErrors();
-
-            let req = new XMLHttpRequest();
-            req.onload = function () {
-                let errors = [];
-                outputText = "";
-
-                if (this.status === 200) {
-                    outputText = this.response.result;
-                    errors = this.response.errors;
-                } else {
-                    errors.push({
-                        text: 'Не удалось выполнить запрос',
-                        critical: true
-                    });
-                }
-
-                setOutput(outputText);
-                displayErros(errors);
-                allowRequests();
-            };
-
-            req.onerror = function () {
-                displayErros([{
-                    text: 'Не удалось выполнить запрос',
-                    critical: true
-                }]);
-
-                allowRequests();
-            };
-
-            let parameters = new URLSearchParams({
-                cmd: command,
-                lang: lang,
-                locale: locale,
-                "response-type": getExpectedResponseType()
-            });
-
-            req.responseType = "json";
-            req.open("POST", "/api/v1/convert");
-            req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            req.send(parameters.toString());
-
-            denyRequests();
-        }
-
-        function setOutput(code) {
-            document.getElementById("output").innerHTML = highlighter.codeToHtml(code, {
-                lang: 'bsl',
-                theme: 'github-light'
-            })
-        }
-
-        function setDefaultOutput() {
-            hideErrors();
-            setOutput(defaultOutputs[getLang()][getLocale()]);         
-        }
-
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text);
-        }
-
-        function hideErrors() {
-            displayErros([]);
-        }
-
-        function displayErros(errors) {
-            let elementWarnings = document.getElementById("warnings");
-            let elementErrors = document.getElementById("errors");
-
-            elementWarnings.replaceChildren();
-            elementErrors.replaceChildren();
-
-            errors.forEach((record) => {
-                let element = record.critical ? elementErrors : elementWarnings;
-                element.append(
-                    document.createTextNode(record.text),
-                    document.createElement('br')
-                );
-            });
-
-            elementWarnings.style.display = elementWarnings.childNodes.length > 0 ? 'block' : 'none';
-            elementErrors.style.display = elementErrors.childNodes.length > 0 ? 'block' : 'none';
-        }
-
-        function denyRequests() {
-            setRequestsPermission(false);
-        }
-
-        function allowRequests() {
-            setRequestsPermission(true);
-        }
-
-        function setRequestsPermission(isAllowed) {
-            convertButton.disable = !isAllowed;
-            convertInput.disabled = !isAllowed;
-        }
-
-        function isRequestAllowed() {
-            return !convertButton.disable;
-        }
-
-        function getCommand() {
-            let formData = new FormData(document.forms.curl);
-            let command = formData.get("command");
-            return command;
-        }
-
-        function getLang() {
-            let radios = document.getElementsByName('lang');
-
-            for (let radio of radios) {
-                if (radio.checked) {
-                    return radio.value;
-                }
-            }
-
-            return '1c';
-        }
-
-        function setLocale(locale) {
-            let className = 'btnBlack';
-
-            document.getElementsByName("locale").forEach(function(e) {
-                if (e.classList.contains(className)){
-                    e.classList.remove(className);
-                }
-
-                if (e.innerText == locale) {
-                    e.classList.add(className);
-                }
-            });          
-        }
-
-        function getLocale() {
-            let locale = 'ru';
-
-            document.getElementsByName("locale").forEach(function(e) {
-                if (e.classList.contains('btnBlack')){
-                    locale = e.innerText;
-                }                
-            });
-
-            return locale;
-        }
-
-        function getExpectedResponseType() {
-            return jsonCheckbox.checked ? 'json' : '';
-        }
-
-        convertButton.addEventListener("click", function (e) {
-            convert();
-        });
-
-        document.getElementById("copy").addEventListener("click", function (e) {
-            copyToClipboard(outputText);
-        });
-
-        convertInput.addEventListener("input", function (e) {
-            if(!getCommand()) {
-                setDefaultOutput();
-            }
-        })
-
-        document.addEventListener("keyup", function (e) {
-            if (e.keyCode == 13 && e.ctrlKey) {
-                convertButton.click();
-            }
-        });
-
-        document.getElementsByName("lang").forEach(function(e) {
-            e.addEventListener("change", function(e) {
-                if(getCommand()) {
-                    convert();
-                } else {
-                    setDefaultOutput();
-                }
-            });
-        });
-
-        document.getElementsByName("locale").forEach(function(e) {
-            e.addEventListener("click", function(e) {
-                setLocale(e.target.innerText);
-
-                if(getCommand()) {
-                    convert();
-                } else {
-                    setDefaultOutput();
-                }
-            });
-        }); 
-
-        jsonCheckbox.addEventListener("change", function (e) {
-            if(getCommand()) {
-                convert();
-            } else {
-                setDefaultOutput();
-            }
-        })
-
-        const highlighter = await createHighlighterCore({
-            themes: [theme],
-            langs: [lang],
-            engine: createOnigurumaEngine(import('./static/shiki/wasm.js'))
-        });
-
-        setLocale('ru');
-        setDefaultOutput();
-        allowRequests();
-    </script>
+    <link rel="stylesheet" href="static/index.css">
+    <script type="module" src="static/index.js"></script>
 </head>
+
 <body>
-    <div class="container">
-        <div class="logo">
-            <img src="images/curlone-logo.png" alt="curlone" height="200px" />
-        </div>
-    </div>
-    <div class="container" style="margin-bottom:30px;">
-        <div>
-            <form name="curl">
-                <label for="command">Команда curl<sup><sup><sup>(bash)</sup></sup></sup></label>
-                <textarea name="command" id="command" spellcheck="false" wrap="off" placeholder="curl example.com"
-                    required></textarea>
-                <div class="convertsyntax">
-                    <input type="button" id="convert" value="Конвертировать" onmouseover="this.classList.add('hoveredbutton')" 
-                            onmouseout="this.classList.remove('hoveredbutton')" ontouchstart="this.classList.add('hoveredbutton')"
-                            ontouchend="this.classList.remove('hoveredbutton')">
-                    <div class="checkboxgroup">
-                        <div class="singlecheckbox">
-                            <input type="radio" id="onec" name="lang" value="1c"
-                                checked="checked" />
-                            <label for="onec">1С</label>
-                        </div>
-                        <div class="singlecheckbox last">
-                            <input type="radio" id="connector" name="lang" value="connector" />
-                            <label for="connector">Connector</label>
-                        </div>
+    <header class="container logo">
+        <img src="images/curlone-logo.png" alt="curlone" width="200" height="200">
+    </header>
+
+    <main class="container workspace">
+        <h1 class="visually-hidden">Конвертер команды curl в код на языке 1С</h1>
+
+        <section class="panel" aria-labelledby="command-title">
+            <form id="curl-form" name="curl" novalidate>
+                <label id="command-title" for="command">Команда curl<sup><sup><sup>(bash)</sup></sup></sup></label>
+                <textarea name="command" id="command" spellcheck="false" wrap="soft"
+                    placeholder="curl example.com" aria-errormessage="errors" required disabled></textarea>
+
+                <div class="conversion-controls">
+                    <button type="submit" id="convert" class="primary-button" disabled>Конвертировать</button>
+
+                    <fieldset class="generator-options">
+                        <legend class="visually-hidden">Генератор кода</legend>
+                        <label class="choice">
+                            <input type="radio" id="onec" name="lang" value="1c" checked disabled>
+                            <span>1С</span>
+                        </label>
+                        <label class="choice">
+                            <input type="radio" id="connector" name="lang" value="connector" disabled>
+                            <span>Connector</span>
+                        </label>
+                    </fieldset>
+                </div>
+            </form>
+
+        </section>
+
+        <section class="panel" aria-labelledby="output-title">
+            <div class="output-messages">
+                <div id="errors" class="message message-error" role="alert" hidden></div>
+                <div id="warnings" class="message message-warning" role="status" aria-live="polite" hidden></div>
+            </div>
+
+            <div class="output-header">
+                <h2 id="output-title">Код 1С</h2>
+
+                <div class="output-options">
+                    <label class="choice json-option">
+                        <input type="checkbox" id="json-option" aria-describedby="json-option-help" disabled>
+                        <span>JSON</span>
+                    </label>
+                    <div class="tooltip">
+                        <details>
+                            <summary>
+                                <span aria-hidden="true">(?)</span>
+                                <span class="visually-hidden">О параметре JSON</span>
+                            </summary>
+                        </details>
+                        <span class="tooltip-text">
+                            Десериализовать ответ HTTP-запроса из JSON
+                        </span>
                     </div>
+                    <span id="json-option-help" class="visually-hidden">
+                        Десериализовать ответ HTTP-запроса из JSON.
+                    </span>
                 </div>
 
-            </form>
-            <div id="errors" style="display: none;"></div>
-        </div>
-    </div>
-    <div class="container">
-        <div>
-            <div class="outputHeader">
-                <div class="outputlabel">Код 1C</div>
-                <div class="json-option-group">
-                    <input type="checkbox" id="json-option" />
-                    <label for="json-option">JSON</label>
-                    <div class="tooltip"><span>(?)</span> <span class="tooltiptext">Десериализовать ответ HTTP запроса из JSON</span></div>
-                </div>
-                <div class="langSwitches">
-                    <button name="locale" type="button" class="langRu">ru</button>
-                    <button name="locale" type="button" class="langEn">en</button>
+                <div class="locale-switches" role="group" aria-label="Язык кода">
+                    <button id="locale-ru" name="locale" type="button" value="ru"
+                        aria-pressed="true" disabled>ru</button>
+                    <button id="locale-en" name="locale" type="button" value="en"
+                        aria-pressed="false" disabled>en</button>
                 </div>
             </div>
-            <div tabindex="0" id="output" class="output"></div>
-            <input type="button" id="copy" value="Скопировать" onmouseover="this.classList.add('hoveredbutton')"
-                onmouseout="this.classList.remove('hoveredbutton')" ontouchstart="this.classList.add('hoveredbutton')"
-                ontouchend="this.classList.remove('hoveredbutton')">
 
-            <div id="warnings" style="display: none;"></div>
-        </div>
-    </div>
-    <div class="container footer">
+            <div tabindex="0" id="output" class="output" aria-labelledby="output-title" aria-busy="true"></div>
+            <button type="button" id="copy" class="primary-button" disabled>Скопировать</button>
+        </section>
+    </main>
+
+    <footer class="container footer">
         <p>
-            <a href="https://github.com/alei1180/curlone" target="_blank">curlone</a> powered by
-            <a href="https://github.com/EvilBeaver/OneScript" target="_blank">OneScript</a> and
-            <a href="https://github.com/autumn-library/winow" target="_blank">Winow</a>
+            <a href="https://github.com/alei1180/curlone" target="_blank" rel="noopener noreferrer">curlone</a>
+            powered by
+            <a href="https://github.com/EvilBeaver/OneScript" target="_blank" rel="noopener noreferrer">OneScript</a>
+            and
+            <a href="https://github.com/autumn-library/winow" target="_blank" rel="noopener noreferrer">Winow</a>
         </p>
-    </div>
-    
+    </footer>
 </body>
 
 </html>
