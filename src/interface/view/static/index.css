@@ -292,7 +292,7 @@ textarea[aria-invalid="true"] {
     font-size: 0.8333rem;
     line-height: normal;
     overflow: auto;
-    resize: vertical;
+    resize: both;
     border: 2px solid #000;
     scrollbar-width: thin;
     scrollbar-color: #000 #fff;
