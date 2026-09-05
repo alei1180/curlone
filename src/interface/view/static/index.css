@@ -93,6 +93,48 @@ textarea:focus-visible {
     width: min(100%, 40rem);
 }
 
+.github-corner {
+    position: fixed;
+    top: 0;
+    right: 0;
+    border: 0;
+    z-index: 1000;
+}
+
+.github-corner-link {
+    display: block;
+}
+
+.github-corner-link svg {
+    display: block;
+    width: clamp(60px, 13.8889vw, 80px);
+    height: clamp(60px, 13.8889vw, 80px);
+    fill: #111;
+    color: #fff;
+}
+
+.github-version {
+    position: absolute;
+    top: calc(50% + 0.5rem);
+    left: calc(50% - 0.5rem);
+    font-size: 0.75rem;
+    line-height: 1;
+    white-space: nowrap;
+    text-decoration: none;
+    transform: translate(-50%, -50%) rotate(45deg);
+    transform-origin: center;
+}
+
+.github-corner-link:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+}
+
+@keyframes octocat-wave {
+    0%, 100% { transform: rotate(0); }
+    20%, 60% { transform: rotate(-25deg); }
+    40%, 80% { transform: rotate(10deg); }
+}
+
 .logo {
     display: flex;
     justify-content: center;
@@ -439,6 +481,10 @@ textarea[aria-invalid="true"] {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .github-corner-link:hover .octo-arm {
+        animation: none;
+    }
+
     *,
     *::before,
     *::after {
