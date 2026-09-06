@@ -325,6 +325,8 @@ textarea[aria-invalid="true"] {
 }
 
 .output {
+    position: relative;
+    left: 50%;
     width: 100%;
     min-width: 0;
     height: 200px;
@@ -338,6 +340,7 @@ textarea[aria-invalid="true"] {
     border: 2px solid #000;
     scrollbar-width: thin;
     scrollbar-color: #000 #fff;
+    transform: translateX(-50%);
 }
 
 .output pre.shiki {
