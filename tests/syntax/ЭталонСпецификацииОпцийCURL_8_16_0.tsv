@@ -1,0 +1,275 @@
+url	url		required	string	local	append		true	false
+header	H,header		required	string	local	append		true	false
+request	X,request		required	string	local	last		true	false
+user	u,user		required	string	local	last		true	false
+data-ascii	d,data,data-ascii		required	string	local	append		true	false
+data-raw	data-raw		required	string	local	append		true	false
+data-binary	data-binary		required	string	local	append		true	false
+data-urlencode	data-urlencode		required	string	local	append		true	false
+upload-file	T,upload-file		required	string	local	append		true	false
+get	G,get,no-get	no-get	none	boolean	local	no_effect		true	false
+head	I,head,no-head	no-head	none	boolean	local	no_effect		true	false
+cert	E,cert		required	string	local	last		true	false
+ca-native	ca-native,no-ca-native	no-ca-native	none	boolean	local	no_effect		true	false
+cacert	cacert		required	string	local	last		true	false
+url-query	url-query		required	string	local	append		true	false
+output	o,output		required	string	local	append		true	false
+output-dir	output-dir		required	string	local	last		true	false
+create-dirs	create-dirs,no-create-dirs	no-create-dirs	none	boolean	local	no_effect		true	false
+remote-name	O,remote-name,no-remote-name	no-remote-name	none	boolean	local	append		true	false
+remote-name-all	remote-name-all,no-remote-name-all	no-remote-name-all	none	boolean	local	no_effect		true	false
+proxy	x,proxy		required	string	local	last		true	false
+proxy-user	U,proxy-user		required	string	local	last		true	false
+proxy-basic	proxy-basic,no-proxy-basic	no-proxy-basic	none	boolean	local	no_effect		true	false
+proxy-ntlm	proxy-ntlm,no-proxy-ntlm	no-proxy-ntlm	none	boolean	local	no_effect		true	false
+max-time	m,max-time		required	number	local	last		true	false
+connect-timeout	connect-timeout		required	number	local	last		true	false
+json	json		required	string	local	append		true	false
+user-agent	A,user-agent		required	string	local	last		true	false
+oauth2-bearer	oauth2-bearer		required	string	local	last		true	false
+ftp-pasv	ftp-pasv		none	boolean	local	no_effect		true	false
+ftp-port	P,ftp-port		required	string	local	last		true	false
+list-only	l,list-only,no-list-only	no-list-only	none	boolean	local	no_effect		true	false
+location	L,location,no-location	no-location	none	boolean	local	no_effect		true	false
+retry	retry		required	number	local	last		true	false
+retry-max-time	retry-max-time		required	number	local	last		true	false
+form	F,form		required	string	local	append		true	false
+form-string	form-string		required	string	local	append		true	false
+basic	basic,no-basic	no-basic	none	boolean	local	no_effect		true	false
+digest	digest,no-digest	no-digest	none	boolean	local	no_effect		true	false
+ntlm	ntlm,no-ntlm	no-ntlm	none	boolean	local	no_effect		true	false
+negotiate	negotiate,no-negotiate	no-negotiate	none	boolean	local	no_effect		true	false
+aws-sigv4	aws-sigv4		required	string	local	last		true	false
+abstract-unix-socket	abstract-unix-socket		required	string	local	last		false	false
+alt-svc	alt-svc		required	string	local	append		false	false
+anyauth	anyauth		none	boolean	local	no_effect		false	false
+append	a,append,no-append	no-append	none	boolean	local	no_effect		false	false
+capath	capath		required	string	local	last		false	false
+cert-status	cert-status,no-cert-status	no-cert-status	none	boolean	local	no_effect		false	false
+cert-type	cert-type		required	string	local	last		false	false
+ciphers	ciphers		required	string	local	last		false	false
+compressed	compressed,no-compressed	no-compressed	none	boolean	local	no_effect		false	false
+compressed-ssh	compressed-ssh,no-compressed-ssh	no-compressed-ssh	none	boolean	local	no_effect		false	false
+config	K,config		required	string	local	append		false	false
+connect-to	connect-to		required	string	local	append		false	false
+continue-at	C,continue-at		required	number	local	last		false	false
+cookie	b,cookie		required	string	local	append		false	false
+cookie-jar	c,cookie-jar		required	string	local	last		false	false
+create-file-mode	create-file-mode		required	number	local	last		false	false
+crlf	crlf,no-crlf	no-crlf	none	boolean	local	no_effect		false	false
+crlfile	crlfile		required	string	local	last		false	false
+curves	curves		required	string	local	last		false	false
+delegation	delegation		required	string	local	last		false	false
+disable	q,disable,no-disable	no-disable	none	boolean	local	no_effect		false	false
+disable-eprt	disable-eprt,no-disable-eprt	no-disable-eprt	none	boolean	local	no_effect		false	false
+disable-epsv	disable-epsv,no-disable-epsv	no-disable-epsv	none	boolean	local	no_effect		false	false
+disallow-username-in-url	disallow-username-in-url,no-disallow-username-in-url	no-disallow-username-in-url	none	boolean	
+|local	no_effect		false	false
+dns-interface	dns-interface		required	string	local	last		false	false
+dns-ipv4-addr	dns-ipv4-addr		required	string	local	last		false	false
+dns-ipv6-addr	dns-ipv6-addr		required	string	local	last		false	false
+dns-servers	dns-servers		required	string	local	last		false	false
+doh-cert-status	doh-cert-status,no-doh-cert-status	no-doh-cert-status	none	boolean	local	no_effect		false	false
+doh-insecure	doh-insecure,no-doh-insecure	no-doh-insecure	none	boolean	local	no_effect		false	false
+doh-url	doh-url		required	string	local	last		false	false
+dump-ca-embed	dump-ca-embed		none	boolean	local	no_effect		false	false
+dump-header	D,dump-header		required	string	local	last		false	false
+ech	ech		required	string	local	last		false	false
+egd-file	egd-file		required	string	local	last		false	false
+engine	engine		required	string	local	last		false	false
+etag-compare	etag-compare		required	string	local	last		false	false
+etag-save	etag-save		required	string	local	last		false	false
+expect100-timeout	expect100-timeout		required	number	local	last		false	false
+fail	f,fail,no-fail	no-fail	none	boolean	local	no_effect		false	false
+fail-early	fail-early,no-fail-early	no-fail-early	none	boolean	global	no_effect		false	false
+fail-with-body	fail-with-body,no-fail-with-body	no-fail-with-body	none	boolean	local	no_effect		false	false
+false-start	false-start,no-false-start	no-false-start	none	boolean	local	no_effect		false	false
+form-escape	form-escape,no-form-escape	no-form-escape	none	boolean	local	no_effect		false	false
+ftp-account	ftp-account		required	string	local	last		false	false
+ftp-alternative-to-user	ftp-alternative-to-user		required	string	local	last		false	false
+ftp-create-dirs	ftp-create-dirs,no-ftp-create-dirs	no-ftp-create-dirs	none	boolean	local	no_effect		false	false
+ftp-method	ftp-method		required	string	local	last		false	false
+ftp-pret	ftp-pret,no-ftp-pret	no-ftp-pret	none	boolean	local	no_effect		false	false
+ftp-skip-pasv-ip	ftp-skip-pasv-ip,no-ftp-skip-pasv-ip	no-ftp-skip-pasv-ip	none	boolean	local	no_effect		false	false
+ftp-ssl-ccc	ftp-ssl-ccc,no-ftp-ssl-ccc	no-ftp-ssl-ccc	none	boolean	local	no_effect		false	false
+ftp-ssl-ccc-mode	ftp-ssl-ccc-mode		required	string	local	no_effect		false	false
+ftp-ssl-control	ftp-ssl-control,no-ftp-ssl-control	no-ftp-ssl-control	none	boolean	local	no_effect		false	false
+globoff	g,globoff,no-globoff	no-globoff	none	boolean	local	no_effect		false	false
+happy-eyeballs-timeout-ms	happy-eyeballs-timeout-ms		required	number	local	last		false	false
+haproxy-clientip	haproxy-clientip		required	string	local	last		false	false
+haproxy-protocol	haproxy-protocol,no-haproxy-protocol	no-haproxy-protocol	none	boolean	local	no_effect		false	false
+help	h,help		optional	string	local	first		false	false
+hostpubmd5	hostpubmd5		required	string	local	last		false	false
+hostpubsha256	hostpubsha256		required	string	local	last		false	false
+hsts	hsts		required	string	local	append		false	false
+http0.9	http0.9,no-http0.9	no-http0.9	none	boolean	local	no_effect		false	false
+http1.0	0,http1.0		none	boolean	local	no_effect		false	false
+http1.1	http1.1		none	boolean	local	no_effect		false	false
+http2	http2		none	boolean	local	no_effect		false	false
+http2-prior-knowledge	http2-prior-knowledge		none	boolean	local	no_effect		false	false
+http3	http3		none	boolean	local	no_effect		false	false
+http3-only	http3-only		none	boolean	local	no_effect		false	false
+ignore-content-length	ignore-content-length,no-ignore-content-length	no-ignore-content-length	none	boolean	local	
+|no_effect		false	false
+insecure	k,insecure,no-insecure	no-insecure	none	boolean	local	no_effect		false	false
+interface	interface		required	string	local	last		false	false
+ip-tos	ip-tos		required	string	local	last		false	false
+ipfs-gateway	ipfs-gateway		required	string	local	last		false	false
+ipv4	4,ipv4		none	boolean	local	no_effect		false	false
+ipv6	6,ipv6		none	boolean	local	no_effect		false	false
+junk-session-cookies	j,junk-session-cookies,no-junk-session-cookies	no-junk-session-cookies	none	boolean	local	
+|no_effect		false	false
+keepalive-cnt	keepalive-cnt		required	number	local	last		false	false
+keepalive-time	keepalive-time		required	number	local	last		false	false
+key	key		required	string	local	last		false	false
+key-type	key-type		required	string	local	last		false	false
+krb	krb		required	string	local	last		false	false
+libcurl	libcurl		required	string	global	last		false	false
+limit-rate	limit-rate		required	string	local	last		false	false
+local-port	local-port		required	string	local	last		false	false
+location-trusted	location-trusted,no-location-trusted	no-location-trusted	none	boolean	local	no_effect		false	false
+login-options	login-options		required	string	local	last		false	false
+mail-auth	mail-auth		required	string	local	last		false	false
+mail-from	mail-from		required	string	local	last		false	false
+mail-rcpt	mail-rcpt		required	string	local	append		false	false
+mail-rcpt-allowfails	mail-rcpt-allowfails,no-mail-rcpt-allowfails	no-mail-rcpt-allowfails	none	boolean	local	no_effect		
+|false	false
+manual	M,manual,no-manual	no-manual	none	boolean	local	no_effect		false	false
+max-filesize	max-filesize		required	number	local	last		false	false
+max-redirs	max-redirs		required	number	local	last		false	false
+metalink	metalink,no-metalink	no-metalink	none	boolean	local	no_effect		false	false
+mptcp	mptcp,no-mptcp	no-mptcp	none	boolean	local	no_effect		false	false
+netrc	n,netrc,no-netrc	no-netrc	none	boolean	local	no_effect		false	false
+netrc-file	netrc-file		required	string	local	last		false	false
+netrc-optional	netrc-optional,no-netrc-optional	no-netrc-optional	none	boolean	local	no_effect		false	false
+alpn	no-alpn,alpn	no-alpn	none	boolean	local	no_effect		false	false
+buffer	N,no-buffer,buffer	N,no-buffer	none	boolean	local	no_effect		false	false
+clobber	no-clobber,clobber	no-clobber	none	boolean	local	no_effect		false	false
+keepalive	no-keepalive,keepalive	no-keepalive	none	boolean	local	no_effect		false	false
+npn	no-npn,npn	no-npn	none	boolean	local	no_effect		false	false
+progress-meter	no-progress-meter,progress-meter	no-progress-meter	none	boolean	local	no_effect		false	false
+sessionid	no-sessionid,sessionid	no-sessionid	none	boolean	local	no_effect		false	false
+noproxy	noproxy		required	string	local	last		false	false
+ntlm-wb	ntlm-wb,no-ntlm-wb	no-ntlm-wb	none	boolean	local	no_effect		false	false
+parallel	Z,parallel,no-parallel	no-parallel	none	boolean	global	no_effect		false	false
+parallel-immediate	parallel-immediate,no-parallel-immediate	no-parallel-immediate	none	boolean	global	no_effect		false	
+|false
+parallel-max	parallel-max		required	number	global	last		false	false
+pass	pass		required	string	local	last		false	false
+path-as-is	path-as-is,no-path-as-is	no-path-as-is	none	boolean	local	no_effect		false	false
+pinnedpubkey	pinnedpubkey		required	string	local	last		false	false
+post301	post301,no-post301	no-post301	none	boolean	local	no_effect		false	false
+post302	post302,no-post302	no-post302	none	boolean	local	no_effect		false	false
+post303	post303,no-post303	no-post303	none	boolean	local	no_effect		false	false
+preproxy	preproxy		required	string	local	last		false	false
+proto	proto		required	string	local	last		false	false
+proto-default	proto-default		required	string	local	last		false	false
+proto-redir	proto-redir		required	string	local	last		false	false
+proxy-anyauth	proxy-anyauth,no-proxy-anyauth	no-proxy-anyauth	none	boolean	local	no_effect		false	false
+proxy-ca-native	proxy-ca-native,no-proxy-ca-native	no-proxy-ca-native	none	boolean	local	no_effect		false	false
+proxy-cacert	proxy-cacert		required	string	local	last		false	false
+proxy-capath	proxy-capath		required	string	local	last		false	false
+proxy-cert	proxy-cert		required	string	local	last		false	false
+proxy-cert-type	proxy-cert-type		required	string	local	last		false	false
+proxy-ciphers	proxy-ciphers		required	string	local	last		false	false
+proxy-crlfile	proxy-crlfile		required	string	local	last		false	false
+proxy-digest	proxy-digest,no-proxy-digest	no-proxy-digest	none	boolean	local	no_effect		false	false
+proxy-header	proxy-header		required	string	local	append		false	false
+proxy-http2	proxy-http2,no-proxy-http2	no-proxy-http2	none	boolean	local	no_effect		false	false
+proxy-insecure	proxy-insecure,no-proxy-insecure	no-proxy-insecure	none	boolean	local	no_effect		false	false
+proxy-key	proxy-key		required	string	local	last		false	false
+proxy-key-type	proxy-key-type		required	string	local	last		false	false
+proxy-negotiate	proxy-negotiate,no-proxy-negotiate	no-proxy-negotiate	none	boolean	local	no_effect		false	false
+proxy-pass	proxy-pass		required	string	local	last		false	false
+proxy-pinnedpubkey	proxy-pinnedpubkey		required	string	local	last		false	false
+proxy-service-name	proxy-service-name		required	string	local	last		false	false
+proxy-ssl-allow-beast	proxy-ssl-allow-beast,no-proxy-ssl-allow-beast	no-proxy-ssl-allow-beast	none	boolean	local	
+|no_effect		false	false
+proxy-ssl-auto-client-cert	proxy-ssl-auto-client-cert,no-proxy-ssl-auto-client-cert	no-proxy-ssl-auto-client-cert	none	
+|boolean	local	no_effect		false	false
+proxy-tls13-ciphers	proxy-tls13-ciphers		required	string	local	last		false	false
+proxy-tlsauthtype	proxy-tlsauthtype		required	string	local	last		false	false
+proxy-tlspassword	proxy-tlspassword		required	string	local	last		false	false
+proxy-tlsuser	proxy-tlsuser		required	string	local	last		false	false
+proxy-tlsv1	proxy-tlsv1		none	boolean	local	no_effect		false	false
+proxy1.0	proxy1.0		required	string	local	last		false	false
+proxytunnel	p,proxytunnel,no-proxytunnel	no-proxytunnel	none	boolean	local	no_effect		false	false
+pubkey	pubkey		required	string	local	last		false	false
+quote	Q,quote		required	string	local	append		false	false
+random-file	random-file		required	string	local	last		false	false
+range	r,range		required	string	local	last		false	false
+rate	rate		required	string	global	last		false	false
+raw	raw,no-raw	no-raw	none	boolean	local	no_effect		false	false
+referer	e,referer		required	string	local	last		false	false
+remote-header-name	J,remote-header-name,no-remote-header-name	no-remote-header-name	none	boolean	local	no_effect		false	
+|false
+remote-time	R,remote-time,no-remote-time	no-remote-time	none	boolean	local	no_effect		false	false
+remove-on-error	remove-on-error,no-remove-on-error	no-remove-on-error	none	boolean	local	no_effect		false	false
+request-target	request-target		required	string	local	last		false	false
+resolve	resolve		required	string	local	append		false	false
+retry-all-errors	retry-all-errors,no-retry-all-errors	no-retry-all-errors	none	boolean	local	no_effect		false	false
+retry-connrefused	retry-connrefused,no-retry-connrefused	no-retry-connrefused	none	boolean	local	no_effect		false	false
+retry-delay	retry-delay		required	number	local	last		false	false
+sasl-authzid	sasl-authzid		required	string	local	last		false	false
+sasl-ir	sasl-ir,no-sasl-ir	no-sasl-ir	none	boolean	local	no_effect		false	false
+service-name	service-name		required	string	local	last		false	false
+show-error	S,show-error,no-show-error	no-show-error	none	boolean	global	no_effect		false	false
+show-headers	i,show-headers,no-show-headers	no-show-headers	none	boolean	local	no_effect		false	false
+silent	s,silent,no-silent	no-silent	none	boolean	local	no_effect		false	false
+skip-existing	skip-existing,no-skip-existing	no-skip-existing	none	boolean	local	no_effect		false	false
+socks4	socks4		required	string	local	last		false	false
+socks4a	socks4a		required	string	local	last		false	false
+socks5	socks5		required	string	local	last		false	false
+socks5-basic	socks5-basic,no-socks5-basic	no-socks5-basic	none	boolean	local	no_effect		false	false
+socks5-gssapi	socks5-gssapi,no-socks5-gssapi	no-socks5-gssapi	none	boolean	local	no_effect		false	false
+socks5-gssapi-nec	socks5-gssapi-nec,no-socks5-gssapi-nec	no-socks5-gssapi-nec	none	boolean	local	no_effect		false	false
+socks5-gssapi-service	socks5-gssapi-service		required	string	local	last		false	false
+socks5-hostname	socks5-hostname		required	string	local	last		false	false
+speed-limit	Y,speed-limit		required	number	local	last		false	false
+speed-time	y,speed-time		required	number	local	last		false	false
+ssl	ssl,no-ssl	no-ssl	none	boolean	local	no_effect		false	false
+ssl-allow-beast	ssl-allow-beast,no-ssl-allow-beast	no-ssl-allow-beast	none	boolean	local	no_effect		false	false
+ssl-auto-client-cert	ssl-auto-client-cert,no-ssl-auto-client-cert	no-ssl-auto-client-cert	none	boolean	local	no_effect		
+|false	false
+ssl-no-revoke	ssl-no-revoke,no-ssl-no-revoke	no-ssl-no-revoke	none	boolean	local	no_effect		false	false
+ssl-reqd	ssl-reqd,no-ssl-reqd	no-ssl-reqd	none	boolean	local	no_effect		false	false
+ssl-revoke-best-effort	ssl-revoke-best-effort,no-ssl-revoke-best-effort	no-ssl-revoke-best-effort	none	boolean	local	
+|no_effect		false	false
+sslv2	2,sslv2		none	boolean	local	no_effect		false	false
+sslv3	3,sslv3		none	boolean	local	no_effect		false	false
+stderr	stderr		required	string	global	last		false	false
+styled-output	styled-output,no-styled-output	no-styled-output	none	boolean	global	no_effect		false	false
+suppress-connect-headers	suppress-connect-headers,no-suppress-connect-headers	no-suppress-connect-headers	none	boolean	
+|local	no_effect		false	false
+tcp-fastopen	tcp-fastopen,no-tcp-fastopen	no-tcp-fastopen	none	boolean	local	no_effect		false	false
+tcp-nodelay	tcp-nodelay,no-tcp-nodelay	no-tcp-nodelay	none	boolean	local	no_effect		false	false
+telnet-option	t,telnet-option		required	string	local	append		false	false
+tftp-blksize	tftp-blksize		required	number	local	last		false	false
+tftp-no-options	tftp-no-options,no-tftp-no-options	no-tftp-no-options	none	boolean	local	no_effect		false	false
+time-cond	z,time-cond		required	string	local	last		false	false
+tls-earlydata	tls-earlydata,no-tls-earlydata	no-tls-earlydata	none	boolean	local	no_effect		false	false
+tls-max	tls-max		required	string	local	last		false	false
+tls13-ciphers	tls13-ciphers		required	string	local	last		false	false
+tlsauthtype	tlsauthtype		required	string	local	last		false	false
+tlspassword	tlspassword		required	string	local	last		false	false
+tlsuser	tlsuser		required	string	local	last		false	false
+tlsv1	1,tlsv1		none	boolean	local	no_effect		false	false
+tlsv1.0	tlsv1.0		none	boolean	local	no_effect		false	false
+tlsv1.1	tlsv1.1		none	boolean	local	no_effect		false	false
+tlsv1.2	tlsv1.2		none	boolean	local	no_effect		false	false
+tlsv1.3	tlsv1.3		none	boolean	local	no_effect		false	false
+tr-encoding	tr-encoding,no-tr-encoding	no-tr-encoding	none	boolean	local	no_effect		false	false
+trace	trace		required	string	global	last		false	false
+trace-ascii	trace-ascii		required	string	global	last		false	false
+trace-config	trace-config		required	string	global	append		false	false
+trace-ids	trace-ids,no-trace-ids	no-trace-ids	none	boolean	global	no_effect		false	false
+trace-time	trace-time,no-trace-time	no-trace-time	none	boolean	global	no_effect		false	false
+unix-socket	unix-socket		required	string	local	last		false	false
+use-ascii	B,use-ascii,no-use-ascii	no-use-ascii	none	boolean	local	no_effect		false	false
+variable	variable		required	string	local	append		false	false
+verbose	v,verbose,no-verbose	no-verbose	none	boolean	global	no_effect		false	false
+version	V,version,no-version	no-version	none	boolean	local	no_effect		false	false
+vlan-priority	vlan-priority		required	number	local	last		false	false
+write-out	w,write-out		required	string	local	last		false	false
+xattr	xattr,no-xattr	no-xattr	none	boolean	local	no_effect		false	false
+next	:,next		none	boolean	global	no_effect		false	true
