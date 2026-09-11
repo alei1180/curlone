@@ -45,12 +45,6 @@
 &ИсточникЗначение("--basic --digest", "auth.selection")
 &ИсточникЗначение("--oauth2-bearer token", "auth.oauth2")
 &ИсточникЗначение("--aws-sigv4 aws", "auth.aws_sigv4")
-&ИсточникЗначение("--proxy http://proxy.example.org", "proxy.http")
-&ИсточникЗначение("--proxy https://proxy.example.org", "proxy.https")
-&ИсточникЗначение("--proxy socks4://proxy.example.org", "proxy.socks4")
-&ИсточникЗначение("--proxy socks4a://proxy.example.org", "proxy.socks4a")
-&ИсточникЗначение("--proxy socks5://proxy.example.org", "proxy.socks5")
-&ИсточникЗначение("--proxy socks5h://proxy.example.org", "proxy.socks5_hostname")
 &ИсточникЗначение("--proxy http://proxy.example.org --proxy-user user:pass", "proxy.credentials")
 &ИсточникЗначение("--proxy http://proxy.example.org --proxy-basic", "proxy.basic")
 &ИсточникЗначение("--proxy http://proxy.example.org --proxy-ntlm", "proxy.ntlm")
@@ -131,6 +125,12 @@
 &ИсточникЗначение("curl https://example.org https://example.com", "operations.multiple")
 &ИсточникЗначение("curl --data-raw ""$BODY"" https://example.org", "values.expressions")
 &ИсточникЗначение("curl --data ""$BODY"" https://example.org", "values.deferred_classification")
+&ИсточникЗначение("curl --proxy http://proxy.example.org https://example.org", "proxy.http")
+&ИсточникЗначение("curl --proxy https://proxy.example.org https://example.org", "proxy.https")
+&ИсточникЗначение("curl --proxy socks4://proxy.example.org https://example.org", "proxy.socks4")
+&ИсточникЗначение("curl --proxy socks4a://proxy.example.org https://example.org", "proxy.socks4a")
+&ИсточникЗначение("curl --proxy socks5://proxy.example.org https://example.org", "proxy.socks5")
+&ИсточникЗначение("curl --proxy socks5h://proxy.example.org https://example.org", "proxy.socks5_hostname")
 Процедура ТестДолжен_ОтклонитьОтсутствующуюОбязательнуюВозможность(Текст, Возможность) Экспорт
 
 	// Подготовка

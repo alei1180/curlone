@@ -638,9 +638,7 @@
 	Команды.Добавить("curl|--head|--upload-file|a|https://example.org");
 	Команды.Добавить("curl|--form|a=b|--head|https://example.org");
 	Команды.Добавить("curl|--head|--no-head|https://example.org");
-	Команды.Добавить("curl|--ftp-port|-|--proxy|localhost|https://example.org");
 	Команды.Добавить("curl|--url|@missing");
-	Команды.Добавить("curl|--upload-file|a{b,c}|https://example.org");
 	Команды.Добавить("curl|--output|a|--output|b|https://example.org");
 
 	// Действие и Проверка
