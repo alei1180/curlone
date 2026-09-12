@@ -1,5 +1,7 @@
 // BSLLS:ExportVariables-off
 
+#Использовать "../../domain"
+
 // Copyright 2019-2020 Vladimir Bondarevskiy
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
@@ -92,7 +94,7 @@
 	ЗаполнитьПараметрыЗапроса(Путь);
 
 	Если Не ЗначениеЗаполнено(Схема) Тогда
-		Схема = "http";
+		Схема = ПротоколыCURL.HTTP();
 	КонецЕсли;
 	
 КонецПроцедуры

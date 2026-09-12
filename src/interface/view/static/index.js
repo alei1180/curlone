@@ -78,24 +78,11 @@ function selectedLocale(elements) {
     return elements.localeButtons.find((button) => button.getAttribute('aria-pressed') === 'true')?.value ?? 'ru';
 }
 
-function requestParameters(elements) {
-    return {
-        cmd: elements.command.value,
-        lang: selectedValue(elements),
-        locale: selectedLocale(elements),
-        'response-type': elements.jsonCheckbox.checked ? 'json' : ''
-    };
-}
-
-function isConversionResponse(response) {
-    return response !== null
-        && typeof response === 'object'
-        && typeof response.result === 'string'
-        && Array.isArray(response.errors);
-}
-
-export function createRequestBody(parameters) {
-    return new URLSearchParams(parameters).toString().replaceAll('+', '%20');
+function isConversionResult(result) {
+    return result !== null
+        && typeof result === 'object'
+        && typeof result.result === 'string'
+        && Array.isArray(result.errors);
 }
 
 export async function submitConversion({
@@ -122,15 +109,15 @@ export async function submitConversion({
     setRequestPending(elements, true);
 
     try {
-        const response = await requestConversion(requestParameters(elements));
-        if (!isConversionResponse(response)) {
-            throw new TypeError('Invalid conversion response');
+        const result = await requestConversion();
+        if (!isConversionResult(result)) {
+            throw new TypeError('Invalid conversion result');
         }
 
-        const hasCriticalErrors = response.errors.some((record) => record.critical);
+        const hasCriticalErrors = result.errors.some((record) => record.critical);
 
-        showOutput(hasCriticalErrors ? '' : response.result);
-        renderMessages(response.errors, elements, documentRef);
+        showOutput(hasCriticalErrors ? '' : result.result);
+        renderMessages(result.errors, elements, documentRef);
         revealCriticalMessages(elements, documentRef);
         return true;
     } catch (error) {
@@ -141,6 +128,56 @@ export async function submitConversion({
     } finally {
         setRequestPending(elements, false);
     }
+}
+
+export function bindConversionForm({
+    elements,
+    convert,
+    refreshOutput,
+    documentRef
+}) {
+    elements.form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        void convert();
+    });
+
+    elements.command.addEventListener('invalid', () => {
+        elements.command.setAttribute('aria-invalid', 'true');
+    });
+
+    elements.command.addEventListener('input', () => {
+        if (elements.command.checkValidity()) {
+            elements.command.removeAttribute('aria-invalid');
+
+            if (elements.errors.textContent === REQUIRED_COMMAND_MESSAGE) {
+                renderMessages([], elements, documentRef);
+            }
+        }
+
+        if (!elements.command.value) {
+            refreshOutput();
+        }
+    });
+
+    for (const option of elements.generatorOptions) {
+        option.addEventListener('change', refreshOutput);
+    }
+
+    for (const button of elements.localeButtons) {
+        button.addEventListener('click', () => {
+            setLocale(elements, button.value);
+            refreshOutput();
+        });
+    }
+
+    elements.jsonCheckbox.addEventListener('change', refreshOutput);
+
+    documentRef.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' && event.ctrlKey) {
+            event.preventDefault();
+            elements.form.requestSubmit();
+        }
+    });
 }
 
 export async function initializeApplication({
@@ -154,7 +191,7 @@ export async function initializeApplication({
     try {
         const highlighter = await loadHighlighter();
         showDefaultOutput(highlighter);
-        setBusy(elements, false);
+        elements.output.setAttribute('aria-busy', 'false');
         return highlighter;
     } catch (error) {
         elements.output.setAttribute('aria-busy', 'false');
@@ -209,22 +246,6 @@ async function loadHighlighter() {
     });
 }
 
-async function postConversion(parameters, fetchRef) {
-    const response = await fetchRef('/api/v1/convert', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: createRequestBody(parameters)
-    });
-
-    if (!response.ok) {
-        throw new Error(`Conversion failed with HTTP ${response.status}`);
-    }
-
-    return response.json();
-}
-
 function renderOutput(highlighter, output, code) {
     output.innerHTML = highlighter.codeToHtml(code, {
         lang: 'bsl',
@@ -267,60 +288,6 @@ async function startApplication(documentRef, windowRef) {
 
     elements.copyButton.disabled = false;
 
-    const convert = () => submitConversion({
-        elements,
-        form: elements.form,
-        requestConversion: (parameters) => postConversion(parameters, windowRef.fetch.bind(windowRef)),
-        showOutput,
-        documentRef
-    });
-
-    const refreshOutput = () => {
-        if (elements.command.value) {
-            elements.form.requestSubmit();
-            return;
-        }
-
-        showDefaultOutput(highlighter);
-        renderMessages([], elements, documentRef);
-    };
-
-    elements.form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        void convert();
-    });
-
-    elements.command.addEventListener('invalid', () => {
-        elements.command.setAttribute('aria-invalid', 'true');
-    });
-
-    elements.command.addEventListener('input', () => {
-        if (elements.command.checkValidity()) {
-            elements.command.removeAttribute('aria-invalid');
-
-            if (elements.errors.textContent === REQUIRED_COMMAND_MESSAGE) {
-                renderMessages([], elements, documentRef);
-            }
-        }
-
-        if (!elements.command.value) {
-            refreshOutput();
-        }
-    });
-
-    for (const option of elements.generatorOptions) {
-        option.addEventListener('change', refreshOutput);
-    }
-
-    for (const button of elements.localeButtons) {
-        button.addEventListener('click', () => {
-            setLocale(elements, button.value);
-            refreshOutput();
-        });
-    }
-
-    elements.jsonCheckbox.addEventListener('change', refreshOutput);
-
     elements.copyButton.addEventListener('click', async () => {
         try {
            await windowRef.navigator.clipboard.writeText(outputText);
@@ -329,12 +296,6 @@ async function startApplication(documentRef, windowRef) {
         }
     });
 
-    documentRef.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' && event.ctrlKey) {
-            event.preventDefault();
-            elements.form.requestSubmit();
-        }
-    });
 }
 
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
