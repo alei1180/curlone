@@ -383,6 +383,8 @@ textarea[aria-invalid="true"] {
 .message-error {
     border-color: #cf222e;
     background: #ffebe9;
+    font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    white-space: pre-wrap;
 }
 
 .footer {

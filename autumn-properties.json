@@ -1,18 +1,12 @@
 ﻿{ 
   "winow": {
-      "ИмяХоста": "localhost",
+      "ИмяХоста": "127.0.0.1",
       "Порт": 3333,
-      "РазмерБуфера": 0,
-      "КаталогСПриложениями": "./src/interface",
+      "КаталогСПриложениями": "./src/web",
       "КаталогиСФайлами": {
-         "/images": "./src/interface/view/images",
-         "/static": "./src/interface/view/static"
+         "/images": "./src/web/view/images",
+         "/static": "./src/web/view/static"
       }
-  },
-  "cli": {
-      "ИмяПриложения": "curlone",
-      "ПолноеИмяПриложения": "Конвертер команды curl в код на языке 1С",
-      "ВерсияПриложения": "1.8.0"
   },
   "curlone": {
     "web": {

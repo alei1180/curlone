@@ -1,0 +1,224 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "curlone HTTP API",
+    "version": "2.0.0"
+  },
+  "paths": {
+    "/api/v2/convert": {
+      "post": {
+        "operationId": "convertCurlCommand",
+        "summary": "Преобразовать команду curl в код OneScript",
+        "x-maxBodyBytes": 65536,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConversionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ConversionResponse"
+          },
+          "400": {
+            "$ref": "#/components/responses/ConversionResponse"
+          },
+          "405": {
+            "description": "Метод не поддерживается",
+            "headers": {
+              "Allow": {
+                "schema": {
+                  "type": "string",
+                  "const": "POST"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversionResponse"
+                }
+              }
+            }
+          },
+          "413": {
+            "$ref": "#/components/responses/ConversionResponse"
+          },
+          "415": {
+            "$ref": "#/components/responses/ConversionResponse"
+          },
+          "422": {
+            "$ref": "#/components/responses/ConversionResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ConversionResponse"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "ConversionResponse": {
+        "description": "Результат преобразования или безопасная ошибка",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ConversionResponse"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ConversionRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "command"
+        ],
+        "properties": {
+          "command": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target": {
+            "type": "string",
+            "enum": [
+              "1c",
+              "connector"
+            ],
+            "default": "1c"
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "ru",
+              "en"
+            ],
+            "default": "ru"
+          },
+          "generatorOptions": {
+            "type": "object",
+            "additionalProperties": false,
+            "default": {},
+            "properties": {
+              "deserializeJsonResponse": {
+                "type": "boolean",
+                "default": false
+              }
+            }
+          }
+        }
+      },
+      "ConversionResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "success",
+          "target",
+          "code",
+          "errors",
+          "warnings"
+        ],
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "target": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversionError"
+            }
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ConversionWarning"
+            }
+          }
+        }
+      },
+      "ConversionError": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "message",
+          "position"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "position": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Позиция символа ошибки в команде, отсчитываемая с единицы.",
+            "minimum": 1
+          }
+        }
+      },
+      "ConversionWarning": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "message",
+          "capability",
+          "option",
+          "position",
+          "target"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "capability": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "option": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "position": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "target": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

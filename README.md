@@ -34,7 +34,7 @@ opm install curlone
 Запуск приложения:
 
 ```shell
-curlone web -o -p 3333
+curlone serve --open --port 3333
 ```
 
 * `-o` или `--open` - открыть в браузере
@@ -83,27 +83,42 @@ curlone web -o -p 3333
 
 ### Консольное приложение
 
-Команда `convert` принимает исходную команду строкой через `--command` либо как отдельные аргументы после обязательного
-разделителя `--`:
+Команда `convert` принимает исходную команду позиционным аргументом, отдельными аргументами после `--`, из файла или из
+перенаправленного стандартного ввода:
 
 ```shell
+curlone convert "curl https://example.com"
 curlone convert --target 1c --locale ru -- curl https://example.com
-curlone convert --target connector --command "curl https://example.com"
-curlone convert --format json --command "curl https://example.com"
+curlone convert --target connector "curl https://example.com"
+curlone convert --input command.txt --output result.bsl
+curlone convert --format json "curl https://example.com"
+echo "curl https://example.com" | curlone convert
 ```
 
 Доступные параметры `convert`:
 
-* `--target 1c|connector` - цель генерации, по умолчанию `1c`;
-* `--locale ru|en` - язык сформированного кода и диагностики, по умолчанию `ru`;
-* `--format text|json` - формат результата, по умолчанию `text`;
-* `--command <строка>` - команда curl одной строкой;
+* `-t, --target 1c|connector` - цель генерации, по умолчанию `1c`;
+* `-l, --locale ru|en` - язык сформированного кода и диагностики, по умолчанию `ru`;
+* `-f, --format text|json` - формат результата, по умолчанию `text`;
+* `-i, --input <файл>` - прочитать команду из файла, `-` означает стандартный ввод;
+* `-o, --output <файл>` - записать основной результат в файл, `-` означает стандартный вывод;
+* `--fail-on-warning` - вернуть код `5`, если конвертация завершилась с предупреждениями;
 * `-- <аргументы>` - граница между параметрами curlone и исходными аргументами curl.
 
 В формате `text` сформированный код записывается в `stdout`, а ошибки и предупреждения в `stderr`. В формате `json`
-структурированный результат целиком записывается в `stdout`, `stderr` остаётся пустым. Ошибки разбора параметров самого
-curlone до успешного распознавания `--format json` записываются в `stderr` как текст. После распознавания JSON-формата
-они возвращаются структурированным результатом в `stdout`.
+структурированный результат целиком записывается в `stdout`, `stderr` остаётся пустым. Опция `--format json`
+распознаётся независимо от позиции среди параметров. При указании `--output` основной результат записывается в файл.
+Ошибка конвертации в текстовом формате не создаёт и не изменяет файл результата.
+
+Запуск веб-интерфейса:
+
+```shell
+curlone serve
+curlone serve --port 8080 --open
+```
+
+Общую справку выводят `curlone --help` и `curlone help`. Справка команды доступна через `curlone convert --help` и
+`curlone help convert`. Версию выводит `curlone --version`.
 
 Коды завершения:
 
@@ -114,6 +129,7 @@ curlone до успешного распознавания `--format json` за�
 | 2 | Неверные параметры командной строки |
 | 3 | Команда curl принята, но код сформировать невозможно |
 | 4 | Неизвестная цель, несовместимая версия SPI или нарушение контракта генератора |
+| 5 | Получены предупреждения при включённой опции `--fail-on-warning` |
 
 ### Библиотека
 
@@ -131,11 +147,38 @@ curlone до успешного распознавания `--format json` за�
 
 Для Connector установите `Параметры.Цель = ЦелиКонвертацииCURL.КоннекторHTTP()`.
 
-HTTP API v1 удалён. HTTP API v2 будет опубликован отдельно.
+HTTP API v1 удалён. Для конвертации по HTTP используйте `POST /api/v2/convert`.
+Спецификация OpenAPI доступна по адресу `/api/v2/openapi.json`.
 
 ## Особенности использования
 
 Команда `curl` указывается в нотации `bash`
+
+## Разработка
+
+Установить зависимости для разработки:
+
+```powershell
+opm install -l --dev
+```
+
+Запустить тесты:
+
+```powershell
+oneunit execute --recursive
+```
+
+Запустить тесты веб-интерфейса:
+
+```powershell
+node --test tests\web\index.test.mjs
+```
+
+Собрать пакет:
+
+```powershell
+opm build .
+```
 
 ## Благодарности
 

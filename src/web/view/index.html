@@ -54,7 +54,7 @@
         <h1 class="visually-hidden">Конвертер команды curl в код на языке 1С</h1>
 
         <section class="panel" aria-labelledby="command-title">
-            <form id="curl-form" name="curl" novalidate>
+            <form id="curl-form" name="curl" action="/api/v2/convert" method="post">
                 <label id="command-title" for="command">Команда curl<sup><sup><sup>(bash)</sup></sup></sup></label>
                 <textarea name="command" id="command" spellcheck="false" wrap="soft"
                     placeholder="curl example.com" aria-errormessage="errors" required disabled></textarea>
@@ -65,11 +65,11 @@
                     <fieldset class="generator-options">
                         <legend class="visually-hidden">Генератор кода</legend>
                         <label class="choice">
-                            <input type="radio" id="onec" name="lang" value="1c" checked disabled>
+                            <input type="radio" id="onec" name="target" value="1c" checked disabled>
                             <span>1С</span>
                         </label>
                         <label class="choice">
-                            <input type="radio" id="connector" name="lang" value="connector" disabled>
+                            <input type="radio" id="connector" name="target" value="connector" disabled>
                             <span>Connector</span>
                         </label>
                     </fieldset>
@@ -89,7 +89,8 @@
 
                 <div class="output-options">
                     <label class="choice json-option">
-                        <input type="checkbox" id="json-option" aria-describedby="json-option-help" disabled>
+                        <input type="checkbox" id="json-option" name="deserializeJsonResponse"
+                            aria-describedby="json-option-help" disabled>
                         <span>JSON</span>
                     </label>
                     <div class="tooltip">
