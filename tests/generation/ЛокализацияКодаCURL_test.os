@@ -1,4 +1,5 @@
-﻿#Использовать "../../src/generators/platform-http"
+﻿#Использовать errors
+#Использовать "../../src/generators/platform-http"
 
 #Область Тесты
 

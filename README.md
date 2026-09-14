@@ -1,4 +1,4 @@
-![](img/curlone-logo-horizontal.png)
+![curlone](img/curlone-logo-horizontal.png)
 
 <p align="center">
 <a href="https://t.me/curlone_bot"><img alt="telegram bot" src="https://img.shields.io/badge/telegram-bot-blue?style=flat&logo=telegram"></a>
@@ -10,130 +10,146 @@
 <a href="https://litrosbadges.ru/package/curlone"><img src="https://litrosbadges.ru/package/curlone.svg" alt="Used by"></a>
 </p>
 
-## Назначение
+# curlone
 
-`curlone` - конвертер команды `curl` в код на языке `1С`.
+`curlone` преобразует команды `curl` в код OneScript для:
 
-## Сайт
+- платформенных `HTTPСоединение` и `FTPСоединение`;
+- библиотеки [Connector](https://github.com/vbondarevsky/Connector).
 
-[curlone.ru](https://curlone.ru/)
+Конвертер доступен как веб-приложение, консольная команда, HTTP API и библиотека OneScript. Он разбирает команду
+`curl`, проверяет возможности выбранного генератора и возвращает сформированный код вместе с ошибками и
+предупреждениями.
 
-## Телеграм бот
-[@curlone_bot](https://t.me/curlone_bot)
+> Текущая версия `2.0.0-alpha.1` несовместима с интерфейсами curlone v1. Порядок обновления описан в
+> [руководстве по миграции](docs/МиграцияНаCurlone2.md).
 
 ## Установка
+
+Для работы требуется OneScript 2.0 или новее.
 
 ```shell
 opm install curlone
 ```
 
-## Использование
+После установки доступны команды `curlone convert` и `curlone serve`.
 
-### Веб-приложение
-
-Запуск приложения:
-
-```shell
-curlone serve --open --port 3333
-```
-
-* `-o` или `--open` - открыть в браузере
-* `-p` или `--port` - порт, на котором будет запущено приложение
-
-Пример конвертации:
-
->Команда curl
->
->```shell
->curl https://httpbin.org/post --request POST -d "key=value" -H "X-Header: value"
->```
->
->Код 1C
->
->```bsl
->Заголовки = Новый Соответствие();
->Заголовки.Вставить("X-Header", "value");
->Заголовки.Вставить("Content-Type", "application/x-www-form-urlencoded");
->
->ЗащищенноеСоединение = Новый ЗащищенноеСоединениеOpenSSL();
->
->Соединение = Новый HTTPСоединение("httpbin.org", 443, , , , , ЗащищенноеСоединение);
->HTTPЗапрос = Новый HTTPЗапрос("/post", Заголовки);
->HTTPЗапрос.УстановитьТелоИзСтроки("key=value");
->
->HTTPОтвет = Соединение.ВызватьHTTPМетод("POST", HTTPЗапрос);
->```
->
->Код Connector
->
->```bsl
->Заголовки = Новый Соответствие();
->Заголовки.Вставить("X-Header", "value");
->
->Данные = Новый Соответствие();
->Данные.Вставить("key", "value");
->
->ДополнительныеПараметры = Новый Структура();
->ДополнительныеПараметры.Вставить("Заголовки", Заголовки);
->
->Результат = КоннекторHTTP.Post("https://httpbin.org/post", Данные, ДополнительныеПараметры);
->```
-
-Форма конвертации временно недоступна. Новый HTTP API и подключение формы будут реализованы в следующем этапе.
-
-### Консольное приложение
-
-Команда `convert` принимает исходную команду позиционным аргументом, отдельными аргументами после `--`, из файла или из
-перенаправленного стандартного ввода:
+## Быстрый старт
 
 ```shell
 curlone convert "curl https://example.com"
-curlone convert --target 1c --locale ru -- curl https://example.com
-curlone convert --target connector "curl https://example.com"
-curlone convert --input command.txt --output result.bsl
-curlone convert --format json "curl https://example.com"
-echo "curl https://example.com" | curlone convert
 ```
 
-Доступные параметры `convert`:
+Результат:
 
-* `-t, --target 1c|connector` - цель генерации, по умолчанию `1c`;
-* `-l, --locale ru|en` - язык сформированного кода и диагностики, по умолчанию `ru`;
-* `-f, --format text|json` - формат результата, по умолчанию `text`;
-* `-i, --input <файл>` - прочитать команду из файла, `-` означает стандартный ввод;
-* `-o, --output <файл>` - записать основной результат в файл, `-` означает стандартный вывод;
-* `--fail-on-warning` - вернуть код `5`, если конвертация завершилась с предупреждениями;
-* `-- <аргументы>` - граница между параметрами curlone и исходными аргументами curl.
+```bsl
+ЗащищенноеСоединение = Новый ЗащищенноеСоединениеOpenSSL();
 
-В формате `text` сформированный код записывается в `stdout`, а ошибки и предупреждения в `stderr`. В формате `json`
-структурированный результат целиком записывается в `stdout`, `stderr` остаётся пустым. Опция `--format json`
-распознаётся независимо от позиции среди параметров. При указании `--output` основной результат записывается в файл.
-Ошибка конвертации в текстовом формате не создаёт и не изменяет файл результата.
+Соединение = Новый HTTPСоединение("example.com", 443, , , , , ЗащищенноеСоединение);
+HTTPЗапрос = Новый HTTPЗапрос("/");
 
-Запуск веб-интерфейса:
+HTTPОтвет = Соединение.ВызватьHTTPМетод("GET", HTTPЗапрос);
+```
+
+По умолчанию curlone формирует платформенный код с русскими именами переменных.
+
+## Веб-приложение
+
+Запустите локальный веб-интерфейс и откройте его в браузере:
 
 ```shell
-curlone serve
-curlone serve --port 8080 --open
+curlone serve --port 3333 --open
 ```
 
-Общую справку выводят `curlone --help` и `curlone help`. Справка команды доступна через `curlone convert --help` и
-`curlone help convert`. Версию выводит `curlone --version`.
+Если порт не указан, приложение использует порт из своей конфигурации. Готовая веб-версия доступна на
+[curlone.ru](https://curlone.ru/).
 
-Коды завершения:
+Справка по параметрам запуска:
 
-| Код | Значение |
-|---:|---|
-| 0 | Код сформирован |
-| 1 | Внутренняя ошибка приложения |
-| 2 | Неверные параметры командной строки |
-| 3 | Команда curl принята, но код сформировать невозможно |
-| 4 | Неизвестная цель, несовместимая версия SPI или нарушение контракта генератора |
-| 5 | Получены предупреждения при включённой опции `--fail-on-warning` |
+```shell
+curlone serve --help
+```
 
-### Библиотека
+## Интерфейс командной строки
 
-Пример использования:
+Команда `convert` принимает исходную команду в нотации Bash: строкой, отдельными аргументами, из файла или из
+стандартного ввода:
+
+```shell
+# Команда одной строкой
+curlone convert "curl https://example.com"
+
+# Параметры curl передаются после разделителя --
+curlone convert -- curl https://example.com
+
+# Код для Connector с английскими именами переменных
+curlone convert --target connector --locale en "curl https://example.com"
+
+# Чтение команды из файла и запись кода в файл
+curlone convert --input command.txt --output result.bsl
+
+# Чтение из стандартного ввода
+echo "curl https://example.com" | curlone convert
+
+# Структурированный результат
+curlone convert --format json "curl https://example.com"
+```
+
+Основные параметры:
+
+| Параметр | Значения | Назначение |
+| --- | --- | --- |
+| `-t`, `--target` | `1c`, `connector` | Выбрать генератор, по умолчанию `1c` |
+| `-l`, `--locale` | `ru`, `en` | Выбрать язык сформированного кода, по умолчанию `ru` |
+| `-f`, `--format` | `text`, `json` | Выбрать формат результата, по умолчанию `text` |
+| `-i`, `--input` | путь или `-` | Прочитать команду из файла или стандартного ввода |
+| `-o`, `--output` | путь или `-` | Записать результат в файл или стандартный вывод |
+| `--fail-on-warning` | | Вернуть код завершения `5`, если есть предупреждения |
+| `--` | | Завершить параметры curlone и начать аргументы curl |
+
+В формате `text` код записывается в стандартный вывод, а диагностика в поток ошибок. В формате `json` весь
+результат записывается в стандартный вывод. Полную справку выводит `curlone convert --help`.
+
+## HTTP API
+
+HTTP API работает вместе с веб-приложением. Запустите сервер и отправьте запрос `POST /api/v2/convert`:
+
+```shell
+curl http://localhost:3333/api/v2/convert \
+  -H "Content-Type: application/json" \
+  -d '{"command":"curl https://example.com","target":"1c","locale":"ru"}'
+```
+
+Минимальное тело запроса содержит только поле `command`. Поля `target` и `locale` по умолчанию равны `1c` и `ru`:
+
+```json
+{
+  "command": "curl https://example.com",
+  "target": "1c",
+  "locale": "ru",
+  "generatorOptions": {
+    "deserializeJsonResponse": false
+  }
+}
+```
+
+Ответ всегда содержит единый набор полей:
+
+```json
+{
+  "success": true,
+  "target": "1c",
+  "code": "Сформированный код",
+  "errors": [],
+  "warnings": []
+}
+```
+
+Описание схем, ограничений и ответов доступно после запуска приложения по адресу `/api/v2/openapi.json`.
+
+## Библиотечный API
+
+Подключите пакет и создайте параметры конвертации:
 
 ```bsl
 #Использовать curlone
@@ -143,62 +159,82 @@ curlone serve --port 8080 --open
 Параметры.Локаль = ЛокалиКонвертацииCURL.Русская();
 
 Результат = Новый КонвертерCURL().Конвертировать(Параметры);
+
+Если Результат.Успешно() Тогда
+    Сообщить(Результат.Код());
+Иначе
+    Для Каждого ЭлементДиагностики Из Результат.Диагностика() Цикл
+        Сообщить(ЭлементДиагностики.Сообщение);
+    КонецЦикла;
+КонецЕсли;
 ```
 
-Для Connector установите `Параметры.Цель = ЦелиКонвертацииCURL.КоннекторHTTP()`.
+Для Connector установите цель `ЦелиКонвертацииCURL.КоннекторHTTP()`. Для английских имён переменных используйте
+`ЛокалиКонвертацииCURL.Английская()`.
 
-HTTP API v1 удалён. Для конвертации по HTTP используйте `POST /api/v2/convert`.
-Спецификация OpenAPI доступна по адресу `/api/v2/openapi.json`.
+`РезультатКонвертацииCURL` предоставляет сформированный код, ошибки, предупреждения, общую диагностику и
+идентификатор использованного генератора.
 
-## Особенности использования
+## Поддержка команд curl
 
-Команда `curl` указывается в нотации `bash`
+Встроенные генераторы поддерживают распространённые возможности curl: методы HTTP, заголовки, данные форм,
+JSON, файлы, составные формы, аутентификацию, прокси, TLS, сохранение ответа и часть возможностей FTP.
+
+Если семантику команды можно представить только приблизительно, curlone формирует код и возвращает
+предупреждение. Если корректное представление невозможно, результат содержит ошибку без программного кода.
+
+Точное состояние каждой возможности приведено в [матрице возможностей](docs/МатрицаВозможностейCURL.md):
+
+- [платформенные HTTP и FTP](docs/generators/platform-http.md);
+- [Connector HTTP](docs/generators/connector-http.md);
+- [коды ошибок](docs/КодыОшибокCurlone.md).
+
+## Документация
+
+- [Оглавление документации](docs/README.md)
+- [Веб-приложение](docs/ВебПриложение.md)
+- [Интерфейс командной строки](docs/ИнтерфейсКоманднойСтроки.md)
+- [HTTP API](docs/HTTPAPI.md)
+- [Библиотечный API](docs/КонвертерCURL.md)
+- [Миграция на curlone 2](docs/МиграцияНаCurlone2.md)
+- [Матрица возможностей](docs/МатрицаВозможностейCURL.md)
+- [Создание собственных генераторов](docs/spi/ГенераторКодаCURL.md)
+- [Реестр генераторов](docs/РеестрГенераторовCURL.md)
 
 ## Разработка
 
-Установить зависимости для разработки:
+Установите зависимости проекта и OneUnit:
 
-```powershell
+```shell
 opm install -l --dev
+opm install oneunit
 ```
 
-Запустить тесты:
+Запустите проверки:
 
-```powershell
+```shell
 oneunit execute --recursive
-```
-
-Запустить тесты веб-интерфейса:
-
-```powershell
-node --test tests\web\index.test.mjs
-```
-
-Собрать пакет:
-
-```powershell
-opm build .
+node --test tests/web/index.test.mjs
 ```
 
 ## Благодарности
 
-Сообществу за свободные инструменты:
+curlone использует свободные библиотеки и инструменты:
 
-* [OneScript](https://github.com/EvilBeaver/OneScript)
-* [Autumn/ОСень](https://github.com/autumn-library/autumn)
-* [WINOW](https://github.com/autumn-library/winow)
-* [autumn-cli](https://github.com/autumn-library/autumn-cli)
-* [cli](https://github.com/oscript-library/cli)
-* [Connector](https://github.com/vbondarevsky/Connector)
-* [1commands](https://github.com/artbear/1commands)
-* [tokenizer](https://github.com/Nivanchenko/tokenizer)
-* [logos](https://github.com/oscript-library/logos)
-* [1bdd](https://github.com/artbear/1bdd)
-* [OneUnit](https://github.com/sfaqer/oneunit)
-* [asserts](https://github.com/oscript-library/asserts)
-* [errors](https://github.com/Stivo182/oscript-errors)
-* [coloratos](https://github.com/240596448/coloratos)
-* [i18n](https://github.com/Stivo182/oscript-i18n)
-* [Shiki 式](https://github.com/shikijs/shiki)
+- [OneScript](https://github.com/EvilBeaver/OneScript)
+- [Autumn/ОСень](https://github.com/autumn-library/autumn)
+- [WINOW](https://github.com/autumn-library/winow)
+- [decorator](https://github.com/nixel2007/decorator)
+- [i18n](https://github.com/oscript-library/i18n)
+- [Jason](https://github.com/nixel2007/jason)
+- [PackageInfo](https://github.com/Segate-ekb/packageinfo)
+- [errors](https://github.com/Stivo182/oscript-errors)
+- [url](https://github.com/Stivo182/oscript-url)
+- [resilience](https://github.com/Stivo182/oscript-resilience)
+- [Connector](https://github.com/vbondarevsky/1connector)
+- [OneUnit](https://github.com/sfaqer/oneunit)
+- [asserts](https://github.com/oscript-library/asserts)
+- [Shiki 式](https://github.com/shikijs/shiki)
+
 
 <a href="https://infostart.ru/public/2319069/" target="_blank"><img alt="Статья на Инфостарт" src="https://infostart.ru/bitrix/templates/sandbox_empty/assets/tpl/abo/img/logo.svg"></a>

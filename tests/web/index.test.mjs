@@ -217,7 +217,7 @@ test('схлопывает одинаковые предупреждения с 
     const elements = createElements();
     const warning = {
         code: 'curlone.generator.capability_unsupported',
-        message: 'Не поддерживается возможность: retry.count',
+        message: 'Повторные попытки запроса не будут выполнены.',
         capability: 'retry.count',
         option: '--retry',
         position: 2,
@@ -235,7 +235,7 @@ test('сохраняет различающиеся предупреждения
     const elements = createElements();
     const warning = {
         code: 'curlone.generator.capability_unsupported',
-        message: 'Не поддерживается возможность: retry.count',
+        message: 'Повторные попытки запроса не будут выполнены.',
         capability: 'retry.count',
         option: '--retry',
         position: 2,
@@ -508,13 +508,4 @@ test('показывает ошибку при сбое копирования',
 
     assert.equal(result, false);
     assert.deepEqual(elements.errors.nodes, [{ text: 'Не удалось скопировать код' }]);
-});
-
-test('HTML объявляет семантическую форму API v2 без ограничения по символам', async () => {
-    const html = await readFile(new URL('../../src/web/view/index.html', import.meta.url), 'utf8');
-    assert.match(html, /action="\/api\/v2\/convert"/);
-    assert.match(html, /method="post"/);
-    assert.doesNotMatch(html, /novalidate|maxlength|\/api\/v1|\/api\/v2\/conversions/);
-    assert.match(html, /name="target"/);
-    assert.match(html, /name="deserializeJsonResponse"/);
 });

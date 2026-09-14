@@ -56,6 +56,9 @@
           },
           "500": {
             "$ref": "#/components/responses/ConversionResponse"
+          },
+          "503": {
+            "$ref": "#/components/responses/ConversionResponse"
           }
         }
       }
