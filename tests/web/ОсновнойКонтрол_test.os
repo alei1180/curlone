@@ -118,6 +118,7 @@
 &ИсточникЗначение("СоставноеЗначениеЛокали")
 &ИсточникЗначение("ТипПараметров")
 &ИсточникЗначение("ТипПараметра")
+&ИсточникЗначение("ЗначениеПараметра")
 &ИсточникЗначение("ПолеЗапроса")
 &ИсточникЗначение("СоставноеПолеЗапроса")
 &ИсточникЗначение("ПолеПараметров")
@@ -219,7 +220,7 @@
 
 	// Подготовка
 	Тело = "{""command"":""curl http://example.com"",""target"":""1c"",""locale"":""ru"","
-		+ """generatorOptions"":{""deserializeJsonResponse"":true}}";
+		+ """generatorOptions"":{""responseDeserializationFormat"":""json""}}";
 	ОжидаемыйКод = "Соединение = Новый HTTPСоединение(""example.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/"");
 	|
@@ -263,6 +264,25 @@
 
 	// Подготовка
 	Тело = "{""command"":""curl http://example.com""}";
+	ОжидаемыйКод = "Соединение = Новый HTTPСоединение(""example.com"", 80);
+	|HTTPЗапрос = Новый HTTPЗапрос(""/"");
+	|
+	|HTTPОтвет = Соединение.ВызватьHTTPМетод(""GET"", HTTPЗапрос);";
+
+	// Действие
+	Ответ = ОтправитьJSON(Тело);
+
+	// Проверка
+	ПроверитьПолныйJSONОтвет(Ответ, ОжидаемыйУспешныйОтвет("1c", ОжидаемыйКод));
+
+КонецПроцедуры
+
+&Тест
+Процедура ТестДолжен_НеДесериализоватьОтветДляЯвногоNull() Экспорт
+
+	// Подготовка
+	Тело = "{""command"":""curl http://example.com"",""generatorOptions"":{"
+		+ """responseDeserializationFormat"":null}}";
 	ОжидаемыйКод = "Соединение = Новый HTTPСоединение(""example.com"", 80);
 	|HTTPЗапрос = Новый HTTPЗапрос(""/"");
 	|
@@ -465,8 +485,13 @@
 		Тело = "{""command"":""curl x"",""generatorOptions"":1}";
 		Возврат СлучайJSON(Тело, 400, "argument.invalid_type", "Поле generatorOptions должно быть объектом");
 	ИначеЕсли Имя = "ТипПараметра" Тогда
-		Тело = "{""command"":""curl x"",""generatorOptions"":{""deserializeJsonResponse"":1}}";
-		Возврат СлучайJSON(Тело, 400, "argument.invalid_type", "Поле deserializeJsonResponse должно быть логическим");
+		Тело = "{""command"":""curl x"",""generatorOptions"":{""responseDeserializationFormat"":1}}";
+		Сообщение = "Поле responseDeserializationFormat должно быть строкой";
+		Возврат СлучайJSON(Тело, 400, "argument.invalid_type", Сообщение);
+	ИначеЕсли Имя = "ЗначениеПараметра" Тогда
+		Тело = "{""command"":""curl x"",""generatorOptions"":{""responseDeserializationFormat"":""xml""}}";
+		Сообщение = "Неизвестное значение поля responseDeserializationFormat";
+		Возврат СлучайJSON(Тело, 400, "argument.invalid_value", Сообщение);
 	ИначеЕсли Имя = "ПолеЗапроса" Тогда
 		Возврат СлучайJSONПоля("extra", "1", 400, "argument.invalid_value", "Запрос содержит неизвестное поле");
 	ИначеЕсли Имя = "СоставноеПолеЗапроса" Тогда

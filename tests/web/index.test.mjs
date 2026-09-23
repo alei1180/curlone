@@ -87,7 +87,7 @@ test('собирает полное тело запроса из формы', ()
         command: 'curl https://example.com',
         target: 'connector',
         locale: 'en',
-        generatorOptions: { deserializeJsonResponse: true }
+        generatorOptions: { responseDeserializationFormat: 'json' }
     });
 });
 

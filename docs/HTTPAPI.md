@@ -17,7 +17,7 @@ Content-Type: application/json
   "target": "1c",
   "locale": "ru",
   "generatorOptions": {
-    "deserializeJsonResponse": false
+    "responseDeserializationFormat": "json"
   }
 }
 ```
@@ -28,7 +28,7 @@ Content-Type: application/json
 | `target` | `1c` или `connector` | нет | `1c` |
 | `locale` | `ru` или `en` | нет | `ru` |
 | `generatorOptions` | объект | нет | `{}` |
-| `generatorOptions.deserializeJsonResponse` | булево | нет | `false` |
+| `generatorOptions.responseDeserializationFormat` | `json` | нет | не задано |
 
 Неизвестные поля не допускаются.
 

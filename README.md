@@ -128,7 +128,7 @@ curl http://localhost:3333/api/v2/convert \
   "target": "1c",
   "locale": "ru",
   "generatorOptions": {
-    "deserializeJsonResponse": false
+    "responseDeserializationFormat": "json"
   }
 }
 ```

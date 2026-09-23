@@ -102,7 +102,9 @@ export function collectConversionRequest(elements) {
         command: elements.command.value,
         target: selectedTarget(elements),
         locale: selectedLocale(elements),
-        generatorOptions: { deserializeJsonResponse: elements.jsonCheckbox.checked }
+        generatorOptions: {
+            responseDeserializationFormat: elements.jsonCheckbox.checked ? 'json' : undefined
+        }
     };
 }
 

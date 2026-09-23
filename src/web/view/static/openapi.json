@@ -110,9 +110,15 @@
             "additionalProperties": false,
             "default": {},
             "properties": {
-              "deserializeJsonResponse": {
-                "type": "boolean",
-                "default": false
+              "responseDeserializationFormat": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "json",
+                  null
+                ]
               }
             }
           }

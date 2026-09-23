@@ -100,7 +100,7 @@ Content-Type: application/json
   "target": "1c",
   "locale": "ru",
   "generatorOptions": {
-    "deserializeJsonResponse": false
+    "responseDeserializationFormat": "json"
   }
 }
 ```
