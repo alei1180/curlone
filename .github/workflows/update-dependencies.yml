@@ -15,6 +15,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Обновление зависимостей
-        uses: Stivo182/depos-action@v1
-        with:
-          message-prefix: build(deps)
+        uses: Stivo182/depos-action@v2
