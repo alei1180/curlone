@@ -14,3 +14,14 @@ jobs:
     uses: autumn-library/workflows/.github/workflows/test.yml@main
     with:
       oscript_version: ${{ matrix.oscript_version }}
+      test_engine: oneunit
+      test_recursive: true
+
+  test-web:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Получить исходный код
+        uses: actions/checkout@v4
+
+      - name: Запустить тесты веб-интерфейса
+        run: node --test tests/web/index.test.mjs

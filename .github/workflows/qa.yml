@@ -11,5 +11,7 @@ jobs:
     uses: autumn-library/workflows/.github/workflows/sonar.yml@v1
     with:
       github_repository: alei1180/curlone
+      test_engine: oneunit
+      test_recursive: true
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
