@@ -2,10 +2,13 @@
 
 Перем _Локаль; // Строка
 Перем _ИменаПеременных; // Соответствие из КлючИЗначение
+Перем _ЗанятыеИмена; // Соответствие из КлючИЗначение
+Перем _ЗарезервированныеИмена; // РегулярноеВыражение, Неопределено
 
 #Область ОбработчикиСобытий
 
 // Создаёт представление выражений для выпускаемого кода.
+// Сохраняет пользовательские имена, переименовывая только конфликтующие без учёта регистра.
 //
 // Параметры:
 //   Локаль - Строка - Локаль кода.
@@ -14,6 +17,11 @@
 
 	_Локаль = Локаль;
 	_ИменаПеременных = ИменаПеременных;
+	_ЗанятыеИмена = Новый Соответствие;
+
+	Для Каждого Элемент Из ИменаПеременных Цикл
+		_ЗанятыеИмена.Вставить(НРег(Элемент.Значение), Истина);
+	КонецЦикла;
 
 КонецПроцедуры
 
@@ -241,11 +249,50 @@
 
 	Имя = _ИменаПеременных.Получить(ИсходноеИмя);
 	Если Имя = Неопределено Тогда
-		Имя = ИсходноеИмя;
+
+		ОсноваИмени = ?(ИмяЗарезервировано(ИсходноеИмя), "CURL_" + ИсходноеИмя, ИсходноеИмя);
+		Имя = ОсноваИмени;
+		Номер = 2;
+
+		Пока _ЗанятыеИмена.Получить(НРег(Имя)) <> Неопределено Цикл
+			Имя = ОсноваИмени + "_" + Строка(Номер);
+			Номер = Номер + 1;
+		КонецЦикла;
+
 		_ИменаПеременных.Вставить(ИсходноеИмя, Имя);
+		_ЗанятыеИмена.Вставить(НРег(Имя), Истина);
+
 	КонецЕсли;
 
 	Возврат Имя;
+
+КонецФункции
+
+Функция ИмяЗарезервировано(Имя)
+
+	Если _ЗарезервированныеИмена = Неопределено Тогда
+
+		КлючевыеСлова = "If|Then|Else|ElsIf|ElseIf|EndIf|Var|Val|Procedure|EndProcedure|Function|EndFunction"
+			+ "|For|Each|In|To|While|Do|EndDo|Return|Continue|Break|Try|Except|Execute|Raise|EndTry"
+			+ "|New|Export|And|Or|Not|AddHandler|RemoveHandler|Async|Await|Goto|True|False|Undefined|Null";
+
+		// Имена из ресурсов генераторов резервируются в обеих локалях, включая числовые суффиксы.
+		СлужебныеИмена = "Headers|Connection|SecureConnection|HTTPRequest|HTTPResponse|Proxy|RequestBody"
+			+ "|RequestBodyParts|MultipartSeparator|ClientCertificate|CertificationAuthorityCertificates"
+			+ "|ResourceAddress|LineSeparator|DataWriter|Stream|TextReader|Files|File|Catalog|JSONReader"
+			+ "|Result|PartText|Authentication|AdditionalParameters|Data|DataParts|QueryString|URL|FileText"
+			+ "|HTTPBodyParts|FormBoundary|PartData|ResponseFileName|ResponseFile|ResponseData|RequestData"
+			+ "|Address|HTTPConnection|FTPConnection|FTPFiles|FTPLocalFile|FTPSecureConnection|FTPClientCertificate"
+			+ "|FTPCACertificates|FTPProxy|CACertificates|ResponseReader|ConnectorResponse|HTTPConnector"
+			+ "|Chars|StringEncodingMethod|TextEncoding|ByteOrderMarkUse";
+
+		_ЗарезервированныеИмена = Новый РегулярноеВыражение(
+			"(?i)^(?:" + КлючевыеСлова + "|(?:" + СлужебныеИмена + ")(?:_[0-9]+)*)$"
+		);
+
+	КонецЕсли;
+
+	Возврат _ЗарезервированныеИмена.НайтиСовпадения(Имя).Количество() > 0;
 
 КонецФункции
 
