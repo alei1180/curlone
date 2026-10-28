@@ -1288,5 +1288,54 @@
             "РазбиратьJSON": false,
             "ОжидаемыйКод": "If_1 = \"\";\nCURL_FileText_1 = \"\";\nCURL_headers = \"\";\nCURL_Headers_2 = \"\";\n\nЗаголовки = Новый Соответствие();\nЗаголовки.Вставить(\"X-Test\", If_1 + \"/\" + CURL_FileText_1 + \"/\" + CURL_headers + \"/\" + CURL_Headers_2);\n\nСоединение = Новый HTTPСоединение(\"example.com\", 80);\nHTTPЗапрос = Новый HTTPЗапрос(\"/\", Заголовки);\n\nHTTPОтвет = Соединение.ВызватьHTTPМетод(\"GET\", HTTPЗапрос);"
         }
+    },
+    {
+        "Сценарий": {
+            "Команда": "curl http://example.com \\\r\n --data-raw value",
+            "РазбиратьJSON": false,
+            "ОжидаемыйКод": "Заголовки = Новый Соответствие();\nЗаголовки.Вставить(\"Content-Type\", \"application/x-www-form-urlencoded\");\n\nСоединение = Новый HTTPСоединение(\"example.com\", 80);\nHTTPЗапрос = Новый HTTPЗапрос(\"/\", Заголовки);\nHTTPЗапрос.УстановитьТелоИзСтроки(\"value\");\n\nHTTPОтвет = Соединение.ВызватьHTTPМетод(\"POST\", HTTPЗапрос);"
+        }
+    },
+    {
+        "Сценарий": {
+            "Команда": "curl http://exam\\\r\nple.com --data-raw value",
+            "РазбиратьJSON": false,
+            "ОжидаемыйКод": "Заголовки = Новый Соответствие();\nЗаголовки.Вставить(\"Content-Type\", \"application/x-www-form-urlencoded\");\n\nСоединение = Новый HTTPСоединение(\"example.com\", 80);\nHTTPЗапрос = Новый HTTPЗапрос(\"/\", Заголовки);\nHTTPЗапрос.УстановитьТелоИзСтроки(\"value\");\n\nHTTPОтвет = Соединение.ВызватьHTTPМетод(\"POST\", HTTPЗапрос);"
+        }
+    },
+    {
+        "Сценарий": {
+            "Команда": "curl http://example.com --data-raw \"val\\\r\nue\"",
+            "РазбиратьJSON": false,
+            "ОжидаемыйКод": "Заголовки = Новый Соответствие();\nЗаголовки.Вставить(\"Content-Type\", \"application/x-www-form-urlencoded\");\n\nСоединение = Новый HTTPСоединение(\"example.com\", 80);\nHTTPЗапрос = Новый HTTPЗапрос(\"/\", Заголовки);\nHTTPЗапрос.УстановитьТелоИзСтроки(\"value\");\n\nHTTPОтвет = Соединение.ВызватьHTTPМетод(\"POST\", HTTPЗапрос);"
+        }
+    },
+    {
+        "Сценарий": {
+            "Команда": "curl http://example.com --data-raw value\\ ",
+            "РазбиратьJSON": false,
+            "ОжидаемыйКод": "Заголовки = Новый Соответствие();\nЗаголовки.Вставить(\"Content-Type\", \"application/x-www-form-urlencoded\");\n\nСоединение = Новый HTTPСоединение(\"example.com\", 80);\nHTTPЗапрос = Новый HTTPЗапрос(\"/\", Заголовки);\nHTTPЗапрос.УстановитьТелоИзСтроки(\"value \");\n\nHTTPОтвет = Соединение.ВызватьHTTPМетод(\"POST\", HTTPЗапрос);"
+        }
+    },
+    {
+        "Сценарий": {
+            "Команда": "curl http://example.com --data-raw value\\ \\ ",
+            "РазбиратьJSON": false,
+            "ОжидаемыйКод": "Заголовки = Новый Соответствие();\nЗаголовки.Вставить(\"Content-Type\", \"application/x-www-form-urlencoded\");\n\nСоединение = Новый HTTPСоединение(\"example.com\", 80);\nHTTPЗапрос = Новый HTTPЗапрос(\"/\", Заголовки);\nHTTPЗапрос.УстановитьТелоИзСтроки(\"value  \");\n\nHTTPОтвет = Соединение.ВызватьHTTPМетод(\"POST\", HTTPЗапрос);"
+        }
+    },
+    {
+        "Сценарий": {
+            "Команда": "curl http://example.com --data-raw value\\\r\n",
+            "РазбиратьJSON": false,
+            "ОжидаемыйКод": "Заголовки = Новый Соответствие();\nЗаголовки.Вставить(\"Content-Type\", \"application/x-www-form-urlencoded\");\n\nСоединение = Новый HTTPСоединение(\"example.com\", 80);\nHTTPЗапрос = Новый HTTPЗапрос(\"/\", Заголовки);\nHTTPЗапрос.УстановитьТелоИзСтроки(\"value\");\n\nHTTPОтвет = Соединение.ВызватьHTTPМетод(\"POST\", HTTPЗапрос);"
+        }
+    },
+    {
+        "Сценарий": {
+            "Команда": "curl http://example.com --data-raw value\\\n",
+            "РазбиратьJSON": false,
+            "ОжидаемыйКод": "Заголовки = Новый Соответствие();\nЗаголовки.Вставить(\"Content-Type\", \"application/x-www-form-urlencoded\");\n\nСоединение = Новый HTTPСоединение(\"example.com\", 80);\nHTTPЗапрос = Новый HTTPЗапрос(\"/\", Заголовки);\nHTTPЗапрос.УстановитьТелоИзСтроки(\"value\");\n\nHTTPОтвет = Соединение.ВызватьHTTPМетод(\"POST\", HTTPЗапрос);"
+        }
     }
 ]
