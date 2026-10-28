@@ -4,6 +4,7 @@ import test from 'node:test';
 
 const scriptUrl = new URL('../../src/web/view/static/index.js', import.meta.url);
 const source = await readFile(scriptUrl, 'utf8');
+const styles = await readFile(new URL('../../src/web/view/static/index.css', import.meta.url), 'utf8');
 const moduleUrl = `data:text/javascript;base64,${Buffer.from(source).toString('base64')}`;
 const webModule = await import(moduleUrl);
 
@@ -80,6 +81,33 @@ const documentRef = {
     defaultView: null,
     addEventListener() {}
 };
+
+function applicationDocument(elements) {
+    const copyButton = eventTarget({ disabled: true });
+    const tooltipDetails = { open: false };
+    const tooltip = eventTarget({ querySelector: () => tooltipDetails });
+    const elementsById = new Map([
+        ['curl-form', elements.form],
+        ['command', elements.command],
+        ['convert', elements.convertButton],
+        ['json-option', elements.jsonCheckbox],
+        ['output', elements.output],
+        ['copy', copyButton],
+        ['errors', elements.errors],
+        ['warnings', elements.warnings]
+    ]);
+    const currentDocument = eventTarget({
+        createElement: documentRef.createElement,
+        createTextNode: documentRef.createTextNode,
+        defaultView: null,
+        getElementById: (id) => elementsById.get(id),
+        querySelector: () => tooltip,
+        querySelectorAll: (selector) => selector === 'input[name="target"]'
+            ? elements.generatorOptions
+            : elements.localeButtons
+    });
+    return { currentDocument, copyButton };
+}
 
 test('собирает полное тело запроса из формы', () => {
     const payload = webModule.collectConversionRequest(createElements());
@@ -299,7 +327,7 @@ test('включает форму после загрузки подсветки
     const result = await webModule.initializeApplication({
         elements,
         loadHighlighter: async () => highlighter,
-        showCriticalError() {}
+        showHighlighterError() {}
     });
 
     assert.equal(result, highlighter);
@@ -307,19 +335,50 @@ test('включает форму после загрузки подсветки
     assert.equal(elements.output.getAttribute('aria-busy'), 'false');
 });
 
-test('оставляет форму заблокированной при ошибке загрузки подсветки', async () => {
+test('включает форму при ошибке загрузки подсветки', async () => {
     const elements = createElements();
     let shownError;
     const result = await webModule.initializeApplication({
         elements,
         loadHighlighter: async () => { throw new Error('secret'); },
-        showCriticalError: (message) => { shownError = message; }
+        showHighlighterError: (message) => { shownError = message; }
     });
 
     assert.equal(result, null);
     assert.equal(shownError, 'Не удалось инициализировать подсветку синтаксиса');
-    assert.equal(elements.requestControls.every((control) => control.disabled === true), true);
+    assert.equal(elements.requestControls.every((control) => control.disabled === false), true);
     assert.equal(elements.output.getAttribute('aria-busy'), 'false');
+});
+
+test('выводит код обычным текстом без подсветки', () => {
+    const assignments = [];
+    const output = {
+        set innerHTML(value) { assignments.push(['innerHTML', value]); },
+        set textContent(value) { assignments.push(['textContent', value]); }
+    };
+
+    webModule.renderOutput(null, output, '<script>alert(1)</script>');
+
+    assert.deepEqual(assignments, [['textContent', '<script>alert(1)</script>']]);
+});
+
+test('сохраняет переводы строк и отступы без подсветки', () => {
+    assert.match(styles, /\.output\s*\{[^}]*white-space:\s*pre;/s);
+});
+
+test('завершает запуск формы при ошибке подсветки', async () => {
+    const elements = createElements();
+    const { currentDocument, copyButton } = applicationDocument(elements);
+
+    await webModule.startApplication(
+        currentDocument,
+        { fetch() {}, navigator: { clipboard: { writeText() {} } } },
+        async () => { throw new Error('secret'); }
+    );
+
+    assert.equal(typeof elements.form.listeners.get('submit'), 'function');
+    assert.equal(copyButton.disabled, false);
+    assert.equal(typeof copyButton.listeners.get('click'), 'function');
 });
 
 test('обрабатывает отправку формы и сочетание Ctrl+Enter', () => {

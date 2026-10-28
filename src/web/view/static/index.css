@@ -335,6 +335,7 @@ textarea[aria-invalid="true"] {
     padding: 3px;
     font-size: 0.8333rem;
     line-height: normal;
+    white-space: pre;
     overflow: auto;
     resize: both;
     border: 2px solid #000;

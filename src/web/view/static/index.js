@@ -236,15 +236,15 @@ export function bindConversionForm({ elements, convert, documentRef }) {
     });
 }
 
-export async function initializeApplication({ elements, loadHighlighter, showCriticalError }) {
+export async function initializeApplication({ elements, loadHighlighter, showHighlighterError }) {
     setBusy(elements, true);
     try {
         const highlighter = await loadHighlighter();
         setBusy(elements, false);
         return highlighter;
     } catch (error) {
-        elements.output.setAttribute('aria-busy', 'false');
-        showCriticalError(HIGHLIGHTER_ERROR_MESSAGE);
+        setBusy(elements, false);
+        showHighlighterError(HIGHLIGHTER_ERROR_MESSAGE);
         return null;
     }
 }
@@ -277,21 +277,22 @@ async function loadHighlighter() {
     });
 }
 
-function renderOutput(highlighter, output, code) {
+export function renderOutput(highlighter, output, code) {
+    if (highlighter === null) {
+        output.textContent = code;
+        return;
+    }
     output.innerHTML = highlighter.codeToHtml(code, { lang: 'bsl', theme: 'github-light' });
 }
 
-async function startApplication(documentRef, windowRef) {
+export async function startApplication(documentRef, windowRef, loadHighlighterRef = loadHighlighter) {
     const elements = collectElements(documentRef);
     let outputText = '';
     elements.tooltip.addEventListener('mouseleave', () => { elements.tooltipDetails.open = false; });
     const highlighter = await initializeApplication({
-        elements, loadHighlighter,
-        showCriticalError: (message) => renderMessages([{ message }], [], elements, documentRef)
+        elements, loadHighlighter: loadHighlighterRef,
+        showHighlighterError: (message) => renderMessages([{ message }], [], elements, documentRef)
     });
-    if (highlighter === null) {
-        return;
-    }
 
     const showOutput = (code) => {
         outputText = code;
