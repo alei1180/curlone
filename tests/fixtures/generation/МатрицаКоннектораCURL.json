@@ -17,6 +17,22 @@
   },
   {
     "Сценарий": {
+      "Команда": "curl \"https://example.com/curlonevariable1/$ID\"",
+      "РазбиратьJSON": false,
+      "ОжидаемыйКод": "ID = \"\";\n\nРезультат = КоннекторHTTP.Get(\"https://example.com/curlonevariable1/\" + ID);",
+      "ОжидаемыйКодАнглийский": "ID = \"\";\n\nResult = HTTPConnector.Get(\"https://example.com/curlonevariable1/\" + ID);"
+    }
+  },
+  {
+    "Сценарий": {
+      "Команда": "curl \"https://curlone%76ariable1.example.com/$ID\"",
+      "РазбиратьJSON": false,
+      "ОжидаемыйКод": "ID = \"\";\n\nРезультат = КоннекторHTTP.Get(\"https://curlone%76ariable1.example.com/\" + ID);",
+      "ОжидаемыйКодАнглийский": "ID = \"\";\n\nResult = HTTPConnector.Get(\"https://curlone%76ariable1.example.com/\" + ID);"
+    }
+  },
+  {
+    "Сценарий": {
       "Команда": "curl example.com",
       "РазбиратьJSON": false,
       "ОжидаемыйКод": "Результат = КоннекторHTTP.Get(\"http://example.com\");",

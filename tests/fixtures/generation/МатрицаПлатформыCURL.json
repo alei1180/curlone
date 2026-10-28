@@ -17,6 +17,22 @@
     },
     {
         "Сценарий": {
+            "Команда": "curl \"https://example.com/curlonevariable1/$ID\"",
+            "РазбиратьJSON": false,
+            "ОжидаемыйКод": "ID = \"\";\n\nЗащищенноеСоединение = Новый ЗащищенноеСоединениеOpenSSL();\n\nСоединение = Новый HTTPСоединение(\"example.com\", 443, , , , , ЗащищенноеСоединение);\nHTTPЗапрос = Новый HTTPЗапрос(\"/curlonevariable1/\" + ID);\n\nHTTPОтвет = Соединение.ВызватьHTTPМетод(\"GET\", HTTPЗапрос);",
+            "ОжидаемыйКодАнглийский": "ID = \"\";\n\nSecureConnection = New OpenSSLSecureConnection();\n\nConnection = New HTTPConnection(\"example.com\", 443, , , , , SecureConnection);\nHTTPRequest = New HTTPRequest(\"/curlonevariable1/\" + ID);\n\nHTTPResponse = Connection.CallHTTPMethod(\"GET\", HTTPRequest);"
+        }
+    },
+    {
+        "Сценарий": {
+            "Команда": "curl \"https://curlone%76ariable1.example.com/$ID\"",
+            "РазбиратьJSON": false,
+            "ОжидаемыйКод": "ID = \"\";\n\nЗащищенноеСоединение = Новый ЗащищенноеСоединениеOpenSSL();\n\nСоединение = Новый HTTPСоединение(\"curlonevariable1.example.com\", 443, , , , , ЗащищенноеСоединение);\nHTTPЗапрос = Новый HTTPЗапрос(\"/\" + ID);\n\nHTTPОтвет = Соединение.ВызватьHTTPМетод(\"GET\", HTTPЗапрос);",
+            "ОжидаемыйКодАнглийский": "ID = \"\";\n\nSecureConnection = New OpenSSLSecureConnection();\n\nConnection = New HTTPConnection(\"curlonevariable1.example.com\", 443, , , , , SecureConnection);\nHTTPRequest = New HTTPRequest(\"/\" + ID);\n\nHTTPResponse = Connection.CallHTTPMethod(\"GET\", HTTPRequest);"
+        }
+    },
+    {
+        "Сценарий": {
             "Команда": "curl example.com",
             "РазбиратьJSON": false,
             "ОжидаемыйКод": "Соединение = Новый HTTPСоединение(\"example.com\", 80);\nHTTPЗапрос = Новый HTTPЗапрос(\"/\");\n\nHTTPОтвет = Соединение.ВызватьHTTPМетод(\"GET\", HTTPЗапрос);",
