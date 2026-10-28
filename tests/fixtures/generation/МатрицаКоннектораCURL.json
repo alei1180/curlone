@@ -457,6 +457,14 @@
   },
   {
     "Сценарий": {
+      "Команда": "curl --upload-file '{a\nСообщить(1); //x,b}' https://example.com/",
+      "РазбиратьJSON": false,
+      "ОжидаемыйКод": "// Передача файла 1. a Сообщить(1); //x\nДанные = Новый ДвоичныеДанные(\"a\" + Символ(10) + \"Сообщить(1); //x\");\nРезультат = КоннекторHTTP.Put(\"https://example.com/x\", Данные);\n\n// Передача файла 2. b\nДанные = Новый ДвоичныеДанные(\"b\");\nРезультат = КоннекторHTTP.Put(\"https://example.com/b\", Данные);",
+      "ОжидаемыйКодАнглийский": "// File transfer 1. a Сообщить(1); //x\nData = New BinaryData(\"a\" + Char(10) + \"Сообщить(1); //x\");\nResult = HTTPConnector.Put(\"https://example.com/x\", Data);\n\n// File transfer 2. b\nData = New BinaryData(\"b\");\nResult = HTTPConnector.Put(\"https://example.com/b\", Data);"
+    }
+  },
+  {
+    "Сценарий": {
       "Команда": "curl --upload-file path/to/file.txt http://example1.com http://example2.com",
       "РазбиратьJSON": false,
       "ОжидаемыйКод": "// Запрос 1. http://example1.com\nДанные = Новый ДвоичныеДанные(\"path/to/file.txt\");\nРезультат = КоннекторHTTP.Put(\"http://example1.com/file.txt\", Данные);\n\n// Запрос 2. http://example2.com\nРезультат = КоннекторHTTP.Get(\"http://example2.com\");",

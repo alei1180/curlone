@@ -417,6 +417,14 @@
     },
     {
         "Сценарий": {
+            "Команда": "curl --upload-file '{a\nСообщить(1); //x,b}' https://example.com/",
+            "РазбиратьJSON": false,
+            "ОжидаемыйКод": "ЗащищенноеСоединение = Новый ЗащищенноеСоединениеOpenSSL();\n\nСоединение = Новый HTTPСоединение(\"example.com\", 443, , , , , ЗащищенноеСоединение);\n\n// Передача файла 1. a Сообщить(1); //x\nHTTPЗапрос = Новый HTTPЗапрос(\"/x\");\nHTTPЗапрос.УстановитьИмяФайлаТела(\"a\" + Символ(10) + \"Сообщить(1); //x\");\n\nHTTPОтвет = Соединение.ВызватьHTTPМетод(\"PUT\", HTTPЗапрос);\n\n// Передача файла 2. b\nHTTPЗапрос = Новый HTTPЗапрос(\"/b\");\nHTTPЗапрос.УстановитьИмяФайлаТела(\"b\");\n\nHTTPОтвет = Соединение.ВызватьHTTPМетод(\"PUT\", HTTPЗапрос);",
+            "ОжидаемыйКодАнглийский": "SecureConnection = New OpenSSLSecureConnection();\n\nConnection = New HTTPConnection(\"example.com\", 443, , , , , SecureConnection);\n\n// File transfer 1. a Сообщить(1); //x\nHTTPRequest = New HTTPRequest(\"/x\");\nHTTPRequest.SetBodyFileName(\"a\" + Char(10) + \"Сообщить(1); //x\");\n\nHTTPResponse = Connection.CallHTTPMethod(\"PUT\", HTTPRequest);\n\n// File transfer 2. b\nHTTPRequest = New HTTPRequest(\"/b\");\nHTTPRequest.SetBodyFileName(\"b\");\n\nHTTPResponse = Connection.CallHTTPMethod(\"PUT\", HTTPRequest);"
+        }
+    },
+    {
+        "Сценарий": {
             "Команда": "curl --upload-file path/to/file.txt --get http://example.com",
             "РазбиратьJSON": false,
             "ОжидаемыйКод": "Соединение = Новый HTTPСоединение(\"example.com\", 80);\nHTTPЗапрос = Новый HTTPЗапрос(\"/file.txt\");\nHTTPЗапрос.УстановитьИмяФайлаТела(\"path/to/file.txt\");\n\nHTTPОтвет = Соединение.ВызватьHTTPМетод(\"PUT\", HTTPЗапрос);",
