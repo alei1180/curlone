@@ -596,6 +596,13 @@
     },
     {
         "Сценарий": {
+            "Команда": "curl --proxy http://proxy-one.example http://one.example --next --proxy http://proxy-two.example https://two.example",
+            "РазбиратьJSON": false,
+            "ОжидаемыйКод": "ЗащищенноеСоединение = Новый ЗащищенноеСоединениеOpenSSL();\n\n// Запрос 1. http://one.example\nПрокси = Новый ИнтернетПрокси();\nПрокси.Установить(\"http\", \"proxy-one.example\", 1080, , , Ложь);\n\nСоединение = Новый HTTPСоединение(\"one.example\", 80, , , Прокси);\nHTTPЗапрос = Новый HTTPЗапрос(\"/\");\n\nHTTPОтвет = Соединение.ВызватьHTTPМетод(\"GET\", HTTPЗапрос);\n\n// Запрос 2. https://two.example\nПрокси = Новый ИнтернетПрокси();\nПрокси.Установить(\"https\", \"proxy-two.example\", 1080, , , Ложь);\n\nСоединение = Новый HTTPСоединение(\"two.example\", 443, , , Прокси, , ЗащищенноеСоединение);\nHTTPЗапрос = Новый HTTPЗапрос(\"/\");\n\nHTTPОтвет = Соединение.ВызватьHTTPМетод(\"GET\", HTTPЗапрос);"
+        }
+    },
+    {
+        "Сценарий": {
             "Команда": "curl http://example.com \\\n\t--proxy http://proxy.example \\\n\t--proxy-user user:secret",
             "РазбиратьJSON": false,
             "ОжидаемыйКод": "Прокси = Новый ИнтернетПрокси();\nПрокси.Установить(\"http\", \"proxy.example\", 1080, \"user\", \"secret\", Ложь);\n\nСоединение = Новый HTTPСоединение(\"example.com\", 80, , , Прокси);\nHTTPЗапрос = Новый HTTPЗапрос(\"/\");\n\nHTTPОтвет = Соединение.ВызватьHTTPМетод(\"GET\", HTTPЗапрос);"
